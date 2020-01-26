@@ -143,10 +143,11 @@ public class ClusterSession {
         try {
             Session session = getSession();
             session.connect();
-
+            System.out.println("Session Connected");
             Channel channel = session.openChannel("sftp");
             channel.connect();
             cftp = (ChannelSftp) channel;
+            System.out.println("Channel Connected");
 
             return cftp;
         } catch (JSchException e) {
@@ -290,6 +291,17 @@ public class ClusterSession {
     }
 
 
+    public void sallocAndRun(String filename,int nproocessors)    {
+        try {
+            System.out.println("Ready to salloc ");
+            executeCommand("salloc -N" + nproocessors + " srun " + filename + " & ");
+            System.out.println(" salloc running ");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
 
     public static void main(String[] args) {
         fixLogging();
@@ -299,7 +311,6 @@ public class ClusterSession {
             String filename = "myScript.sh";
             me.ftpFileCreate(filename, command);
             me.executeCommand("chmod a+x " + filename);
-            me.executeCommand("salloc -N1 srun " + filename + "& ");
 
             //         boolean answer = me.guaranteeDirectory("/mnt/beegfs/home/lewis");
             //    me.ftpFilePut(args[0], args[1]);
