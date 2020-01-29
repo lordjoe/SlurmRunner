@@ -29,7 +29,7 @@ public class ClusterLauncher {
 
     private static Properties readClusterProperties() {
         try {
-            InputStream is = ClusterLauncher.class.getResourceAsStream("/com/lordjoe/blast/ClusterLaunch.properties");
+            InputStream is = ClusterLauncher.class.getResourceAsStream("/com/lordjoe/blast/ClusterLaunchAsterix.properties");
             Properties cp = new Properties();
             cp.load(is);
             return cp;

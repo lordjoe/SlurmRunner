@@ -106,7 +106,8 @@ public class SystemCommandExecutor
         }
         catch (IOException e)
         {
-            // TODO deal with this here, or just throw it?
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             throw e;
         }
         catch (InterruptedException e)

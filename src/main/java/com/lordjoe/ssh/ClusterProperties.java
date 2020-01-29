@@ -1,5 +1,8 @@
 package com.lordjoe.ssh;
 
+import com.lordjoe.utilities.Blowfish;
+import com.lordjoe.utilities.Encrypt;
+
 /**
  * com.lordjoe.ssh.ClusterProperties
  * User: Steve
@@ -77,5 +80,15 @@ public class ClusterProperties {
                     "WWvHlDgUsseVvYPXAKoa1Wecv9K651p6ssyOUmHNLSs5WqyQv7ovnqaaNQ3nUVdt\n" +
                     "JTVTvuKAQP6PsOPQylWQvzZM0D0a9XykS7/oemDnAltZhg0hys+q/XztfezhI3CW\n" +
                     "-----END RSA PRIVATE KEY-----";
+
+    public static void main(String[] args) {
+        String s = Encrypt.encryptString(PRIVATE_KEY1);
+        System.out.println("EncyrptedPrivateKey1 = ");
+        System.out.println(s);
+        System.out.println();
+        s = Encrypt.encryptString(PRIVATE_KEY );
+        System.out.println("EncyrptedPrivateKey  = ");
+        System.out.println(s);
+    }
 
 }

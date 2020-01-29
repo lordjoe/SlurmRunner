@@ -291,10 +291,10 @@ public class ClusterSession {
     }
 
 
-    public void sallocAndRun(String filename,int nproocessors)    {
+    public void sallocAndRun(String command,int nproocessors)    {
         try {
             System.out.println("Ready to salloc ");
-            executeCommand("salloc -N" + nproocessors + " srun " + filename + " & ");
+            executeCommand("salloc -N" + nproocessors + " srun " + command + " & ");
             System.out.println(" salloc running ");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -314,7 +314,8 @@ public class ClusterSession {
 
             //         boolean answer = me.guaranteeDirectory("/mnt/beegfs/home/lewis");
             //    me.ftpFilePut(args[0], args[1]);
-            String out = me.executeCommand("squeue -u lewis");
+          //  String out = me.executeCommand("squeue -u lewis");
+            String out = me.executeCommand("salloc  -u lewis");
             System.out.println(out);
 
         } catch (Exception e) {
