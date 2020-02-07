@@ -1,6 +1,7 @@
 package com.lordjoe.ssh;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * com.lordjoe.ssh.BlastLaunchDTO
@@ -9,8 +10,9 @@ import java.io.File;
  */
 public class BlastLaunchDTO {
     public final BLASTProgram program;
+    public final String id = UUID.randomUUID().toString();
     public String database;
-    public File query;
+    public File query;   // original file
     public BLASTFormat format;
     public File output;
 
@@ -44,5 +46,11 @@ public class BlastLaunchDTO {
         ret.query = newQuery;
         ret.output = output;
         return ret;
+    }
+
+    public static  String makeOutputName(File in)  {
+        String name = in.getName();
+        String base = name.substring(0,name.lastIndexOf('.')) ;
+        return base + ".xml";
     }
 }

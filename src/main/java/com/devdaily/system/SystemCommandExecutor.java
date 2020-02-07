@@ -72,6 +72,7 @@ public class SystemCommandExecutor
         try
         {
             ProcessBuilder pb = new ProcessBuilder(commandInformation);
+            pb.environment().put("BLASTDB", "/home/Steve/driveT/BLAST/locBLAST-master/db/") ;
             Process process = pb.start();
 
             // you need this if you're going to write something to the command's input stream
@@ -96,7 +97,9 @@ public class SystemCommandExecutor
 
             // TODO a better way to do this?
             exitValue = process.waitFor();
-
+            System.out.println("Exit with " + exitValue);
+            if(exitValue != 0)
+                System.out.println(getStandardErrorFromCommand());
             // TODO a better way to do this?
             inputStreamHandler.interrupt();
             errorStreamHandler.interrupt();

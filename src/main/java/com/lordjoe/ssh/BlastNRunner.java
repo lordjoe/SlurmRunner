@@ -2,7 +2,6 @@ package com.lordjoe.ssh;
 
 import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * com.lordjoe.ssh.BlastNRunner
@@ -44,8 +43,7 @@ public class BlastNRunner extends BlastRunnerTemplate {
     private static void runOnCluster(BlastLaunchDTO dto,ClusterLauncher cl) {
         ClusterSession  me = new ClusterSession();
 
-        String unique = UUID.randomUUID().toString();
-        File tempDir = new File(unique);
+        File tempDir = new File(dto.id);
         List<File> files = cl.buildFileSplit(tempDir);
         List<File> outfiles = makeOutputFiles(files);
 

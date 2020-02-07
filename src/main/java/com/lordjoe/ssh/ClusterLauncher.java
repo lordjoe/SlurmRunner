@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 /**
  * com.lordjoe.ssh.ClusterLauncher
@@ -56,7 +55,7 @@ public class ClusterLauncher {
         return Math.min(MaxMachinesToRequisition, possibleMachines);
     }
 
-    public List<File> buildFileSplit(File targetDirectory) {
+    public List<File> buildFileSplit(File targetDirectory ) {
         try {
             List<File> ret = new ArrayList<>();
             if (isLocalRun())
@@ -73,7 +72,7 @@ public class ClusterLauncher {
                 int toRead = sequencesPerFile;
                 if(i == 0)
                     toRead += remainder;
-                File outFile = new File(targetDirectory, UUID.randomUUID() + ".fas");
+                    File outFile = new File(targetDirectory, "query" + "_" + String.format("%02d" , i) + ".fas");
                 ret.add(outFile);
                 PrintWriter out = new PrintWriter(new FileWriter(outFile));
 

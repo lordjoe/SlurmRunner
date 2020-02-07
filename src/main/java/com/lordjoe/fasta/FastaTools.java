@@ -8,6 +8,7 @@ import java.util.List;
  * com.lordjoe.fasta.FastaTools
  * User: Steve
  * Date: 11/14/2019
+ * When called as a main this is given a fasta file  an output directory and splits the file into 7 parts
  */
 public class FastaTools {
 
@@ -133,11 +134,11 @@ public class FastaTools {
         }
     }
 
-    public static void splitFastaFile(File in, File outDirectory, String baseName, int splitSize) {
-        splitFastaFile(in, outDirectory, baseName, splitSize, Integer.MAX_VALUE);
+    public static void splitFastaFile(File in, File outDirectory, String baseName, int splitSize, int numberEntries) {
+        splitFastaFile(in, outDirectory, baseName, splitSize,numberEntries, Integer.MAX_VALUE);
     }
 
-    public static void splitFastaFile(File in, File outDirectory, String baseName, int splitSize, int maxsplits) {
+    public static void splitFastaFile(File in, File outDirectory, String baseName, int splitSize,  int numberEntries,int maxsplits) {
         try {
             LineNumberReader rdr = getReader(in);
             if (!outDirectory.exists()) {
@@ -145,14 +146,16 @@ public class FastaTools {
                     throw new UnsupportedOperationException("Cannot make output directory " + outDirectory);
             }
             List<String> headers = readFastaHeaders(rdr);
-            int numberSplits = (headers.size() + splitSize - 1) / splitSize;
-            numberSplits = Math.min(numberSplits, maxsplits);
-            rdr = getReader(in);
+            int numberSplits =   numberEntries/ splitSize;
+               rdr = getReader(in);
             String line = rdr.readLine();
             for (int i = 0; i < numberSplits; i++) {
                 String index = String.format("%03d", i + 1);
                 File outFile = new File(outDirectory, baseName + index + ".faa");
+                System.out.println(outFile.getAbsolutePath());
                 PrintWriter out = getWriter(outFile);
+                if(i + 1 == numberSplits)
+                    splitSize = Integer.MAX_VALUE;
                 line = writeSplit(out, rdr, line, splitSize);
 
             }
@@ -187,6 +190,7 @@ public class FastaTools {
             out.println(line);
             line = rdr.readLine();
         }
+        out.close();
         return line;
     }
 
@@ -195,10 +199,13 @@ public class FastaTools {
         int index = 0;
         File in = new File(args[index++]);
         File outDirectory = new File(args[index++]);
-        int splitSize = Integer.parseInt(args[index++]);
-        int maxSplits = Integer.parseInt(args[index++]);
-        String baseName = "splitFile";
-        splitFastaFile(in, outDirectory, baseName, splitSize, maxSplits);
+
+        int numberEntries = FastaTools.countFastaEntities(in);
+        int splitSize =  (numberEntries / 7);
+
+
+          String baseName = "splitFile";
+        splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
     }
 
     public static void main(String[] args) {
