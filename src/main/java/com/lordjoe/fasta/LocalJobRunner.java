@@ -1,7 +1,6 @@
 package com.lordjoe.fasta;
 
 import com.devdaily.system.SystemCommandExecutor;
-import com.lordjoe.blast.BLastTools;
 import com.lordjoe.blast.OSValidator;
 import com.lordjoe.ssh.BLASTFormat;
 import com.lordjoe.ssh.BLASTProgram;
@@ -14,6 +13,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import static com.lordjoe.blast.MergeXML.mergeXMLFiles_P;
 
 /**
  * com.lordjoe.fasta.LocalJobRunner
@@ -36,7 +37,7 @@ public class LocalJobRunner {
                     is = LocalJobRunner.class.getResourceAsStream("/com/lordjoe/blast/ClusterLaunchAsterixLinux.properties");
                 ret.load(is);
             } else {
-                InputStream is = LocalJobRunner.class.getResourceAsStream("/com/lordjoe/blast/ClusterLaunchCluster.properties");
+                   InputStream is = LocalJobRunner.class.getResourceAsStream("/com/lordjoe/blast/ClusterLaunchCluster.properties");
                 ret.load(is);
             }
             return ret;
@@ -242,7 +243,7 @@ public class LocalJobRunner {
             }
 
 
-            BLastTools.mergeXMLFiles_P(output.getAbsolutePath(),outSplitDirectory.listFiles());
+            mergeXMLFiles_P(output.getAbsolutePath(),outSplitDirectory.listFiles());
 
             return ret;
         } catch (IOException e) {
@@ -257,33 +258,7 @@ public class LocalJobRunner {
 
 
 
-    public BlastJob runLocalBlastNJob(File query, String database, File output) {
-        try {
-            BlastLaunchDTO dto = new BlastLaunchDTO(BLASTProgram.BLASTN);
-            dto.query = query;
-            dto.database = database;
-            dto.format = BLASTFormat.XML2;
-            dto.output = output;
-            List<File> tempFiles = new ArrayList<>();
-            tempFiles.add(output);
 
-            BlastJob ret = new BlastJob(dto, tempFiles, output);
-            Properties cluster = getClusterProperties(null);
-            String program = cluster.getProperty("LocationOfBLASTPrograms") + dto.program.toString().toLowerCase();
-            String command  = buildCommandString(dto,false);
-            System.out.println(command);
-             List<String> commandInformation = buildCommandList(dto);
-            SystemCommandExecutor executor  =  new SystemCommandExecutor(commandInformation);
-            executor.executeCommand();
-            return ret;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
 
     public static void main(String[] args) {
         int index = 0;

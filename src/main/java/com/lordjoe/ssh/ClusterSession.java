@@ -38,32 +38,50 @@ public class ClusterSession {
         root.setLevel(Level.ERROR);
     }
 
-    public boolean guaranteeDirectory(String directoryName)  throws IOException   {
-         String current = executeOneLineCommand("pwd");
-         current = current.trim();
-         if(current.endsWith("/"))
-             current = current.substring(0,current.length() -  1) ;
-         if(current.equals(directoryName))
-             return true;
-         if(directoryName.length() > current.length())  {
-             if(directoryName.startsWith(current)) {
-                 return guaranteeDirectory( directoryName);
-             }
-         }
-         else {
-             executeCommand("cd ..");
-             return guaranteeDirectory( directoryName);
+    public boolean guaranteeDirectory(String directoryName) throws IOException {
+        String current = executeOneLineCommand("pwd");
+        current = current.trim();
+        if (current.endsWith("/"))
+            current = current.substring(0, current.length() - 1);
+        if (current.equals(directoryName))
+            return true;
+        if (directoryName.length() > current.length()) {
+            if (directoryName.startsWith(current)) {
+                return guaranteeDirectory(directoryName);
+            }
+        } else {
+            executeCommand("cd ..");
+            return guaranteeDirectory(directoryName);
 
-         }
-         throw new UnsupportedOperationException("Fix This"); // ToDo
+        }
+        throw new UnsupportedOperationException("Fix This"); // ToDo
     }
+
+//
+//    // Build romote path subfolders inclusive:
+//    String[] folders = path.split("/");
+//  for(
+//    String folder :folders)
+//
+//    {
+//        if (folder.length() > 0 && !folder.contains(".")) {
+//            // This is a valid folder:
+//            try {
+//                sftpChannel.cd(folder);
+//            } catch (SftpException e) {
+//                // No such folder yet:
+//                sftpChannel.mkdir(folder);
+//                sftpChannel.cd(folder);
+//            }
+//        }
+//    }
 
     public Shell getShell() {
         if (my_shell != null)
             return my_shell;
         my_shell = new Shell.Verbose(getSsh());
         return my_shell;
-     }
+    }
 
     public JSch getJsch() {
         if (my_jsch != null)
@@ -74,8 +92,8 @@ public class ClusterSession {
 
         //       jsch.setIdentityRepository(new LocalIdentityRepository());
         try {
-   //         my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PASS_PHRASE1);
-            my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PUBLIC_KEY1_FILE1,null);
+            //         my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PASS_PHRASE1);
+            my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PUBLIC_KEY1_FILE1, null);
         } catch (JSchException e) {
             throw new RuntimeException(e);
 
@@ -101,7 +119,7 @@ public class ClusterSession {
 //                    ClusterProperties.USER,
 //                    ClusterProperties.PRIVATE_KEY
 //                );
-          return my_ssh;
+            return my_ssh;
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
 
@@ -182,6 +200,27 @@ public class ClusterSession {
         }
     }
 
+    public boolean mkdir(String path) {
+        try {
+            ChannelSftp sftp = getSFTP();
+            String[] folders = path.split("/");
+            for (String folder : folders) {
+                if (folder.length() > 0) {
+                    try {
+                        sftp.cd(folder);
+                    } catch (SftpException e) {
+                        sftp.mkdir(folder);
+                        sftp.cd(folder);
+                    }
+                }
+            }
+            return true;
+        } catch (SftpException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
 
     /**
      * @param filename the command to execute
@@ -190,7 +229,7 @@ public class ClusterSession {
      */
     public void ftpFileCreate(String filename, String text) throws IOException {
         InputStream is = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
-        ftpFileCreate( filename, is);
+        ftpFileCreate(filename, is);
     }
 
     /**
@@ -249,7 +288,7 @@ public class ClusterSession {
      */
     public String executeCommand(String command) throws IOException {
         Ssh session = getSsh();
-            final Shell shell = new Shell.Verbose(session);
+        final Shell shell = new Shell.Verbose(session);
 
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -291,7 +330,7 @@ public class ClusterSession {
     }
 
 
-    public void sallocAndRun(String command,int nproocessors)    {
+    public void sallocAndRun(String command, int nproocessors) {
         try {
             System.out.println("Ready to salloc ");
             executeCommand("salloc -N" + nproocessors + " srun " + command + " & ");
@@ -305,7 +344,7 @@ public class ClusterSession {
 
     public static void main(String[] args) {
         fixLogging();
-        ClusterSession  me = new ClusterSession();
+        ClusterSession me = new ClusterSession();
         try {
             String command = BuildBlastFile.buildScript();
             String filename = "myScript.sh";
@@ -314,7 +353,7 @@ public class ClusterSession {
 
             //         boolean answer = me.guaranteeDirectory("/mnt/beegfs/home/lewis");
             //    me.ftpFilePut(args[0], args[1]);
-          //  String out = me.executeCommand("squeue -u lewis");
+            //  String out = me.executeCommand("squeue -u lewis");
             String out = me.executeCommand("salloc  -u lewis");
             System.out.println(out);
 

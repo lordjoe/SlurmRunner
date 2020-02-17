@@ -13,7 +13,7 @@ import java.util.Properties;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public class SlurmRunner {
+public class SlurmLocalRunner {
 
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
@@ -67,7 +67,7 @@ public class SlurmRunner {
     public final BlastLaunchDTO job;
     public final Properties clusterProperties = LocalJobRunner.getClusterProperties(null);
 
-    public SlurmRunner(BlastLaunchDTO job) {
+    public SlurmLocalRunner(BlastLaunchDTO job) {
         this.job = job;
     }
 
@@ -90,30 +90,41 @@ public class SlurmRunner {
         return sb.toString();
     }
 
+
+    public  String generateMergerScript() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("java -jar \n");
+        sb.append(" SLURM_Runner.jar ");
+
+         sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")   + "/" +  job.id);
+        sb.append("/ ");
+        sb.append( job.output);
+
+        return sb.toString();
+    }
+
     public  String generateExecutionScript() {
         StringBuilder sb = new StringBuilder();
         sb.append("filename=${1}\n");
-        sb.append("base=\"${filename%.*}\"\n");
-        sb.append("mv base base,xml\n");
+        sb.append("base=`basename \"$filename\"`\n");
+        sb.append("base1=${base%.*}\n");
+        sb.append("base=${base1}.xml\n");
 
         String program = clusterProperties.getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
         sb.append(program);
         sb.append(" -query ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" +  job.id);
-        sb.append("/");
+
         sb.append("${filename}");
         sb.append(" ");
 
-        sb.append(job.database);
-        sb.append(" -db ");
+         sb.append(" -db ");
         sb.append(job.database);
 
-        sb.append("   -num_threads 32 -num_descriptions 10 -num_alignments 10 -evalue 1E-09 ");
+        sb.append("   -num_threads 32   -num_alignments 10 -evalue 1E-09 ");
 
-        sb.append(" outfmt ");
+        sb.append(" -outfmt ");
         sb.append(Integer.toString(job.format.code));
-        sb.append(" ");
-        
+         
         sb.append(" -out ");
         sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")   + "/" +  job.id);
         sb.append("/");
@@ -124,13 +135,34 @@ public class SlurmRunner {
 
     public  String generateIterateScript() {
         StringBuilder sb = new StringBuilder();
-          sb.append(" for file in ");
+        sb.append("mkdir -p ");
+        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")  + "/" + job.id);
+        sb.append("\n");
+        sb.append(" for file in ");
         sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" + job.id);
         sb.append("/*\n");
 
         sb.append("do\n");
-        sb.append(" ./submitToCPUNode.sh $file \n");
-         sb.append("done");
+        sb.append("scripts/" + job.id);
+        sb.append("/submitToCPUNode.sh $file \n");
+        sb.append("done");
+
+        return sb.toString();
+    }
+    public  String generateMergeScript() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("java  -jar SLURM_Runner.jar ");
+        sb.append("java  -jar SLURM_Runner.jar ");
+        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")  + "/" + job.id);
+        sb.append("\n");
+        sb.append(" for file in ");
+        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" + job.id);
+        sb.append("/*\n");
+
+        sb.append("do\n");
+        sb.append("scripts/" + job.id);
+        sb.append("/submitToCPUNode.sh $file \n");
+        sb.append("done");
 
         return sb.toString();
     }
@@ -144,7 +176,7 @@ public class SlurmRunner {
 
         sb.append("do");
         sb.append(" sbatch --job-name=$COUNTER$fileName ./submitToCPUNode.sh $file   ");
-          sb.append("done");
+        sb.append("done");
 
         return sb.toString();
     }
@@ -160,11 +192,25 @@ public class SlurmRunner {
     }
 
 
+
+
+    public   File writeMergerScript() {
+        File ScriptsDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/"  +  job.id);
+        ScriptsDirectory.mkdirs();
+        File out = new File(ScriptsDirectory,"mergeXMLFiles.sh") ;
+        FileUtilities.writeFile(out,generateMergerScript());
+        return out;
+    }
+
+
     public   File writeIterationScript() {
         File ScriptsDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/"  +  job.id);
         ScriptsDirectory.mkdirs();
         File out = new File(ScriptsDirectory,"runBlast.sh") ;
         String data = generateIterateScript();
+        FileUtilities.writeFile(out,data);
+        out = new File(ScriptsDirectory,"mergeXML.sh") ;
+         data = generateMergeScript();
         FileUtilities.writeFile(out,data);
         return out;
     }
@@ -180,14 +226,12 @@ public class SlurmRunner {
         FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
 
     }
-
-
     public static void main(String[] args) {
         BlastLaunchDTO dto = handleLocBlastArgs(args);
-        SlurmRunner me = new SlurmRunner(dto);
+        SlurmLocalRunner me = new SlurmLocalRunner(dto);
         me.splitQuery(me.job.query);
-        me.writeExecutionScript();
-        me.writeIterationScript();
+         me.writeExecutionScript();
+        me.writeMergerScript();
         System.out.println(me.job.id);
     }
 }
