@@ -12,8 +12,7 @@ import java.io.File;
  */
 public class FTPUtilities {
 
-    public static void main(String[] args) {
-        ClusterSession.fixLogging();
+    public  static void createFile(String[] args)  {
         ClusterSession  me = new ClusterSession();
         try {
             String command = FileUtilities.readInFile(new File(args[0]));
@@ -27,5 +26,28 @@ public class FTPUtilities {
 
         }
     }
+
+    public  static void downloadFile(String[] args)  {
+        ClusterSession  me = new ClusterSession();
+        try {
+            String local = args[1];
+            String remote = args[0];
+            me.ftpFileGet(new File(local), remote);
+             Session session = me.getSession();
+            session.disconnect();
+            System.out.println("Done");
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        }
+    }
+
+
+    public static void main(String[] args) {
+        ClusterSession.fixLogging();
+       // createFile(args);
+        downloadFile(args);
+     }
 
 }

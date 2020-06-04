@@ -11,6 +11,7 @@ import java.util.UUID;
 public class BlastLaunchDTO {
     public final BLASTProgram program;
     public final String id = UUID.randomUUID().toString();
+    public String user;
     public String database;
     public File query;   // original file
     public BLASTFormat format;

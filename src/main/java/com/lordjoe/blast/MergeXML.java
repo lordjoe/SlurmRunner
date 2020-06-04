@@ -15,9 +15,22 @@ public class MergeXML {
     public static final String FOOTER_P =
             "</BlastXML2>\n";
 
+    
+    public static void writeFile(String fileName, String data)    {
+        try {
+            PrintWriter out = new PrintWriter(new FileWriter(new File(fileName)));
+            out.println(data);
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
 
-
+        }
+    }
     public static void mergeXMLFiles_P(String outFile, File[] inFiles ) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(outFile);
+        sb.append("\n");
+        writeFile("mergefile.txt",sb.toString());
         try {
             PrintWriter out = new PrintWriter(new FileWriter(outFile));
             String header = readHeaderP(inFiles[0]);
@@ -25,10 +38,13 @@ public class MergeXML {
             out.print(header);
             for (int i = 0; i < inFiles.length; i++) {
                 File inFile = inFiles[i];
+                sb.append(inFile.getAbsolutePath() + "\n");
                 addHits_P(out, inFile,hitnum);
             }
             out.println(FOOTER_P);
             out.close();
+            writeFile("mergefilemade.txt",sb.toString());
+
         } catch (IOException e) {
 
             throw new RuntimeException(e);
@@ -139,6 +155,7 @@ public class MergeXML {
             return;
         }
         File inDirectory = new File(args[index++]);
+
         if(!inDirectory.exists() || !inDirectory.isDirectory()) {
             usage(args);
             return;
@@ -157,7 +174,7 @@ public class MergeXML {
     {
         System.out.println("Usage Failure");
         System.out.println("Argument count " + args.length);
-        System.out.println("MergeXMLFiles directorty_with_files_toMerge mergedfile");
+        System.out.println("MergeXMLFiles directory_with_files_toMerge mergedfile");
     }
 
     public static void main(String[] args) throws  Exception {

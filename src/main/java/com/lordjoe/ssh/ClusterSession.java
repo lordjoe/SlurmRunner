@@ -12,6 +12,7 @@ import org.cactoos.io.DeadInputStream;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Properties;
 
 /**
@@ -57,6 +58,50 @@ public class ClusterSession {
         throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
+    public boolean prepareUpload(
+            ChannelSftp sftpChannel,
+            String path,
+            boolean overwrite)
+            throws SftpException, IOException, FileNotFoundException {
+
+        boolean result = false;
+
+        // Build romote path subfolders inclusive:
+        String[] folders = path.split("/");
+        for (String folder : folders) {
+            if (folder.length() > 0 && !folder.contains(".")) {
+                // This is a valid folder:
+                try {
+                    sftpChannel.cd(folder);
+                } catch (SftpException e) {
+                    // No such folder yet:
+                    sftpChannel.mkdir(folder);
+                    sftpChannel.cd(folder);
+                }
+            }
+        }
+
+        if (true)
+            return true;
+        // Folders ready. Remove such a file if exists:
+        if (sftpChannel.ls(path).size() > 0) {
+            if (!overwrite) {
+                System.out.println(
+                        "Error - file " + path + " was not created on server. " +
+                                "It already exists and overwriting is forbidden.");
+            } else {
+                // Delete file:
+                sftpChannel.ls(path); // Search file.
+                sftpChannel.rm(path); // Remove file.
+                result = true;
+            }
+        } else {
+            // No such file:
+            result = true;
+        }
+
+        return result;
+    }
 //
 //    // Build romote path subfolders inclusive:
 //    String[] folders = path.split("/");
@@ -179,22 +224,26 @@ public class ClusterSession {
      * @return stdout returned by that command
      * @throws IOException
      */
-    public void ftpFileGet(String filename) throws IOException {
+    public void ftpFileGet(File localFile,String remoteFile) throws IOException {
 
         try {
             ChannelSftp c = getSFTP();
-            SftpProgressMonitor monitor = new MyProgressMonitor();
-            monitor.init(SftpProgressMonitor.GET, filename, "dest", Integer.MAX_VALUE);
-            StringBuilder sb = new StringBuilder();
 
-            File f1 = new File(filename);
-            if (!f1.exists())
-                throw new FileNotFoundException(filename);
+            File parentFile = localFile.getParentFile();
+            if(parentFile != null) {
+                if(!parentFile.exists())   {
+                    if(!parentFile.mkdirs()  )
+                        throw new UnsupportedOperationException("Cannot create dir " + parentFile.getAbsolutePath());
+                }
+            }
+            SlurmClusterRunner.logMessage("Making file " + localFile.getAbsolutePath());
 
-            //    SftpProgressMonitor monitor=new MyProgressMonitor();
-            int mode = ChannelSftp.OVERWRITE;
-            c.put(new FileInputStream(f1), f1.getName(), ChannelSftp.OVERWRITE);
-        } catch (SftpException e) {
+            OutputStream output = new FileOutputStream(localFile);
+
+            SlurmClusterRunner.logMessage("Fetching remmote file " + remoteFile + " to " + localFile.getAbsolutePath());
+            c.get(remoteFile,output);            //    SftpProgressMonitor monitor=new MyProgressMonitor();
+            output.close();
+          } catch (SftpException e) {
             throw new RuntimeException(e);
 
         }
@@ -221,6 +270,15 @@ public class ClusterSession {
         }
     }
 
+    public boolean cd(String path) {
+        ChannelSftp sftp = getSFTP();
+        try {
+            sftp.cd(path);
+            return true;
+        } catch (SftpException e) {
+            return false;
+        }
+    }
 
     /**
      * @param filename the command to execute
@@ -330,11 +388,37 @@ public class ClusterSession {
     }
 
 
+    public static void recursiveFolderDelete(ChannelSftp channelSftp, String path) {
+
+        try {
+            // List source directory structure.
+            Collection<ChannelSftp.LsEntry> fileAndFolderList = channelSftp.ls(path);
+
+            // Iterate objects in the list to get file/folder names.
+            for (ChannelSftp.LsEntry item : fileAndFolderList) {
+                if (!item.getAttrs().isDir()) {
+                    channelSftp.rm(path + "/" + item.getFilename()); // Remove file.
+                } else if (!(".".equals(item.getFilename()) || "..".equals(item.getFilename()))) { // If it is a subdir.
+                    try {
+                        // removing sub directory.
+                        channelSftp.rmdir(path + "/" + item.getFilename());
+                    } catch (Exception e) { // If subdir is not empty and error occurs.
+                        // Do lsFolderRemove on this subdir to enter it and clear its contents.
+                        recursiveFolderDelete(channelSftp, path + "/" + item.getFilename());
+                    }
+                }
+            }
+            channelSftp.rmdir(path); // delete the parent directory after empty
+        } catch (SftpException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void sallocAndRun(String command, int nproocessors) {
         try {
-            System.out.println("Ready to salloc ");
+            SlurmClusterRunner.logMessage("Ready to salloc ");
             executeCommand("salloc -N" + nproocessors + " srun " + command + " & ");
-            System.out.println(" salloc running ");
+            SlurmClusterRunner.logMessage(" salloc running ");
         } catch (IOException e) {
             throw new RuntimeException(e);
 
@@ -345,6 +429,10 @@ public class ClusterSession {
     public static void main(String[] args) {
         fixLogging();
         ClusterSession me = new ClusterSession();
+        ChannelSftp sftp = me.getSFTP();
+        recursiveFolderDelete(sftp,args[0]);
+        if(true )
+            return;
         try {
             String command = BuildBlastFile.buildScript();
             String filename = "myScript.sh";
@@ -355,7 +443,7 @@ public class ClusterSession {
             //    me.ftpFilePut(args[0], args[1]);
             //  String out = me.executeCommand("squeue -u lewis");
             String out = me.executeCommand("salloc  -u lewis");
-            System.out.println(out);
+            SlurmClusterRunner.logMessage(out);
 
         } catch (Exception e) {
 
