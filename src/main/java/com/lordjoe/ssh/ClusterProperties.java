@@ -1,7 +1,12 @@
 package com.lordjoe.ssh;
 
-import com.lordjoe.utilities.Blowfish;
 import com.lordjoe.utilities.Encrypt;
+import com.lordjoe.utilities.FileUtilities;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * com.lordjoe.ssh.ClusterProperties
@@ -10,44 +15,120 @@ import com.lordjoe.utilities.Encrypt;
  */
 public class ClusterProperties {
 
-    public static String PRIVATE_KEY1_FILE1 = "private.ppk"; //id_rsa_list.ppk";
-    public static final String PUBLIC_KEY1_FILE1 = "public.pub";
+    private static Properties userProps = null;
+    private static String privateKey;
 
-    public static final String PASS_PHRASE1 = "Alaron&Aurana&Bob" ;
 
-    public static final String IP = "10.60.1.4";
+    public static String getEmail() {
+        return userProps.getProperty("email");
+    }
 
-    public static final String USER = "lewis";
+    public static void setEmail(String email) {
+        userProps.setProperty("email",email);
+    }
 
-    public static final int PORT = 22;
+    public static Properties getUserProperties() {
+        if (userProps == null) {
+            buildUserProps();
+        }
+        return userProps;
+    }
 
-    public static final String PRIVATE_KEY=
-            "PuTTY-User-Key-File-2: ssh-rsa\n" +
-                    "Encryption: none\n" +
-                    "Comment: rsa-key-20191022\n" +
-                    "Public-Lines: 6\n" +
-                    "AAAAB3NzaC1yc2EAAAABJQAAAQEAyQTEZqjzm05uOcGoFVOd0hN0Tc49UDgqbpCI\n" +
-                    "pIYVnUlkXR8bjjWz3b3CzDYU7CzZEmTlN+jOHrYoYtg7r1UhOIHgw2bIYtnOQCp8\n" +
-                    "uHweDHfodUtaHkYpxDHjTzBuhzJ+c0k/aAvWCs+zMwZ/bHtXCsPPWjvm19SRZnQZ\n" +
-                    "RtQn5L60j+M+XyVQ0Xf9c0tt3b1922n514e+FhZj4ePi0QTkrWqimBYvWJWN+qZl\n" +
-                    "PtQSW1F06SSwc+M/uj9EvnSbAZrWbFrgEefmVXhInrR7OLOr+nqDhoyqUYc+Jlwd\n" +
-                    "J8HU75pj6TE9Cz+WLX4LF+3ar0AymPYsC7W5plUfTkD461SyIQ==\n" +
-                    "Private-Lines: 14\n" +
-                    "AAABAEEx+oIo9Q/GaPAjIcG6QQXcy8Y1DPdsKW/3hkMyZ9/8IIznfo78qQmlU+80\n" +
-                    "InYcYhPNsh/4ejN5WTTQgg9Z4ULCVrvp+80IXpFZ40LAeHK/GvWb5eBOG2I5sYF3\n" +
-                    "fcr7nqHuPhPoKb5RMzMks7R7B3kc6U2ykA6lzkq93q8wDPA9Rhp5JORPVz2O7jZx\n" +
-                    "jRvEyOOwL0B1rPeiG0QnjjkE+8DtStCeTupajlcHslVQ/Ub6PJxNZOuc1Gfq8XgW\n" +
-                    "ZDsO7+SKFuBJyIoyfC80YXWpre3JYWvEjuzIQk4PVSDyj1XTPTadkNjsCSFO9zCx\n" +
-                    "Km76VAK2ex1Ro/JDcHkawvCM590AAACBAPU6KXwQPd0Zycahm37VhaITCcQtOFC8\n" +
-                    "fPKw+stMfPbQ6Abmq2ugfC9296rrKrY/OmSolTguYOoOO1OHgEsAOJAhulOxRbHF\n" +
-                    "0DRSfBdGHc+mtzi1un7p64jIyBLBrYMHrdEOCXgBw3FHdP3Xdi2GX3gqQD0tqT6z\n" +
-                    "CBXmljCeSJzbAAAAgQDR2W7l5EgmueAtqdHRR+5wX6uj+OSYCLrydBnLqg3lnvxK\n" +
-                    "WNf7ECzSTKxUd0T51pOACUuBGbQcFkTeBK9FoJ7in0wbLRQKOuHAEAGMx8qutpZe\n" +
-                    "bzQdYtzo7OTD6yhtSfaWHWybwfmzagA9v6q/qAeMu63zQ6YWyFJunO2Z51mfswAA\n" +
-                    "AIAxKzwZgBnj1BCKHT0iRStuJUE1yy59e5PyabSoISP7iwynsC4I3dN0O70ev64r\n" +
-                    "OAQavpFT9pDlC2twndtIHsAw9A72UzdMg0GNz5VbTsI8zCqAZtVrvvKldz2JNRRh\n" +
-                    "OMEdh3IURy5R+E2Ip8YZUpgYVn03CK+zi9TAqRyuFK0e3A==\n" +
-                    "Private-MAC: d15bed7d5a608dfbd550b169e8c32b69c7412631\n";
+
+    public static String getUserName() {
+        return System.getProperty("user.name");
+    }
+
+
+    private static void buildUserProps() {
+        if (userProps != null && !userProps.isEmpty())
+            return;
+        String user = getUserName();
+        File userPropFile = new File(user + "Cluster.properties");
+        userProps = new Properties();
+        if (userPropFile.exists()) {
+            try {
+                userProps.load(new FileInputStream(userPropFile));
+                return;
+            } catch (IOException e) {
+                // try plan B
+
+            }
+        }
+        userProps.setProperty("user", DEFAULT_USER);
+        userProps.setProperty("email",DEFAULT_EMAIL);
+        userProps.setProperty("remoteUser", DEFAULT_USER);
+        userProps.setProperty("remoteIP", DEFAULT_IP);
+        userProps.setProperty("remotePort", Integer.toString(DEFAULT_PORT));
+        userProps.setProperty("private.key", DEFAULT_PRIVATE_KEY1_FILE1);
+        userProps.setProperty("public.key", DEFAULT_PUBLIC_KEY_FILE1);
+        userProps.setProperty("passphrase", DEFAULT_PASS_PHRASE);
+
+    }
+
+
+    public static String getUser() {
+        return getUserProperties().getProperty("remoteUser");
+    }
+
+    public static String getPrivateKeyFile() {
+        return getUserProperties().getProperty("private.key");
+    }
+
+    public static String getPrivateKey() {
+        if (privateKey == null) {
+            privateKey = FileUtilities.readInFile(getPrivateKeyFile());
+        }
+        return privateKey;
+    }
+
+    public static String getPrivateKey1() {
+
+        return PRIVATE_KEY1;
+    }
+
+
+
+    public static String getPublicKeyFile() {
+        return getUserProperties().getProperty("public.pub");
+    }
+
+
+    public static String getIP() {
+        return getUserProperties().getProperty("remoteIP");
+    }
+
+
+    public static String getPassPhrase() {
+        String passphrase = getEncryptedPassPhrase();
+        if (passphrase == null)
+            return passphrase;
+        return Encrypt.decryptString(passphrase);
+    }
+
+
+    public static String getEncryptedPassPhrase() {
+        String passphrase = getUserProperties().getProperty("passphrase");
+               return passphrase;
+
+    }
+
+    public static Integer getPort() {
+        Properties userProperties = getUserProperties();
+        String port = userProperties.getProperty("remotePort");
+        return Integer.parseInt(port);
+    }
+
+    public static String DEFAULT_EMAIL = "lordjoe2000@gmail.com";
+    public static String DEFAULT_PRIVATE_KEY1_FILE1 = "private.ppk"; //id_rsa_list.ppk";
+    public static String DEFAULT_PUBLIC_KEY_FILE1 = "public.ppk"; //id_rsa_list.ppk";
+    public static final String DEFAULT_IP = "10.60.1.4";
+
+    public static final String DEFAULT_USER = "lewis";
+
+    public static final int DEFAULT_PORT = 22;
+
+    public static final String DEFAULT_PASS_PHRASE = "ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==";
 
     public static final String PRIVATE_KEY1 =
             "-----BEGIN RSA PRIVATE KEY-----\n" +
@@ -82,13 +163,13 @@ public class ClusterProperties {
                     "-----END RSA PRIVATE KEY-----";
 
     public static void main(String[] args) {
-        String s = Encrypt.encryptString(PRIVATE_KEY1);
+
+        String s = Encrypt.encryptString("FooBar");
         System.out.println("EncyrptedPrivateKey1 = ");
         System.out.println(s);
         System.out.println();
-        s = Encrypt.encryptString(PRIVATE_KEY );
-        System.out.println("EncyrptedPrivateKey  = ");
-        System.out.println(s);
-    }
 
+    }
 }
+
+

@@ -5,6 +5,7 @@ import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.utilities.FileUtilities;
+import com.lordjoe.utilities.SendMail;
 
 import java.io.*;
 import java.util.Properties;
@@ -28,6 +29,7 @@ public class SlurmClusterRunner {
         String database = "xxx";
         String query = "xxx";
         String out = "xxx";
+        String email = "xxx";
         if (args[index ].toLowerCase().endsWith("blastn"))
             program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
@@ -47,6 +49,11 @@ public class SlurmClusterRunner {
             if (next.equalsIgnoreCase("-user")) {
                 index++;
                 user = args[index++];
+                continue;
+            }
+            if (next.equalsIgnoreCase("-email") ||next.equalsIgnoreCase("-mail") ) {
+                index++;
+                email = args[index++];
                 continue;
             }
             if (next.equalsIgnoreCase("-query")) {
@@ -82,6 +89,8 @@ public class SlurmClusterRunner {
         ret.format = BLASTFormat.XML2;
         ret.database = database;
         ret.user = user;
+        ret.email = email;
+   //     ClusterProperties.setEmail(email);
         return ret;
 
     }
@@ -393,6 +402,14 @@ public class SlurmClusterRunner {
 
     }
 
+    public static void sendAnalysisEmail(String recipient,File results)    {
+        SendMail.setUsername("lordjoe2000@gmail.com");
+        SendMail.setEncrypted_password("ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==");
+        String subjectline = "Your BLAST Analysis is complete";
+        String messagebody = "The results are attached!";
+        SendMail.sendMailWithAttachment(recipient, subjectline, messagebody,results);
+
+    }
 
     public static void main(String[] args) {
         try {
@@ -451,9 +468,19 @@ public class SlurmClusterRunner {
             SlurmClusterRunner.logMessage("output fetched");
 
             me.cleanUp();
-            System.exit(0);
+            String email1 = me.job.email;
+            if(me.job.output.exists() && me.job.output.length() > 10 && email1 != null)   {
+                  String email = ClusterProperties.getEmail();
+                  SendMail.setUsername(email);
+                  SendMail.setEncrypted_password(ClusterProperties.getEncryptedPassPhrase());
+                  String subjectline = "Your BLAST Analysis is complete";
+                String messagebody = "The results are attached!";
+                SendMail.sendMailWithAttachment(email1,subjectline,messagebody,me.job.output);
+                SlurmClusterRunner.logMessage("mail sent");
+            }
 
-            SlurmClusterRunner.logMessage(me.job.id);
+            SlurmClusterRunner.logMessage(me.job.id + " is finished");
+            System.exit(0);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
