@@ -10,17 +10,22 @@ import java.util.UUID;
  */
 public class BlastLaunchDTO {
     public final BLASTProgram program;
-    public final String id = UUID.randomUUID().toString();
-    public String email;
-    public String user;
+    public final String id;
     public String database;
     public File query;   // original file
     public BLASTFormat format;
     public File output;
 
 
-    public BlastLaunchDTO(BLASTProgram program) {
+
+
+    public BlastLaunchDTO(String id,BLASTProgram program) {
+        this.id = id;
         this.program = program;
+    }
+
+    public BlastLaunchDTO(BLASTProgram program) {
+        this(UUID.randomUUID().toString(),program);
     }
 
     public String asCommand()

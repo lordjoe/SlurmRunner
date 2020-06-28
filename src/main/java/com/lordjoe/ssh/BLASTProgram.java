@@ -6,7 +6,10 @@ package com.lordjoe.ssh;
  * Date: 1/25/20
  */
 public enum BLASTProgram {
-    BLASTN,BLASTP,RPBLAST,RPSTBLAST,PSIBLAST,TBLASTN;
-    public static final BLASTProgram[] EMPTY_ARRAY = {};
 
+     BLASTN,BLASTP,RPBLAST,RPSTBLAST,PSIBLAST,TBLASTN;
+    public static BLASTProgram fromString(String s) {
+        s = s.toUpperCase();
+        return BLASTProgram.valueOf(s);
+    }
 }

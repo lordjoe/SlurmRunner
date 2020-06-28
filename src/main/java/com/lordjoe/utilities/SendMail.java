@@ -19,8 +19,9 @@ import java.util.Properties;
 
 public class SendMail {
 
+    public static boolean UseListSMTP = false;
 
-    private static String g_username;
+    private static String g_username = "FEDER-bio-HPC-jobs@list.lu";
 
     public static String getUsername() {
         return g_username;
@@ -51,6 +52,11 @@ public class SendMail {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+
+        props.put("mail.smtp.auth", "false");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.private.list.lu");
+        props.put("mail.smtp.port", "25");
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
@@ -84,20 +90,38 @@ public class SendMail {
     public static void sendMailWithAttachment(String recipient, String subjectline, String messagebody, File attachment) {
 
         final String username = getUsername();
-        final String password = Encrypt.decryptString(getEncrypted_password());
+        String password1 = null;
+        String encrypted_password = getEncrypted_password();
+        if(encrypted_password != null)
+           password1 = Encrypt.decryptString(encrypted_password);
 
+        final String password = password1;
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+
+        if(UseListSMTP) {
+            props.put("mail.smtp.auth", "false");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.private.list.lu");
+            props.put("mail.smtp.port", "587");
+         }
+        
+        Session session = null;
+          if(!UseListSMTP) {
+               session = Session.getInstance(props,
+                     new javax.mail.Authenticator() {
+                         protected PasswordAuthentication getPasswordAuthentication() {
+                             return new PasswordAuthentication(username, password);
+                         }
+                     });
+         }
+         else {
+                session = Session.getInstance(props,null); // no authentication
+          }
 
         try {
 
@@ -142,10 +166,14 @@ public class SendMail {
 
     public static void main(String[] args) {
 
+      //   UseListSMTP = true;
         File results = new File(args[0]);
-        setUsername("lordjoe2000@gmail.com");
-        setEncrypted_password("ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==");
-        String recipient = "simone.zorzan@gmail.com";
+
+        if(!UseListSMTP) {
+            setUsername("lordjoe2000@gmail.com");
+            setEncrypted_password("ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==");
+        }
+        String recipient = "lordjoe2000@gmail.com";
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 

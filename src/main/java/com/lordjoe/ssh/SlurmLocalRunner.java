@@ -1,11 +1,15 @@
 package com.lordjoe.ssh;
 
-import com.lordjoe.fasta.FastaTools;
+import com.lordjoe.blast.BLastTools;
+import com.lordjoe.blast.OSValidator;
 import com.lordjoe.fasta.LocalJobRunner;
-import com.lordjoe.utilities.FileUtilities;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * com.lordjoe.ssh.SlurmRunner
@@ -13,7 +17,7 @@ import java.util.Properties;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public class SlurmLocalRunner {
+public class SlurmLocalRunner implements IJobRunner  {
 
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
@@ -66,9 +70,13 @@ public class SlurmLocalRunner {
 
     public final BlastLaunchDTO job;
     public final Properties clusterProperties = LocalJobRunner.getClusterProperties(null);
+    private JobState lastState;
+    private final AtomicReference<JobState> state = new AtomicReference<>();
 
     public SlurmLocalRunner(BlastLaunchDTO job) {
         this.job = job;
+        state.set(JobState.RunStarted);
+        IJobRunner.registerRunner(this);
     }
 
     public  String generateSlurmScript() {
@@ -91,17 +99,26 @@ public class SlurmLocalRunner {
     }
 
 
-    public  String generateMergerScript() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("java -jar \n");
-        sb.append(" SLURM_Runner.jar ");
 
-         sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")   + "/" +  job.id);
-        sb.append("/ ");
-        sb.append( job.output);
-
-        return sb.toString();
+    public JobState getState() {
+        return state.get();
     }
+    public String getId() {
+        return this.job.id;
+    }
+    public BlastLaunchDTO getJob() { return job;}
+
+    @Override
+    public void setLastState(JobState s) {
+        lastState = s;
+    }
+
+    @Override
+    public JobState getLastState() {
+        return lastState;
+    }
+
+
 
     public  String generateExecutionScript() {
         StringBuilder sb = new StringBuilder();
@@ -110,7 +127,7 @@ public class SlurmLocalRunner {
         sb.append("base1=${base%.*}\n");
         sb.append("base=${base1}.xml\n");
 
-        String program = clusterProperties.getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
+        String program = clusterProperties.getProperty("LocationOfLocalBLASTPrograms") + job.program.toString().toLowerCase();
         sb.append(program);
         sb.append(" -query ");
 
@@ -133,105 +150,56 @@ public class SlurmLocalRunner {
         return sb.toString();
     }
 
-    public  String generateIterateScript() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("mkdir -p ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")  + "/" + job.id);
-        sb.append("\n");
-        sb.append(" for file in ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" + job.id);
-        sb.append("/*\n");
-
-        sb.append("do\n");
-        sb.append("scripts/" + job.id);
-        sb.append("/submitToCPUNode.sh $file \n");
-        sb.append("done");
-
-        return sb.toString();
-    }
-    public  String generateMergeScript() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("java  -jar SLURM_Runner.jar ");
-        sb.append("java  -jar SLURM_Runner.jar ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory")  + "/" + job.id);
-        sb.append("\n");
-        sb.append(" for file in ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" + job.id);
-        sb.append("/*\n");
-
-        sb.append("do\n");
-        sb.append("scripts/" + job.id);
-        sb.append("/submitToCPUNode.sh $file \n");
-        sb.append("done");
-
-        return sb.toString();
-    }
 
 
-    public  String generateSlurmIterateScript() {
-        StringBuilder sb = new StringBuilder();
-         sb.append(" for file in ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")  + "/" + job.id);
-        sb.append("/*\n");
+    @Override
+    public void run() {
+        try {
+            List<String> args = new ArrayList<>();
+            BlastLaunchDTO job = getJob();
+            BLASTProgram bp = job.program;
+            String program = clusterProperties.getProperty("LocationOfLocalBLASTPrograms") + "bin/" + job.program.toString().toLowerCase();
+         String blastName = "./" + bp.toString().toLowerCase();
+            if(OSValidator.isWindows()) {
+                blastName = program +  ".exe";
+            }
+            args.add(blastName);
+            args.add("-query");
+            String qpath = job.query.getAbsolutePath();
+            args.add(job.query.getPath());
+            args.add("-db");
+            args.add(job.database);
+            args.add("-out");
+            args.add(job.output.getPath());
+            args.add("-outfmt");
+            args.add(Integer.toString(job.format.code));
 
-        sb.append("do");
-        sb.append(" sbatch --job-name=$COUNTER$fileName ./submitToCPUNode.sh $file   ");
-        sb.append("done");
+            state.set(JobState.RunStarted);
+            String[] commandargs = args.toArray(new String[0]);
+            for (int i = 0; i < commandargs.length; i++) {
+                String commandarg = commandargs[i];
+                System.out.println(commandarg + " ");
+            }
+             String result = BLastTools.executeCommand( commandargs);
+            state.set(JobState.JobFinished);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
 
-        return sb.toString();
-    }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
 
-
-
-    public   File writeExecutionScript() {
-        File ScriptsDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/"  +  job.id);
-        ScriptsDirectory.mkdirs();
-        File out = new File(ScriptsDirectory,"submitToCPUNode.sh") ;
-        FileUtilities.writeFile(out,generateExecutionScript());
-        return out;
-    }
-
-
-
-
-    public   File writeMergerScript() {
-        File ScriptsDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/"  +  job.id);
-        ScriptsDirectory.mkdirs();
-        File out = new File(ScriptsDirectory,"mergeXMLFiles.sh") ;
-        FileUtilities.writeFile(out,generateMergerScript());
-        return out;
-    }
-
-
-    public   File writeIterationScript() {
-        File ScriptsDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/"  +  job.id);
-        ScriptsDirectory.mkdirs();
-        File out = new File(ScriptsDirectory,"runBlast.sh") ;
-        String data = generateIterateScript();
-        FileUtilities.writeFile(out,data);
-        out = new File(ScriptsDirectory,"mergeXML.sh") ;
-         data = generateMergeScript();
-        FileUtilities.writeFile(out,data);
-        return out;
-    }
-
-    public void splitQuery(File in)  {
-        int numberEntries = FastaTools.countFastaEntities(in);
-        int splitSize =  (numberEntries / 7);
-
-        File outDirectory =  new File(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory")   + "/" +  job.id);
-        outDirectory.mkdirs();
-
-        String baseName = "splitFile";
-        FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
+        }
 
     }
-    public static void main(String[] args) {
+
+
+
+    public static void main(String[] args) throws InterruptedException {
         BlastLaunchDTO dto = handleLocBlastArgs(args);
         SlurmLocalRunner me = new SlurmLocalRunner(dto);
-        me.splitQuery(me.job.query);
-         me.writeExecutionScript();
-        me.writeMergerScript();
+        Thread t = new Thread(me);
+        t.start();
+        t.join();
         System.out.println(me.job.id);
     }
 }

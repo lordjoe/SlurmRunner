@@ -11,7 +11,7 @@ public class MyUserInfo implements UserInfo {
 
     @Override
     public String getPassphrase() {
-        return ClusterProperties.getPassPhrase();
+        return ClusterProperties.PASS_PHRASE1;
     }
 
     @Override

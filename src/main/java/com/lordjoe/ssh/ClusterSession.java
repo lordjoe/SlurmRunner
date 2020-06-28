@@ -138,9 +138,7 @@ public class ClusterSession {
         //       jsch.setIdentityRepository(new LocalIdentityRepository());
         try {
             //         my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PASS_PHRASE1);
-            String privateKeyFile = ClusterProperties.getPrivateKeyFile();
-            String publicKeyFile = ClusterProperties.getPublicKeyFile();
-            my_jsch.addIdentity(privateKeyFile, publicKeyFile, null);
+            my_jsch.addIdentity(ClusterProperties.PRIVATE_KEY1_FILE1, ClusterProperties.PUBLIC_KEY1_FILE1, null);
         } catch (JSchException e) {
             throw new RuntimeException(e);
 
@@ -153,12 +151,12 @@ public class ClusterSession {
         if (my_ssh != null)
             return my_ssh;
         try {
-               my_ssh = new Ssh(
-                    ClusterProperties.getIP(),
-                    ClusterProperties.getPort(),
-                    ClusterProperties.getUser(),
-                    ClusterProperties.getPrivateKey1(),
-                    ClusterProperties.getPassPhrase()
+            my_ssh = new Ssh(
+                    ClusterProperties.IP,
+                    ClusterProperties.PORT,
+                    ClusterProperties.USER,
+                    ClusterProperties.PRIVATE_KEY1,
+                    ClusterProperties.PASS_PHRASE1
             );
 //            my_ssh = new Ssh(
 //                    ClusterProperties.IP,
@@ -180,10 +178,7 @@ public class ClusterSession {
 
         try {
             JSch jsch = getJsch();
-            String user = ClusterProperties.getUser();
-            String ip = ClusterProperties.getIP();
-            Integer port = ClusterProperties.getPort();
-            my_session = jsch.getSession(user, ip, port);
+            my_session = jsch.getSession(ClusterProperties.USER, ClusterProperties.IP, ClusterProperties.PORT);
             Properties config = new Properties();
 
 
@@ -194,8 +189,8 @@ public class ClusterSession {
             // /     EasyRepo identityRepository = new EasyRepo(jsch);
             //      session.setIdentityRepository(identityRepository);
             HostKeyRepository hkr = jsch.getHostKeyRepository();
-            HostKey hkx = new HostKey(ip, HostKey.SSHRSA, ClusterProperties.getPrivateKeyFile().getBytes());
-            hkx = new HostKey(ip, HostKey.SSHRSA, ClusterProperties.getPrivateKeyFile().getBytes());
+            HostKey hkx = new HostKey(ClusterProperties.IP, HostKey.SSHRSA, ClusterProperties.PRIVATE_KEY1.getBytes());
+            hkx = new HostKey(ClusterProperties.IP, HostKey.SSHRSA, ClusterProperties.PRIVATE_KEY.getBytes());
 
             hkr.add(hkx, new MyUserInfo());
             return my_session;
