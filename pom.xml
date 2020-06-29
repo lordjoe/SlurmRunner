@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>SLURM_Runner</name>
-    <description>Remoetly Runs SLURM Jobs</description>
+    <description>Remotely Runs SLURM Jobs</description>
     <dependencies>
   
         <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-log -->

@@ -5,12 +5,12 @@ import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.utilities.FileUtilities;
-import com.lordjoe.ssh.*;
+
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
-import com.jcraft.jsch.SftpException;
 
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
@@ -18,26 +18,25 @@ import com.jcraft.jsch.SftpException;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public class SlurmClusterRunner implements IJobRunner  {
+public class SlurmClusterRunner implements IJobRunner {
 
 
     @SuppressWarnings("unused")
-	private com.jcraft.jsch.SftpException forceClassLoadSoNotFoundException;
+    private com.jcraft.jsch.SftpException forceClassLoadSoNotFoundException;
     public final BlastLaunchDTO job;
+    public Map<String, Object> parameters = new HashMap<>();
     public final Properties clusterProperties = getClusterProperties("ClusterLaunchCluster.properties");
     public final ClusterSession session = new ClusterSession();
     private final AtomicReference<JobState> state = new AtomicReference<JobState>();
     private JobState lastState;
 
 
-
-    public SlurmClusterRunner(BlastLaunchDTO job) {
+    public SlurmClusterRunner(BlastLaunchDTO job,  Map<String,? extends Object>  param) {
         this.job = job;
         IJobRunner.registerRunner(this);
+         filterProperties(param);
+
     }
-
-
-
 
 
     @Override
@@ -113,6 +112,24 @@ public class SlurmClusterRunner implements IJobRunner  {
     }
 
 
+    public Map<String, ? extends Object> filterProperties(Map<String, ? extends Object> in) {
+        Map<String, Object> ret = new HashMap<>();
+        String[] added = BLASTProgram.relevantProperties(getJob().program);
+        String prefix =  BLASTProgram.prefix(getJob().program);
+        for (int i = 0; i < added.length; i++) {
+            String s = added[i];
+            Object value = in.get(s);
+            if(value != null) {
+                String key = s.substring(prefix.length());
+                ret.put(key, value);
+                parameters.put(key,  value);
+            }
+        }
+        return ret;
+    }
+
+
+
     public static BlastLaunchDTO handleLocBlastArgs(Map<String, String> data) {
         int index = 0;
         String program_name = data.get("program");
@@ -128,7 +145,7 @@ public class SlurmClusterRunner implements IJobRunner  {
         ret.output = new File(out);
         ret.query = new File(query);
         ret.format = BLASTFormat.XML2;
-          return ret;
+        return ret;
 
     }
 
@@ -137,7 +154,7 @@ public class SlurmClusterRunner implements IJobRunner  {
         try {
             Properties ret = new Properties();
             InputStream resourceAsStream = SlurmClusterRunner.class.getResourceAsStream("/" + cluster);
-            if(resourceAsStream != null) {
+            if (resourceAsStream != null) {
                 ret.load(resourceAsStream);
                 return ret;
 
@@ -156,10 +173,14 @@ public class SlurmClusterRunner implements IJobRunner  {
     public JobState getState() {
         return state.get();
     }
+
     public String getId() {
         return this.job.id;
     }
-    public BlastLaunchDTO getJob() { return job;}
+
+    public BlastLaunchDTO getJob() {
+        return job;
+    }
 
     public String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
@@ -213,7 +234,7 @@ public class SlurmClusterRunner implements IJobRunner  {
         sb.append("base=${base1}.xml\n");
         sb.append("export BLASTDB=" + clusterProperties.getProperty("LocationOfDatabaseFiles") + "\n");
 
-           String program = clusterProperties.getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
+        String program = clusterProperties.getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
         sb.append(program);
         sb.append(" -query ");
 
@@ -418,7 +439,7 @@ public class SlurmClusterRunner implements IJobRunner  {
     private void guaranteeJarFile(int call) {
         File local = new File("SLURM_Runner.jar");
         if (!local.exists()) {
-        	String path = local.getAbsolutePath();
+            String path = local.getAbsolutePath();
             throw new IllegalStateException("local jar not found at " + path);
         }
         long size = local.length();
@@ -455,7 +476,7 @@ public class SlurmClusterRunner implements IJobRunner  {
     public void run() {
         try {
 
-             state.set(JobState.RunStarted);
+            state.set(JobState.RunStarted);
 
             SlurmClusterRunner.logMessage("guaranteeJarFile");
             guaranteeJarFile(0);
@@ -539,7 +560,7 @@ public class SlurmClusterRunner implements IJobRunner  {
         SlurmClusterRunner.logMessage(" query " + dto.query.getAbsolutePath());
         SlurmClusterRunner.logMessage(" db " + dto.database);
         SlurmClusterRunner.logMessage(" out " + dto.output.getAbsolutePath());
-        SlurmClusterRunner me = new SlurmClusterRunner(dto);
+        SlurmClusterRunner me = new SlurmClusterRunner(dto,data);
 
         new Thread(me).start();
 
@@ -547,6 +568,7 @@ public class SlurmClusterRunner implements IJobRunner  {
     }
 
     public static SlurmClusterRunner run(String[] args) {
+        Map<String, String> data = new HashMap<>();
         ClusterSession.fixLogging();
         SlurmClusterRunner.logMessage("Starting SlurmClusterRunner");
         BlastLaunchDTO dto = handleLocBlastArgs(args);
@@ -554,7 +576,7 @@ public class SlurmClusterRunner implements IJobRunner  {
         SlurmClusterRunner.logMessage(" query " + dto.query.getAbsolutePath());
         SlurmClusterRunner.logMessage(" db " + dto.database);
         SlurmClusterRunner.logMessage(" out " + dto.output.getAbsolutePath());
-        SlurmClusterRunner me = new SlurmClusterRunner(dto);
+        SlurmClusterRunner me = new SlurmClusterRunner(dto,data);
 
         new Thread(me).start();
 

@@ -6,9 +6,7 @@ import com.lordjoe.fasta.LocalJobRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -69,15 +67,17 @@ public class SlurmLocalRunner implements IJobRunner  {
 
 
     public final BlastLaunchDTO job;
+    public Map<String, Object> parameters = new HashMap<>();
     public final Properties clusterProperties = LocalJobRunner.getClusterProperties(null);
     private JobState lastState;
     private final AtomicReference<JobState> state = new AtomicReference<>();
 
-    public SlurmLocalRunner(BlastLaunchDTO job) {
+    public SlurmLocalRunner(BlastLaunchDTO job, Map<String,? extends Object>  param) {
         this.job = job;
-        state.set(JobState.RunStarted);
+         state.set(JobState.RunStarted);
         IJobRunner.registerRunner(this);
-    }
+        filterProperties(param);
+     }
 
     public  String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
@@ -118,6 +118,21 @@ public class SlurmLocalRunner implements IJobRunner  {
         return lastState;
     }
 
+    public Map<String, ? extends Object> filterProperties(Map<String, ? extends Object> in) {
+        Map<String, Object> ret = new HashMap<>();
+        String[] added = BLASTProgram.relevantProperties(getJob().program);
+        String prefix =  BLASTProgram.prefix(getJob().program);
+        for (int i = 0; i < added.length; i++) {
+            String s = added[i];
+            Object value = in.get(s);
+            if(value != null) {
+                String key = s.substring(prefix.length());
+                ret.put(key, value);
+                parameters.put(key,  value);
+            }
+        }
+        return ret;
+    }
 
 
     public  String generateExecutionScript() {
@@ -158,29 +173,39 @@ public class SlurmLocalRunner implements IJobRunner  {
             List<String> args = new ArrayList<>();
             BlastLaunchDTO job = getJob();
             BLASTProgram bp = job.program;
-            String program = clusterProperties.getProperty("LocationOfLocalBLASTPrograms") + "bin/" + job.program.toString().toLowerCase();
-         String blastName = "./" + bp.toString().toLowerCase();
+            String program = clusterProperties.getProperty("LocationOfLocalBLASTPrograms")  + job.program.toString().toLowerCase();
+         String blastName = bp.toString().toLowerCase();
             if(OSValidator.isWindows()) {
-                blastName = program +  ".exe";
+                blastName =  "./" + program +  ".exe";
             }
-            args.add(blastName);
+            args.add(program);
             args.add("-query");
             String qpath = job.query.getAbsolutePath();
             args.add(job.query.getPath());
             args.add("-db");
-            args.add(job.database);
+            args.add(job.database.replace("-remote",""));
             args.add("-out");
             args.add(job.output.getPath());
             args.add("-outfmt");
             args.add(Integer.toString(job.format.code));
 
+
+
+            for (String parameter : parameters.keySet()) {
+                args.add("-" + parameter);
+                args.add(parameters.get(parameter).toString());
+             }
+
             state.set(JobState.RunStarted);
+            StringBuilder sb = new StringBuilder();
             String[] commandargs = args.toArray(new String[0]);
             for (int i = 0; i < commandargs.length; i++) {
                 String commandarg = commandargs[i];
                 System.out.println(commandarg + " ");
+                sb.append(commandarg + " ");
             }
-             String result = BLastTools.executeCommand( commandargs);
+            System.out.println(sb.toString());
+              String result = BLastTools.executeCommand( commandargs);
             state.set(JobState.JobFinished);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -195,8 +220,9 @@ public class SlurmLocalRunner implements IJobRunner  {
 
 
     public static void main(String[] args) throws InterruptedException {
+        Map<String, String> data = new HashMap<>();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
-        SlurmLocalRunner me = new SlurmLocalRunner(dto);
+        SlurmLocalRunner me = new SlurmLocalRunner(dto,data);
         Thread t = new Thread(me);
         t.start();
         t.join();
