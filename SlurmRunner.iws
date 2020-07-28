@@ -5,12 +5,27 @@
       <artifact name="SLURM_Runner" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="" />
+    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BuildBlastFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BuildBlastFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ScriptGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ScriptGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
@@ -28,12 +43,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JupyterTrust" id="d5e86c0d-bfdf-4e7d-b90c-e0fff54928b5" />
+  <component name="KubernetesApiPersistence">
+    <option name="context" value="minikube" />
+    <option name="namespace" value="default" />
+  </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
     <option name="FILTER_INFO" value="true" />
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
@@ -173,6 +200,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -199,13 +237,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Jetty launce" />
+      <item itemvalue="Application.Merge" />
       <item itemvalue="Application.SlurmClusterRunner EColi100" />
       <item itemvalue="Application.SlurmClusterRunner EColiFull" />
       <item itemvalue="Application.SlurmClusterRunner php56CB" />
-      <item itemvalue="Application.Merge" />
-      <item itemvalue="Application.Jetty launce" />
-      <item itemvalue="Application.JettyServer" />
       <item itemvalue="Application.Gateway" />
+      <item itemvalue="Application.JettyServer" />
       <item itemvalue="Application.MainNew" />
     </list>
     <recent_temporary>
@@ -216,6 +254,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -241,7 +280,9 @@
       <workItem from="1594934015153" duration="4246000" />
       <workItem from="1595105916266" duration="3017000" />
       <workItem from="1595201910596" duration="24252000" />
-      <workItem from="1595519116129" duration="29395000" />
+      <workItem from="1595519116129" duration="34019000" />
+      <workItem from="1595959172620" duration="2188000" />
+      <workItem from="1595966974035" duration="3494000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -271,18 +312,26 @@
       <option name="project" value="LOCAL" />
       <updated>1595950223212</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added intellij projects">
+      <created>1595950253159</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1595950253159</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Project now runs as a Jetty server" />
     <MESSAGE value="Fixes large searches" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixes large searches" />
+    <MESSAGE value="Added intellij projects" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added intellij projects" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2162" y="172" width="1030" height="846" key="#Project_Structure" timestamp="1592684107583">
@@ -315,37 +364,37 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2381" y="255" width="1031" height="680" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685921625" />
-    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2" timestamp="1595950223159">
+    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2" timestamp="1595950253095">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595950223159" />
+    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595950253095" />
     <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1594837354301">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1594837354301" />
     <state x="4599" y="554" width="430" height="485" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593041789218" />
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom" timestamp="1595896702722">
+    <state width="1710" height="508" key="GridCell.Tab.0.bottom" timestamp="1595969563252">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595896702722" />
+    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595969563252" />
     <state width="1691" height="760" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.center" timestamp="1595896702722">
+    <state width="1710" height="508" key="GridCell.Tab.0.center" timestamp="1595969563251">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595896702722" />
+    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595969563251" />
     <state width="1691" height="760" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.left" timestamp="1595896702722">
+    <state width="1710" height="508" key="GridCell.Tab.0.left" timestamp="1595969563251">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595896702722" />
+    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595969563251" />
     <state width="1691" height="760" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.right" timestamp="1595896702722">
+    <state width="1710" height="508" key="GridCell.Tab.0.right" timestamp="1595969563251">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595896702722" />
+    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595969563251" />
     <state width="1691" height="760" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
     <state width="1167" height="299" key="GridCell.Tab.1.bottom" timestamp="1592688488011">
@@ -393,24 +442,32 @@
     </state>
     <state x="1827" y="343" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595537142678" />
     <state x="3928" y="417" width="1030" height="846" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593379956242" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1595950154917">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1595950255796">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595950154917" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595950255796" />
+    <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1595951956623">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state width="845" height="500" key="XDebugger.FullValuePopup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595951956623" />
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog" timestamp="1595870714156">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595870714156" />
-    <state x="2365" y="375" width="1014" height="522" key="find.popup" timestamp="1595896269409">
+    <state x="2348" y="366" width="1014" height="522" key="find.popup" timestamp="1595969622967">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2365" y="375" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595896269409" />
+    <state x="2348" y="366" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595969622967" />
     <state x="4285" y="588" width="594" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202061047" />
     <state x="685" y="366" width="594" height="534" key="find.popup/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594746340321" />
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1595875968723">
+    <state x="2283" y="277" key="run.anything.popup" timestamp="1595954504146">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595875968723" />
+    <state x="2283" y="277" key="run.anything.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595954504146" />
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1595959940287">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595959940287" />
     <state x="4184" y="538" width="672" height="678" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202748703" />
   </component>
   <component name="XDebuggerManager">
@@ -425,11 +482,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/Gateway.java</url>
           <line>104</line>
           <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
@@ -473,18 +525,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>480</line>
+          <line>512</line>
           <option name="timeStamp" value="146" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>770</line>
-          <option name="timeStamp" value="155" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>164</line>
-          <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java</url>
@@ -497,9 +539,14 @@
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
-          <line>56</line>
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>273</line>
           <option name="timeStamp" value="159" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="161" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -33,7 +33,7 @@ public enum BLASTProgram {
         switch (program) {
             case BLASTN:
                 return new String[]{
-                        "bn_num_alignments",
+                        "bn_max_target_seqs",
                         "bn_evalue",
                         "bn_word_size",
                         "bn_match_scores",
@@ -44,7 +44,7 @@ public enum BLASTProgram {
                 };
             case BLASTP:
                 return new String[]{
-                        "bp_num_alignments",
+                        "bp_max_target_seqs",
                         "bp_evalue",
                         "bp_word_size",
                         "bp_matrix",
@@ -55,7 +55,7 @@ public enum BLASTProgram {
                 };
             case BLASTX:
                 return new String[]{
-                        "bx_num_alignments",
+                        "bx_max_target_seqs",
                         "bx_evalue",
                         "bx_word_size",
                         "bx_matrix",
@@ -66,7 +66,7 @@ public enum BLASTProgram {
                 };
             case TBLASTN:
                 return new String[]{
-                        "tbn_num_alignments",
+                        "tbn_max_target_seqs",
                         "tbn_evalue",
                         "tbn_word_size",
                         "tbn_matrix",

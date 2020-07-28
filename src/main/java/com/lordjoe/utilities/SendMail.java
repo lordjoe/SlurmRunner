@@ -63,7 +63,7 @@ public class SendMail {
             props.put("mail.smtp.auth", "false");
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", "smtp.private.list.lu");
-            props.put("mail.smtp.port", "425");
+            props.put("mail.smtp.port", "25");
          }
 
         final String pwdx = password; // allow inner class access
@@ -116,7 +116,7 @@ public class SendMail {
             props.put("mail.smtp.auth", "false");
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", "smtp.private.list.lu");
-            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.port", "25");
          }
         
         Session session = null;

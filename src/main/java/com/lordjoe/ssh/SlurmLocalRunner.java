@@ -155,7 +155,7 @@ public class SlurmLocalRunner implements IJobRunner  {
          sb.append(" -db ");
         sb.append(job.database);
 
-        sb.append("   -num_threads 32   -num_alignments 10 -evalue 1E-09 ");
+        sb.append("   -num_threads 32   -max_target_seqs 10 -evalue 1E-09 ");
 
         sb.append(" -outfmt ");
         sb.append(Integer.toString(job.format.code));

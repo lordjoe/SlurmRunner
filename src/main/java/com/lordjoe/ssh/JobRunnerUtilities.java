@@ -61,7 +61,7 @@ public class JobRunnerUtilities {
             return ret;
 
 
-        int numberAlignments = Integer.parseInt((String)parameters.get("bn_num_alignments"));
+        int numberAlignments = Integer.parseInt((String)parameters.get("bn_max_target_seqs"));
         double chancematches = Double.parseDouble((String)parameters.get("bn_evalue"));
         int wordSize = Integer.parseInt((String)parameters.get("bn_word_size"));
         String matchScores = (String)parameters.get("bn_match_scores");

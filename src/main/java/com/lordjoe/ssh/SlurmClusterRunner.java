@@ -151,9 +151,8 @@ public class SlurmClusterRunner implements IJobRunner {
             Object value = in.get(s);
             if (value != null) {
                 String key = s.substring(prefix.length());
-                ret.put(key, value);
-                parameters.put(key, value);
-            }
+                 adjustValue(key,value,ret );
+             }
         }
         String email = (String) in.get("email");
         if (email != null)
@@ -163,6 +162,26 @@ public class SlurmClusterRunner implements IJobRunner {
             parameters.put("user", email);
 
         return ret;
+    }
+
+     /**
+      * This saves parameters making adjustments
+     **/
+    private void adjustValue(String key, Object value, Map<String, Object> map) {
+        String ret =value.toString();
+        if(key.equals("gapcosts"))  {
+             String[] items = ret.split(",");
+            map.put("gapopen", items[0]);
+            parameters.put("gapopen", items[0]);
+            if(items.length > 1) {
+                map.put("gapextend", items[1]);
+                parameters.put("gapextend", items[1]);
+            }
+
+            return;
+        }
+        map.put(key, value);
+        parameters.put(key, value);
     }
 
     public void setParameters(String[] args) {
@@ -286,7 +305,6 @@ public class SlurmClusterRunner implements IJobRunner {
         usedParameters.add("db");
         usedParameters.add("outfmt");
         usedParameters.add("num_threads");
-        usedParameters.add("num_alignments");
 
 
         StringBuilder sb = new StringBuilder();
@@ -366,9 +384,23 @@ public class SlurmClusterRunner implements IJobRunner {
             String data = generateExecutionScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
             me.ftpFileCreate(file, is);
+
+            file = "sampleSubmitToCPUNode.sh";
+             data = makeSampleSubmitToCPU(data);
+             is = new ByteArrayInputStream(data.getBytes());
+            me.ftpFileCreate(file, is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String makeSampleSubmitToCPU(String data) {
+        String inputLocationDir = clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id ;
+        String inputLocation = inputLocationDir + "/splitFile001.faa";
+        data = data.replace("${filename}",inputLocation );
+        data = data.replace("${base}","splitFile001.xml");
+        data = data.replace("batchOutput$2.txt","batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
+        return data;
     }
 
 

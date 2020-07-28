@@ -39,7 +39,7 @@ public static final String SEVEN_NODES =
                        "#SBATCH --output=batchOutput$2.txt \n" +
                        " \n" +
                        "fileName=${1##*/}\n" +
-                       "srun -n1 --exclusive BLAST_PROGRAN -query $1 -db DATA_BASE -num_threads 32 -num_descriptions 10 -num_alignments 10 -evalue 1E-09 -out ~/output-blast/output$fileName$2 &\n" +
+                       "srun -n1 --exclusive BLAST_PROGRAN -query $1 -db DATA_BASE -num_threads 32 -num_descriptions 10 -max_target_seqs 10 -evalue 1E-09 -out ~/output-blast/output$fileName$2 &\n" +
                        "wait";
 
 

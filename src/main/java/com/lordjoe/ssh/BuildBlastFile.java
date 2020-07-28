@@ -35,7 +35,7 @@ public class BuildBlastFile {
          sb.append("-db ");
          sb.append(BLAST_DIR);
          sb.append("blastDBs/sorted.nr.viridiplantae");
-         sb.append(" -num_threads 32 -num_descriptions 10 -num_alignments 10 -evalue 1E-09 ");
+         sb.append(" -num_threads 32 -num_descriptions 10 -max_target_seqs 10 -evalue 1E-09 ");
          sb.append("-out ");
          sb.append(BLAST_DIR);
          sb.append("/output-blast/test_output" + UUID.randomUUID().toString() + ".xml");
