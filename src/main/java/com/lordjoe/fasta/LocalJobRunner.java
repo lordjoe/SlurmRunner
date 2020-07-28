@@ -103,11 +103,7 @@ public class LocalJobRunner {
 
 
         ret.add("-out");
-        String out;
-        if(dto.output.getParentFile() == null)
-            out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.output.getName();
-        else
-            out   = dto.output.getAbsolutePath();
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.output ;
 
          ret.add(out) ;
 
@@ -154,13 +150,13 @@ public class LocalJobRunner {
 
 
         sb.append(" -out ");
-        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.output.getName();
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.output;
         sb.append(out) ;
 
         return sb.toString();
     }
 
-    public BlastJob runLocalBlastPJob(File query, String database, File output) {
+    public BlastJob runLocalBlastPJob(File query, String database, String output) {
         try {
             BlastLaunchDTO dto = new BlastLaunchDTO(BLASTProgram.BLASTP);
             dto.query = query;
@@ -168,7 +164,7 @@ public class LocalJobRunner {
             dto.format = BLASTFormat.XML2;
             dto.output = output;
             List<File> tempFiles = new ArrayList<>();
-            tempFiles.add(output);
+            tempFiles.add(new File(output));
 
             BlastJob ret = new BlastJob(dto, tempFiles, output);
             Properties cluster = getClusterProperties(null);
@@ -187,7 +183,7 @@ public class LocalJobRunner {
             throw new RuntimeException(e);
 
         }
-    }    public BlastJob runSplitBlastPJob(File query, String database, File output) {
+    }    public BlastJob runSplitBlastPJob(File query, String database, String output) {
         try {
             BlastLaunchDTO dto = new BlastLaunchDTO(BLASTProgram.BLASTP);
             dto.query = query;
@@ -204,9 +200,7 @@ public class LocalJobRunner {
             if(!splitDirectory.mkdirs())
                 throw new UnsupportedOperationException("cannot make directory " + dto.id);
 
-            File parentFile1 = output.getParentFile();
-            if(parentFile1 == null)
-                parentFile1 = getOutputDirectory();
+            File parentFile1 =  getOutputDirectory();
             File outSplitDirectory = new File(parentFile1,dto.id);
             if(!outSplitDirectory.mkdirs())
                 throw new UnsupportedOperationException("cannot make directory " + outSplitDirectory.getAbsolutePath());
@@ -228,7 +222,7 @@ public class LocalJobRunner {
             for (File tempFile : tempFiles) {
                 String outName = BlastLaunchDTO.makeOutputName(tempFile);
                 File outFile = new File(outSplitDirectory,outName) ;
-                BlastLaunchDTO newdto =  dto.withNewQuery(tempFile,outFile);
+                BlastLaunchDTO newdto =  dto.withNewQuery(tempFile,outFile.getName());
                 List<String> commandInformation = buildCommandList(newdto);
                 for (String s : commandInformation) {
                     System.out.print (s + " ");
@@ -243,7 +237,8 @@ public class LocalJobRunner {
             }
 
 
-            mergeXMLFiles_P(output.getAbsolutePath(),outSplitDirectory.listFiles());
+            File[] inFiles = outSplitDirectory.listFiles();
+            mergeXMLFiles_P(output , inFiles);
 
             return ret;
         } catch (IOException e) {
@@ -269,7 +264,7 @@ public class LocalJobRunner {
         LocalJobRunner me = new LocalJobRunner();
 
        //  BlastJob job =  me.runLocalBlastPJob(  query,   database,   output);
-         BlastJob job = me.runSplitBlastPJob(  query,   database,   output);
+         BlastJob job = me.runSplitBlastPJob(  query,   database,   output.getName());
          if(job.finished())
              return;
     }

@@ -21,14 +21,37 @@ import java.util.Properties;
  * Date: 10/22/2019
  */
 public class ClusterSession {
-    public static final ClusterSession[] EMPTY_ARRAY = {};
+    static java.util.logging.Logger LOG = java.util.logging.Logger.getLogger(ClusterSession.class.getName());
 
+    private static boolean inUse;
+    private static ClusterSession gSession;
+
+    public synchronized static ClusterSession getClusterSession() {
+        if(gSession == null)   {
+            gSession = new ClusterSession();
+
+        }
+        if(inUse)
+            throw new UnsupportedOperationException("Session In Use");
+        inUse = true;
+        return gSession;
+
+    }
+    public synchronized static void releaseClusterSession(ClusterSession  me) {
+        inUse = false;
+    }
 
     private JSch my_jsch;
     private Session my_session;
+    private Session final_session;
     private Ssh my_ssh;
     private ChannelSftp cftp;
     private Shell my_shell;
+
+    private ClusterSession() {
+     //   SlurmClusterRunner.logMessage("Constructing Cluster Session");
+        System.out.println("Constructing Cluster Session");
+    }
 
     /**
      * just make SJ4j shut up and go away
@@ -172,9 +195,109 @@ public class ClusterSession {
 
     }
 
+    /**
+     * this will return non-null if we can talk directly to the cluster
+     * @return
+     */
+    private Session buildDirectSession() {
+        String privateKey = "/opt/blastserver/HPC.ppk";
+        String endpoint = "10.60.1.4";
+        String finaluser="zorzan";
+         JSch jsch= getJsch();
+        localUserInfo lui=new  localUserInfo();
+    //    SlurmClusterRunner.logMessage("Trying Direct Connection");
+        try {
+
+            //Connect to the HPC via the Gateway using the localhost, as the session and portforwarding are active
+            final_session = jsch.getSession(finaluser, endpoint, 22);
+            jsch.addIdentity(privateKey);
+            final_session.setUserInfo(lui);
+            final_session.setConfig("StrictHostKeyChecking", "no");
+            final_session.setTimeout(2000);
+            final_session.connect();
+             return final_session;
+        } catch (JSchException e) {
+            try {
+      //          SlurmClusterRunner.logMessage("Direct Connect failed");
+                my_jsch.removeAllIdentity();
+            } catch (JSchException jSchException) {
+                String message = jSchException.getMessage();
+            }
+             return null; // failure try proxy
+
+        }
+
+    }
+
+    public Session buildFinalSession()  {
+
+         if(final_session != null && final_session.isConnected())
+             return final_session;
+        final_session =  buildDirectSession();
+        if(final_session != null && final_session.isConnected())
+            return final_session;
+
+
+        try {
+    //        SlurmClusterRunner.logMessage("Building Proxy Connection");
+            String Gateway1="78.236.233.71"; // First level target
+            String user1="Lewis";
+            String password="List2019!";
+            // String privateKey = "C:\\Users\\Steve\\.ssh\\HPC.ppk";
+           String privateKey = "/home/Steve/.ssh/HPC.ppk";
+            String endpoint = "10.60.1.4";
+            String finaluser="zorzan";
+            String command1="ls -ltr";
+
+            JSch jsch= getJsch();
+            my_session =jsch.getSession(user1, Gateway1, 42222);
+            my_session.setPassword(password);
+            localUserInfo lui=new  localUserInfo();
+            my_session.setUserInfo(lui);
+            my_session.setConfig("StrictHostKeyChecking", "no");
+            my_session.setTimeout(5000);
+            my_session.connect();
+            my_session.openChannel("direct-tcpip");
+            //set port frowarding on the gateway session.
+            //Anything connecting on 127.0.0.1 will be redirected trough the Gateway toward the HPC, port 22
+            int assinged_port = my_session.setPortForwardingL(0, endpoint, 22);
+
+
+            //Connect to the HPC via the Gateway using the localhost, as the session and portforwarding are active
+            final_session = jsch.getSession(finaluser, "127.0.0.1", assinged_port);
+            jsch.addIdentity(privateKey);
+            final_session.setUserInfo(lui);
+            final_session.setConfig("StrictHostKeyChecking", "no");
+    //        SlurmClusterRunner.logMessage("Trying Final Connection");
+            final_session.setTimeout(5000);
+            final_session.connect();
+    //        SlurmClusterRunner.logMessage("Final Connection made");
+
+
+            return final_session;
+        } catch (JSchException e) {
+    //        SlurmClusterRunner.logMessage("Final Connection failed " + e.getMessage());
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    class localUserInfo implements UserInfo {
+        String passwd;
+        public String getPassword(){ return passwd; }
+        public boolean promptYesNo(String str){return true;}
+        public String getPassphrase(){ return null; }
+        public boolean promptPassphrase(String message){return true; }
+        public boolean promptPassword(String message){return true;}
+        public void showMessage(String message){}
+    }
+
     public Session getSession() {
-        if (my_session != null)
-            return my_session;
+        if (final_session != null && final_session.isConnected())
+            return final_session;
+        final_session = buildFinalSession();
+        if(true)
+            return final_session;
 
         try {
             JSch jsch = getJsch();
@@ -201,19 +324,25 @@ public class ClusterSession {
     }
 
     public ChannelSftp getSFTP() {
+//        SlurmClusterRunner.logMessage("Getting SFTP");
         if (cftp != null)
             return cftp;
         try {
             Session session = getSession();
-            session.connect();
-            System.out.println("Session Connected");
+            if(!session.isConnected()) {
+                session.connect();
+ //               SlurmClusterRunner.logMessage("Session Connected");
+            }
             Channel channel = session.openChannel("sftp");
-            channel.connect();
+            if(!channel.isConnected()) {
+                channel.connect();
+ //               SlurmClusterRunner.logMessage("Channel Connected");
+            }
             cftp = (ChannelSftp) channel;
-            System.out.println("Channel Connected");
 
             return cftp;
         } catch (JSchException e) {
+ //           SlurmClusterRunner.logMessage("JSchException " + e.getMessage());
             throw new RuntimeException(e);
 
         }
@@ -236,11 +365,11 @@ public class ClusterSession {
                         throw new UnsupportedOperationException("Cannot create dir " + parentFile.getAbsolutePath());
                 }
             }
-            SlurmClusterRunner.logMessage("Making file " + localFile.getAbsolutePath());
+  //          SlurmClusterRunner.logMessage("Making file " + localFile.getAbsolutePath());
 
             OutputStream output = new FileOutputStream(localFile);
 
-            SlurmClusterRunner.logMessage("Fetching remmote file " + remoteFile + " to " + localFile.getAbsolutePath());
+//            SlurmClusterRunner.logMessage("Fetching remmote file " + remoteFile + " to " + localFile.getAbsolutePath());
             c.get(remoteFile,output);            //    SftpProgressMonitor monitor=new MyProgressMonitor();
             output.close();
           } catch (SftpException e) {
@@ -251,7 +380,8 @@ public class ClusterSession {
 
     public boolean mkdir(String path) {
         try {
-            ChannelSftp sftp = getSFTP();
+            System.out.println("Making Directory " + path);
+              ChannelSftp sftp = getSFTP();
             String[] folders = path.split("/");
             for (String folder : folders) {
                 if (folder.length() > 0) {
@@ -369,22 +499,71 @@ public class ClusterSession {
      * @throws IOException
      */
     public String executeOneLineCommand(String command) throws IOException {
-        Ssh session = getSsh();
-        final Shell shell = new Shell.Verbose(session);
+        Session session = getSession();
+        String out = null;
+
+        System.out.println("Executing  " + command);
+        try {
+            //Open channel to send commands
+            Channel channel= session.openChannel("exec");
+            //Execute remote command
+            ((ChannelExec)channel).setCommand(command);
+
+            //Read remote output
+            channel.setInputStream(null);
+            InputStream in=channel.getInputStream();
+            if(!channel.isConnected()) {
+                channel.connect();
+            }
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            ByteArrayOutputStream error = new ByteArrayOutputStream();
+            channel.setOutputStream(output);
+            ((ChannelExec) channel).setErrStream(output);
+            byte[] tmp=new byte[1024];
+            while(true){
+                while(in.available()>0){
+                    int i=in.read(tmp, 0, 1024);
+                    if(i<0)break;
+                    System.out.print(new String(tmp, 0, i));
+
+                }
+                if(channel.isClosed()){
+                    int exitStatus = channel.getExitStatus();
+
+                    if(exitStatus != 0) {
+                        System.out.println("exit-status: " + exitStatus);
+
+//                        InputStream errStream = ((ChannelExec) channel).getErrStream();
+//                        String s = FileUtilities.readInFile(errStream);
+//                        System.out.println("error: " + s);
+                    }
+                    break;
+                }
+                try{Thread.sleep(1000);}catch(Exception ee){}
+            }
+
+            //Disconnect
+            channel.disconnect();
+           /*
+            shell.exec(command,
+                    new DeadInputStream(),
+                    output,
+                    error
+            );
+            */
 
 
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ByteArrayOutputStream error = new ByteArrayOutputStream();
-        shell.exec(command,
-                new DeadInputStream(),
-                output,
-                error
-        );
+            out = new String(output.toByteArray()).trim();
+            String errout = new String(error.toByteArray());
+            return out;
 
-        String out = new String(output.toByteArray());
-        String errout = new String(error.toByteArray());
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
 
-        return out;
+        }
+
+
+
     }
 
 
@@ -416,9 +595,9 @@ public class ClusterSession {
 
     public void sallocAndRun(String command, int nproocessors) {
         try {
-            SlurmClusterRunner.logMessage("Ready to salloc ");
+ //           SlurmClusterRunner.logMessage("Ready to salloc ");
             executeCommand("salloc -N" + nproocessors + " srun " + command + " & ");
-            SlurmClusterRunner.logMessage(" salloc running ");
+ //           SlurmClusterRunner.logMessage(" salloc running ");
         } catch (IOException e) {
             throw new RuntimeException(e);
 
@@ -443,7 +622,7 @@ public class ClusterSession {
             //    me.ftpFilePut(args[0], args[1]);
             //  String out = me.executeCommand("squeue -u lewis");
             String out = me.executeCommand("salloc  -u lewis");
-            SlurmClusterRunner.logMessage(out);
+  //          SlurmClusterRunner.logMessage(out);
 
         } catch (Exception e) {
 

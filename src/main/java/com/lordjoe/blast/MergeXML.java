@@ -33,17 +33,22 @@ public class MergeXML {
         writeFile("mergefile.txt",sb.toString());
         try {
             PrintWriter out = new PrintWriter(new FileWriter(outFile));
-            String header = readHeaderP(inFiles[0]);
-            int[] hitnum =  new int[1]  ;
-            out.print(header);
-            for (int i = 0; i < inFiles.length; i++) {
-                File inFile = inFiles[i];
-                sb.append(inFile.getAbsolutePath() + "\n");
-                addHits_P(out, inFile,hitnum);
+            if(inFiles != null && inFiles.length > 0) {
+                String header = readHeaderP(inFiles[0]);
+                int[] hitnum = new int[1];
+                out.print(header);
+                for (int i = 0; i < inFiles.length; i++) {
+                    File inFile = inFiles[i];
+                    sb.append(inFile.getAbsolutePath() + "\n");
+                    addHits_P(out, inFile, hitnum);
+                }
+                out.println(FOOTER_P);
+                 writeFile("mergefilemade.txt", sb.toString());
             }
-            out.println(FOOTER_P);
+            else {
+               out.println("<!-- No Data!! -->");
+            }
             out.close();
-            writeFile("mergefilemade.txt",sb.toString());
 
         } catch (IOException e) {
 

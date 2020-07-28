@@ -1,6 +1,5 @@
 package com.lordjoe.ssh;
 
-import com.lordjoe.utilities.Blowfish;
 import com.lordjoe.utilities.Encrypt;
 
 /**
@@ -10,8 +9,8 @@ import com.lordjoe.utilities.Encrypt;
  */
 public class ClusterProperties {
 
-    public static String PRIVATE_KEY1_FILE1 = "private.ppk"; //id_rsa_list.ppk";
-    public static final String PUBLIC_KEY1_FILE1 = "public.pub";
+    public static String PRIVATE_KEY1_FILE1 = "/home/Steve/.ssh/HPC.ppk";// "private.ppk"; //id_rsa_list.ppk";
+    public static final String PUBLIC_KEY1_FILE1 = "/home/Steve/.ssh/HPC.pub";// "public.pub";
 
     public static final String PASS_PHRASE1 = "Alaron&Aurana&Bob" ;
 

@@ -19,7 +19,7 @@ import java.util.Properties;
 
 public class SendMail {
 
-    public static boolean UseListSMTP = false;
+    public static boolean UseListSMTP = !System.getProperty("user.name").equalsIgnoreCase("steve");
 
     private static String g_username = "FEDER-bio-HPC-jobs@list.lu";
 
@@ -43,32 +43,41 @@ public class SendMail {
     }
 
     public static void sendMail(String recipient, String subjectline, String messagebody) {
+        if(!UseListSMTP) {
+            setUsername("lordjoe2000@gmail.com");
+            setEncrypted_password("ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==");
+        }
 
         final String username = getUsername();
-        final String password = Encrypt.decryptString(getEncrypted_password());
-
+        String encrypted_password = getEncrypted_password();
         Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        String password = null;
+        if(encrypted_password != null) {
+            password = Encrypt.decryptString(encrypted_password);
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+        }
+        else {
+            props.put("mail.smtp.auth", "false");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.private.list.lu");
+            props.put("mail.smtp.port", "425");
+         }
 
-        props.put("mail.smtp.auth", "false");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.private.list.lu");
-        props.put("mail.smtp.port", "25");
-
+        final String pwdx = password; // allow inner class access
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
+                        return new PasswordAuthentication(username, pwdx);
                     }
                 });
 
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("lordjoe2000@gmail.com"));
+            message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipient));
             //message.setSubject("Testing Subject");
@@ -80,7 +89,7 @@ public class SendMail {
 
             Transport.send(message);
 
-            System.out.println("Done");
+            System.out.println("EMail Sent");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

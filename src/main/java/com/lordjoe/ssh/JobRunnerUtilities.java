@@ -1,9 +1,9 @@
 package com.lordjoe.ssh;
 
+import com.jcraft.jsch.SftpException;
 import com.lordjoe.blast.*;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.utilities.FileUtilities;
-import com.jcraft.jsch.SftpException; //
 
 import java.io.File;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class JobRunnerUtilities {
 
 
 	private SftpException createdToForceClassLoad;
-    public static final int LOCAL_LIMIT = 110;
+    public static final int LOCAL_LIMIT = 90;
 
     public static IJobRunner createRunner(Map<String,? extends Object> parameters) {
         String userDir = System.getProperty("user.dir");
@@ -27,6 +27,7 @@ public class JobRunnerUtilities {
         if(id == null)
             id = UUID.randomUUID().toString();
         String program = (String)parameters.get("program"); //   BlastP, BlastN, BlastX, tBlastN...
+ //       SlurmClusterRunner.logMessage("Program is " + program );
         GenericBlastParameters params = GenericBlastParameters.getRealParameters(program);
         params.datalib = (String)parameters.get("datalib"); //  NR, NR/NT, SwissProt, RefSeq-Protein, ...
         params.sequencedata = (String)parameters.get("sequence");
@@ -41,14 +42,15 @@ public class JobRunnerUtilities {
         BlastLaunchDTO dto = new BlastLaunchDTO(id,BLASTProgram.fromString(program));
 
         dto.database = params.datalib;
-        dto.query = new File(params.sequenceFile);
+        File defaultJobDirectory = dto.getLocalJobDirectory();
+        dto.query = new File(defaultJobDirectory,params.sequenceFile);
         dto.format = BLASTFormat.fromCode(Integer.parseInt(params.outputFormat));
         if(dto.format == BLASTFormat.XML2) {
-            dto.output = makeXMLFileName( dto.query);
+            dto.output = makeXMLFileName( dto.query).getName();
         }
 
         int numberFasta = FastaTools.countFastaEntities( dto.query);
-        if(true && numberFasta <= LOCAL_LIMIT) {
+        if( false && numberFasta <= LOCAL_LIMIT) {
              ret = new SlurmLocalRunner(dto,parameters);
          }
         else  {
@@ -106,12 +108,8 @@ public class JobRunnerUtilities {
         if (parent != null) {
             return makeXMLFileName(parent, name);
         }
-        int index = 1;
-        File test = new File(name + index++ + ".xml");
-        while (test.exists()) {
-            test = new File(name + +index++ + ".xml");
-        }
-        return test;
+         File test = new File(name + ".xml");
+         return test;
     }
 
 

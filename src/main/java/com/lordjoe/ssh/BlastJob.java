@@ -11,9 +11,9 @@ import java.util.List;
 public class BlastJob {
     public final BlastLaunchDTO dto;
     public final List<File> outputFiles;
-    public final  File mergedOutput;
+    public final  String mergedOutput;
 
-    public BlastJob(BlastLaunchDTO dto, List<File> outputFiles, File mergedOutput) {
+    public BlastJob(BlastLaunchDTO dto, List<File> outputFiles, String mergedOutput) {
         this.dto = dto;
         this.outputFiles = outputFiles;
         this.mergedOutput = mergedOutput;
@@ -24,7 +24,7 @@ public class BlastJob {
             if(!outputFile.exists())
                 return false;
         }
-        return mergedOutput.exists();
+        return true;
     }
 
     public double fractionBlastFinished()

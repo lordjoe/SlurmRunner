@@ -5,12 +5,12 @@ import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.utilities.FileUtilities;
+import com.lordjoe.utilities.SendMail;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
@@ -20,21 +20,32 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class SlurmClusterRunner implements IJobRunner {
 
+    static Logger LOG = Logger.getLogger(SlurmClusterRunner.class.getName());
 
     @SuppressWarnings("unused")
     private com.jcraft.jsch.SftpException forceClassLoadSoNotFoundException;
     public final BlastLaunchDTO job;
     public Map<String, Object> parameters = new HashMap<>();
-    public final Properties clusterProperties = getClusterProperties("ClusterLaunchCluster.properties");
-    public final ClusterSession session = new ClusterSession();
+    public final static Properties clusterProperties = getClusterProperties("ClusterLaunchCluster.properties");
+    private PrintWriter logger;
+
+    //   public final ClusterSession session = ClusterSession.getClusterSession();
     private final AtomicReference<JobState> state = new AtomicReference<JobState>();
     private JobState lastState;
 
+    public static File getDefaultTomcatDirectory() {
+        String localDir = SlurmClusterRunner.clusterProperties.getProperty("LocalOperatingDirectory");
+        File file = new File(localDir);
+        if (!file.exists())
+            file.mkdirs();
+        return file;
+    }
 
-    public SlurmClusterRunner(BlastLaunchDTO job,  Map<String,? extends Object>  param) {
+
+    public SlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         this.job = job;
         IJobRunner.registerRunner(this);
-         filterProperties(param);
+        filterProperties(param);
 
     }
 
@@ -49,8 +60,17 @@ public class SlurmClusterRunner implements IJobRunner {
         return lastState;
     }
 
-    public static void logMessage(String s) {
-        System.out.println(s);
+    public  void logMessage(String s) {
+        try {
+            OpenLogFile();
+            LOG.warning(s);
+            logger.println(s);
+            System.out.println(s);
+            logger.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
     }
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
@@ -65,7 +85,17 @@ public class SlurmClusterRunner implements IJobRunner {
         BlastLaunchDTO ret = new BlastLaunchDTO(program);
         while (index < args.length) {
             String next = args[index];
-            SlurmClusterRunner.logMessage("Handling " + index + " value " + next);
+            System.out.println("Handling " + index + " value " + next);
+            if (next.equalsIgnoreCase("-user")) {
+                index++;
+                index++;
+                continue;
+            }
+            if (next.equalsIgnoreCase("-email")) {
+                index++;
+                index++;    // skip
+                continue;
+            }
             if (next.equalsIgnoreCase("-db")) {
                 index++;
                 database = args[index++];
@@ -103,7 +133,7 @@ public class SlurmClusterRunner implements IJobRunner {
             throw new UnsupportedOperationException("cannot handle " + next);
 
         }
-        ret.output = new File(out);
+        ret.output = out;
         ret.query = new File(query);
         ret.format = BLASTFormat.XML2;
         ret.database = database;
@@ -115,20 +145,44 @@ public class SlurmClusterRunner implements IJobRunner {
     public Map<String, ? extends Object> filterProperties(Map<String, ? extends Object> in) {
         Map<String, Object> ret = new HashMap<>();
         String[] added = BLASTProgram.relevantProperties(getJob().program);
-        String prefix =  BLASTProgram.prefix(getJob().program);
+        String prefix = BLASTProgram.prefix(getJob().program);
         for (int i = 0; i < added.length; i++) {
             String s = added[i];
             Object value = in.get(s);
-            if(value != null) {
+            if (value != null) {
                 String key = s.substring(prefix.length());
                 ret.put(key, value);
-                parameters.put(key,  value);
+                parameters.put(key, value);
             }
         }
+        String email = (String) in.get("email");
+        if (email != null)
+            parameters.put("email", email);
+        String user = (String) in.get("user");
+        if (user != null)
+            parameters.put("user", email);
+
         return ret;
     }
 
+    public void setParameters(String[] args) {
+        int index = 0;
+        while (index < args.length) {
+            String next = args[index];
+            if (next.equalsIgnoreCase("-user")) {
+                index++;
+                parameters.put("user", args[index++]);
+                continue;
+            }
+            if (next.equalsIgnoreCase("-email")) {
+                index++;
+                parameters.put("email", args[index++]);
+                continue;
+            }
+            index++;
+        }
 
+    }
 
     public static BlastLaunchDTO handleLocBlastArgs(Map<String, String> data) {
         int index = 0;
@@ -142,7 +196,7 @@ public class SlurmClusterRunner implements IJobRunner {
         program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
 
-        ret.output = new File(out);
+        ret.output = out;
         ret.query = new File(query);
         ret.format = BLASTFormat.XML2;
         return ret;
@@ -207,7 +261,7 @@ public class SlurmClusterRunner implements IJobRunner {
 
         StringBuilder sb = new StringBuilder();
         sb.append("java -jar");
-        sb.append(" " + locationOfDefaultDirectory + "/" + "SLURM_Runner.jar com.lordjoe.blast.MergeXML ");
+        sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar com.lordjoe.blast.MergeXML ");
 
         sb.append(locationOfDefaultDirectory + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
@@ -216,10 +270,25 @@ public class SlurmClusterRunner implements IJobRunner {
         sb.append(locationOfDefaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(outputx);
 
-        return sb.toString();
+        String s = sb.toString();
+        return s;
     }
 
     public String generateExecutionScript() {
+        Set<String> usedParameters = new HashSet<>();
+        // never use these
+        usedParameters.add("email");
+        usedParameters.add("user");
+        usedParameters.add("JobId");
+        // har code these
+        usedParameters.add("query");
+        usedParameters.add("out");
+        usedParameters.add("db");
+        usedParameters.add("outfmt");
+        usedParameters.add("num_threads");
+        usedParameters.add("num_alignments");
+
+
         StringBuilder sb = new StringBuilder();
         sb.append("#!/bin/bash\n" +
                 "#\n" +
@@ -242,19 +311,34 @@ public class SlurmClusterRunner implements IJobRunner {
         sb.append(" ");
 
         sb.append(" -db ");
-        sb.append(job.database);
+        // it does not liek -remote
+        sb.append(job.database.replace("-remote", ""));
 
-        sb.append("   -num_threads 32   -num_alignments 10 -evalue 1E-09 ");
+        sb.append("   -num_threads 32   ");
 
         sb.append(" -outfmt ");
         sb.append(Integer.toString(job.format.code));
 
         sb.append(" -out ");
-        sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id);
-        sb.append("/");
-        sb.append("${base}");
+        String str = clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id;
+        str += "/" + "${base}";
+        sb.append(str);
 
-        return sb.toString();
+
+        for (String parameter : parameters.keySet()) {
+            if (usedParameters.contains(parameter))
+                continue;
+            usedParameters.add(parameter);
+            sb.append(" -" + parameter);
+            String value = parameters.get(parameter).toString();
+            sb.append(" ");
+            sb.append(value);
+        }
+
+
+        String s = sb.toString();
+        System.out.println(s);
+        return s;
     }
 
 
@@ -311,15 +395,52 @@ public class SlurmClusterRunner implements IJobRunner {
         }
     }
 
-    public void waitEmptyJobQueue(ClusterSession me) {
+    public static Set<Integer> getJobNumbers(ClusterSession me) {
+        String user = clusterProperties.getProperty("UserName");
+        return getJobNumbers(me, user);
+    }
+
+    public static Set<Integer> getJobNumbers(ClusterSession me, String user) {
         try {
-            String user = clusterProperties.getProperty("UserName");
+            Set<Integer> ret = new HashSet<>();
             String answer = me.executeOneLineCommand("squeue -u " + user);
-            while (answer.contains(user)) {
-                answer = me.executeOneLineCommand("squeue -u " + user);
+            String[] items = answer.split("\n");
+            for (String item : items) {
+                if (item.contains(user)) {
+                    ret.add(parseJobId(item));
+                }
             }
+            return ret;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static Integer parseJobId(String item) {
+        item = item.trim();
+        int index = item.indexOf(" ");
+        String s = item.substring(0, index).trim();
+        return new Integer(s);
+    }
+
+    public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
+        justSleep(2000); // make sure we have jobs
+        String user = clusterProperties.getProperty("UserName");
+        Set<Integer> current;
+        while (true) {
+            current = getJobNumbers(me, user);
+            current.removeAll(priors);
+            if (current.isEmpty())
+                return;
+            justSleep(1000);
+        }
+
+    }
+
+    public static void justSleep(int millisec) {
+        try {
+            Thread.sleep(millisec);
+        } catch (InterruptedException e) {
         }
     }
 
@@ -328,40 +449,40 @@ public class SlurmClusterRunner implements IJobRunner {
     }
 
     public void writeScripts() {
-        String defaultDirectory = clusterProperties.getProperty("LocationOfDefaultDirectory");
-        ClusterSession me = new ClusterSession();
-        if (!me.cd(defaultDirectory))
-            throw new IllegalStateException("cannot change to defaultDirectory");
-
-        String outputDirectoryOnCluster = clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id;
-        me.mkdir(outputDirectoryOnCluster);
-
-        if (!me.cd(defaultDirectory))
-            throw new IllegalStateException("cannot change to defaultDirectory");
-
-        if (!me.cd(defaultDirectory))
-            throw new IllegalStateException("cannot change to defaultDirectory");
-        String directoryOnCluster = clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id;
-        me.mkdir(directoryOnCluster);
-
-
-        if (!me.cd(defaultDirectory))
-            throw new IllegalStateException("cannot change to defaultDirectory");
-        directoryOnCluster = clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id;
-        me.mkdir(directoryOnCluster);
-
-
-        writeExecutionScript(me);
-        writeMergerScript(me);
-        writeIterationScript(me);
-
-
-        if (!me.cd(defaultDirectory))
-            throw new IllegalStateException("cannot change to defaultDirectory");
-
         try {
-            me.executeCommand("chmod a+x " + defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/*");
-            me.executeCommand("chmod a+rw " + defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id);
+            String defaultDirectory = clusterProperties.getProperty("LocationOfDefaultDirectory");
+            ClusterSession me = ClusterSession.getClusterSession();
+            if (!me.cd(defaultDirectory))
+                throw new IllegalStateException("cannot change to defaultDirectory");
+
+            String outputDirectoryOnCluster = clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id;
+            me.mkdir(outputDirectoryOnCluster);
+
+
+            if (!me.cd(defaultDirectory))
+                throw new IllegalStateException("cannot change to defaultDirectory");
+
+            String directoryOnCluster = clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id;
+            me.mkdir(directoryOnCluster);
+
+
+            if (!me.cd(defaultDirectory))
+                throw new IllegalStateException("cannot change to defaultDirectory");
+            directoryOnCluster = clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id;
+            me.mkdir(directoryOnCluster);
+
+
+            writeExecutionScript(me);
+            writeMergerScript(me);
+            writeIterationScript(me);
+
+
+            if (!me.cd(defaultDirectory))
+                throw new IllegalStateException("cannot change to defaultDirectory");
+
+            me.executeOneLineCommand("chmod a+x " + defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/*");
+            me.executeOneLineCommand("chmod a+rw " + defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id);
+            ClusterSession.releaseClusterSession(me);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -369,7 +490,10 @@ public class SlurmClusterRunner implements IJobRunner {
 
     public File splitQuery(File in) {
         int numberEntries = FastaTools.countFastaEntities(in);
-        int splitSize = (numberEntries / 7);
+
+        int splitSize = numberEntries;
+        if (numberEntries > 70)
+            splitSize = (numberEntries / 7);
 
         File outDirectory = new File(clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();
@@ -387,7 +511,7 @@ public class SlurmClusterRunner implements IJobRunner {
             if (files != null) {
                 String directoryOnCluster = clusterProperties.getProperty("LocationOfDefaultDirectory") +
                         clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id;
-                ClusterSession me = new ClusterSession();
+                ClusterSession me = ClusterSession.getClusterSession();
                 me.mkdir(directoryOnCluster);
 
 //                try {
@@ -412,6 +536,7 @@ public class SlurmClusterRunner implements IJobRunner {
                     files[i].delete();
                 }
                 outDirectory.delete();
+                ClusterSession.releaseClusterSession(me);
 
             }
         } catch (Exception e) {
@@ -424,7 +549,7 @@ public class SlurmClusterRunner implements IJobRunner {
     private void cleanUp() {
         String directoryOnCluster = clusterProperties.getProperty("LocationOfDefaultDirectory") +
                 clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id;
-        ClusterSession me = new ClusterSession();
+        ClusterSession me = ClusterSession.getClusterSession();
         ChannelSftp sftp = me.getSFTP();
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
         directoryOnCluster = clusterProperties.getProperty("LocationOfDefaultDirectory") +
@@ -434,32 +559,40 @@ public class SlurmClusterRunner implements IJobRunner {
                 clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
 
+        ClusterSession.releaseClusterSession(me);
     }
 
     private void guaranteeJarFile(int call) {
-        File local = new File("SLURM_Runner.jar");
+        File defaultDir = new File("/opt/blastserver");
+        File local = new File(defaultDir,"SLURM_Runner.jar");
         if (!local.exists()) {
             String path = local.getAbsolutePath();
             throw new IllegalStateException("local jar not found at " + path);
         }
         long size = local.length();
-
+        logMessage("LocalFileFound");
         try {
             String remoteFile = clusterProperties.getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
-            ClusterSession me = new ClusterSession();
+            ClusterSession me = ClusterSession.getClusterSession();
             ChannelSftp sftp = me.getSFTP();
             SftpATTRS fileStat = null;
             try {
                 fileStat = sftp.lstat(remoteFile);
                 long remotesize = fileStat.getSize();
-                if (remotesize == size)
+                if (remotesize == size) {
+                    ClusterSession.releaseClusterSession(me);
+                    logMessage("Remote Jar Same");
                     return;
+                }
             } catch (SftpException e) {
                 FileInputStream is = new FileInputStream(local);
                 me.ftpFileCreate(remoteFile, is);
+                logMessage("Remote Jar Downloaded");
                 if (call == 0)
                     guaranteeJarFile(call + 1);
             }
+            ClusterSession.releaseClusterSession(me);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
 
@@ -469,98 +602,153 @@ public class SlurmClusterRunner implements IJobRunner {
     }
 
     private void sendEmail() {
+        String recipient = (String) parameters.get("email");
+        String subjectline = "Your BLAST Analysis is complete";
+        String messagebody = "The results are attached!";
+
+        messagebody += "output is here " + buildDownloadUrl();
+
+        logMessage("readyToSendEmail");
+        SendMail.sendMail(recipient, subjectline, messagebody);
+        logMessage("emailSent");
+    }
+
+    private String buildDownloadUrl() {
+        StringBuilder sb = new StringBuilder();
+        String tomcatURL = clusterProperties.getProperty("TomcatUrl");
+        sb.append(tomcatURL);
+        sb.append("?filename=");
+        sb.append(job.output);
+        sb.append("&directory=");
+        sb.append(job.id);
+
+        return sb.toString();
     }
 
 
     @Override
     public void run() {
         try {
+            String defaultDirectory = clusterProperties.getProperty("LocationOfDefaultDirectory");
 
-            state.set(JobState.RunStarted);
 
-            SlurmClusterRunner.logMessage("guaranteeJarFile");
+
+            logMessage("guaranteeJarFile");
             guaranteeJarFile(0);
 
 
-            String defaultDirectory = clusterProperties.getProperty("LocationOfDefaultDirectory");
-            ClusterSession session = new ClusterSession();
+            ClusterSession session = ClusterSession.getClusterSession();
+
             if (!session.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
+            logMessage("Directory Guaranteed");
+            setState(JobState.JarGuaranteed);
 
-            SlurmClusterRunner.logMessage("test default directory");
-            state.set(JobState.JarGuaranteed);
 
-
-            String pwd = session.executeOneLineCommand("pwd");
+            ClusterSession.releaseClusterSession(session);
             File outDirectory = splitQuery(job.query);
             writeScripts();
-            SlurmClusterRunner.logMessage("writeScripts");
-            state.set(JobState.ScriptsWritten);
+             logMessage("writeScripts");
+            setState(JobState.ScriptsWritten);
 
             transferFilesToCluster();
-            state.set(JobState.InputUploaded);
-            SlurmClusterRunner.logMessage("transferFilesToCluster");
+            setState(JobState.InputUploaded);
+             logMessage("transferFilesToCluster");
 
-            SlurmClusterRunner.logMessage("Clean up directory " + outDirectory.getAbsolutePath());
+            logMessage("Clean up directory " + outDirectory.getAbsolutePath());
             FileUtilities.expungeDirectory(outDirectory);
-            SlurmClusterRunner.logMessage("clean split");
+             logMessage("clean split");
+
+            // what is the user running before we start
+            Set<Integer> priors = getJobNumbers(session);
 
             String command = defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "runBlast.sh";
-            state.set(JobState.BlastCalled);
+            setState(JobState.BlastCalled);
 
             session.executeOneLineCommand(command);
-            waitEmptyJobQueue(session);
-            SlurmClusterRunner.logMessage("blast run");
-            state.set(JobState.BlastFinished);
+            waitEmptyJobQueue(session, priors);
+             logMessage("blast run");
+            setState(JobState.BlastFinished);
 
+            // what is the user running before we start
+            priors = getJobNumbers(session);
 
-            command = defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
+            command = "salloc " + defaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
             session.executeOneLineCommand(command);
-            waitEmptyJobQueue(session);
-            SlurmClusterRunner.logMessage("files merged");
-            state.set(JobState.FilesMerged);
+
+            waitEmptyJobQueue(session, priors);
+            logMessage("files merged");
+            setState(JobState.FilesMerged);
 
 
-            ChannelSftp sftp = session.getSFTP();
+       //     ChannelSftp sftp = session.getSFTP();
             String output = job.output.toString().replace("\\", "/");
-            String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
+            String outputx = output.substring(Math.max(0, output.indexOf("/") ));
             StringBuilder sb = new StringBuilder();
 
             sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
             sb.append(outputx);
 
+
             String mergedOutput = sb.toString();
-            session.ftpFileGet(job.output, mergedOutput);
-            SlurmClusterRunner.logMessage("output fetched");
-            state.set(JobState.OututDownloaded);
+
+            File outfile = new File(job.getLocalJobDirectory(), job.output);
+            session.ftpFileGet(outfile, mergedOutput);
+             setState(JobState.OututDownloaded);
 
 
-            cleanUp();
-            state.set(JobState.FilesCleanedUp);
+            //     cleanUp();
+            setState(JobState.FilesCleanedUp);
 
             sendEmail();
-            state.set(JobState.NotificationSent);
+            setState(JobState.NotificationSent);
+            ClusterSession.releaseClusterSession(session);
 
-            state.set(JobState.JobFinished);
-            SlurmClusterRunner.logMessage(job.id);
+            setState(JobState.JobFinished);
+            logMessage(job.id + " is completed");
+            logger.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
-            state.set(JobState.Failed);
+            logMessage(getStaceTraceString(e));
+            setState(JobState.Failed);
+         }
+    }
+
+    public static String getStaceTraceString(Exception e)  {
+        StringBuilder sb = new StringBuilder();
+
+         StackTraceElement[] stackTrace = e.getStackTrace();
+        for (int i = 0; i < stackTrace.length; i++) {
+             sb.append(stackTrace[i].toString() + "\n");
 
         }
+        return sb.toString();
+    }
+
+    private void setState(JobState j) {
+        logMessage(j.toString());
+         state.set(j);
+    }
+
+    public void OpenLogFile() throws IOException {
+        File base = new File("/opt/blastserver") ;
+        File jobdir = new File(base,job.id);
+        jobdir.mkdirs();
+        File logFile = new File(jobdir,"log.txt");
+        FileWriter writer = new FileWriter(logFile,true); // append
+        logger = new PrintWriter(writer);
     }
 
 
     public static SlurmClusterRunner run(Map<String, String> data) {
         ClusterSession.fixLogging();
-        SlurmClusterRunner.logMessage("Starting SlurmClusterRunner");
-        BlastLaunchDTO dto = handleLocBlastArgs(data);
-        SlurmClusterRunner.logMessage(" id " + dto.id);
-        SlurmClusterRunner.logMessage(" query " + dto.query.getAbsolutePath());
-        SlurmClusterRunner.logMessage(" db " + dto.database);
-        SlurmClusterRunner.logMessage(" out " + dto.output.getAbsolutePath());
-        SlurmClusterRunner me = new SlurmClusterRunner(dto,data);
+         BlastLaunchDTO dto = handleLocBlastArgs(data);
+          SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        me.logMessage("Starting SlurmClusterRunner");
+        me.logMessage(" id " + dto.id);
+        me.logMessage(" query " + dto.query.getAbsolutePath());
+        me.logMessage(" db " + dto.database);
+        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.output));
 
         new Thread(me).start();
 
@@ -570,13 +758,15 @@ public class SlurmClusterRunner implements IJobRunner {
     public static SlurmClusterRunner run(String[] args) {
         Map<String, String> data = new HashMap<>();
         ClusterSession.fixLogging();
-        SlurmClusterRunner.logMessage("Starting SlurmClusterRunner");
         BlastLaunchDTO dto = handleLocBlastArgs(args);
-        SlurmClusterRunner.logMessage(" id " + dto.id);
-        SlurmClusterRunner.logMessage(" query " + dto.query.getAbsolutePath());
-        SlurmClusterRunner.logMessage(" db " + dto.database);
-        SlurmClusterRunner.logMessage(" out " + dto.output.getAbsolutePath());
-        SlurmClusterRunner me = new SlurmClusterRunner(dto,data);
+         SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        me.setParameters(args);
+
+        me.logMessage("Starting SlurmClusterRunner");
+        me.logMessage(" id " + dto.id);
+        me.logMessage(" query " + dto.query.getAbsolutePath());
+        me.logMessage(" db " + dto.database);
+        me.logMessage(" out " + dto.output);
 
         new Thread(me).start();
 

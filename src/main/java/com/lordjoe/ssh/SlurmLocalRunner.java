@@ -57,7 +57,7 @@ public class SlurmLocalRunner implements IJobRunner  {
 
 
         }
-        ret.output = new File(out);
+        ret.output = out;
         ret.query = new File(query);
         ret.format = BLASTFormat.XML2;
         ret.database = database;
@@ -131,6 +131,9 @@ public class SlurmLocalRunner implements IJobRunner  {
                 parameters.put(key,  value);
             }
         }
+        String email = (String)in.get("email") ;
+        if(email != null)
+            parameters.put("email",  email);
         return ret;
     }
 
@@ -185,15 +188,22 @@ public class SlurmLocalRunner implements IJobRunner  {
             args.add("-db");
             args.add(job.database.replace("-remote",""));
             args.add("-out");
-            args.add(job.output.getPath());
+            args.add(job.output);
             args.add("-outfmt");
             args.add(Integer.toString(job.format.code));
 
 
 
             for (String parameter : parameters.keySet()) {
+                if(parameter.equalsIgnoreCase("email"))
+                    continue;
+                if(parameter.equalsIgnoreCase("user"))
+                    continue;
+                if(parameter.equalsIgnoreCase("JobId"))
+                    continue;
                 args.add("-" + parameter);
-                args.add(parameters.get(parameter).toString());
+                String value = parameters.get(parameter).toString();
+                args.add(value);
              }
 
             state.set(JobState.RunStarted);

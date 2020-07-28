@@ -52,6 +52,7 @@ public class JettyServer {
         // This handler then needs to be registered with the Server object.
         ServletHandler handler = new ServletHandler();
         server.setHandler(handler);
+        
 
         handler.addServletWithMapping(PingServlet.class, "/ping");
         handler.addServletWithMapping(StopServlet.class, "/stop");
@@ -102,6 +103,7 @@ public class JettyServer {
             }
 
             conn.disconnect();
+            System.out.println(answer);
             return answer.toString();
 
         } catch (MalformedURLException e) {

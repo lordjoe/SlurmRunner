@@ -14,7 +14,7 @@ public class BlastLaunchDTO {
     public String database;
     public File query;   // original file
     public BLASTFormat format;
-    public File output;
+    public String output;
 
 
 
@@ -46,7 +46,7 @@ public class BlastLaunchDTO {
         return sb.toString();
     }
 
-    public BlastLaunchDTO  withNewQuery(File newQuery,File output)  {
+    public BlastLaunchDTO  withNewQuery(File newQuery,String output)  {
         BlastLaunchDTO ret = new BlastLaunchDTO(program);
         ret.database = database;
         ret.format = format;
@@ -59,5 +59,14 @@ public class BlastLaunchDTO {
         String name = in.getName();
         String base = name.substring(0,name.lastIndexOf('.')) ;
         return base + ".xml";
+    }
+
+    public File getLocalJobDirectory() {
+        File f = SlurmClusterRunner.getDefaultTomcatDirectory();
+        File jobDir = new File(f,id);
+        if(!jobDir.exists())   {
+            jobDir.mkdirs();
+        }
+        return jobDir;
     }
 }

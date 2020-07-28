@@ -41,14 +41,14 @@ public class BlastNRunner extends BlastRunnerTemplate {
     }
 
     private static void runOnCluster(BlastLaunchDTO dto,ClusterLauncher cl) {
-        ClusterSession  me = new ClusterSession();
+        ClusterSession  me = ClusterSession.getClusterSession();
 
         File tempDir = new File(dto.id);
         List<File> files = cl.buildFileSplit(tempDir);
         List<File> outfiles = makeOutputFiles(files);
 
 
-
+       ClusterSession.releaseClusterSession(me);
 
     }
 

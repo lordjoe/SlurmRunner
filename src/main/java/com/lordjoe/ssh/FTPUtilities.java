@@ -13,12 +13,13 @@ import java.io.File;
 public class FTPUtilities {
 
     public  static void createFile(String[] args)  {
-        ClusterSession  me = new ClusterSession();
+        ClusterSession  me =  ClusterSession.getClusterSession();
         try {
             String command = FileUtilities.readInFile(new File(args[0]));
             me.ftpFileCreate(args[1], command);
             Session session = me.getSession();
             session.disconnect();
+            ClusterSession.releaseClusterSession(me);
             System.out.println("Done");
         } catch (Exception e) {
 
@@ -28,13 +29,14 @@ public class FTPUtilities {
     }
 
     public  static void downloadFile(String[] args)  {
-        ClusterSession  me = new ClusterSession();
+        ClusterSession  me = ClusterSession.getClusterSession();
         try {
             String local = args[1];
             String remote = args[0];
             me.ftpFileGet(new File(local), remote);
              Session session = me.getSession();
             session.disconnect();
+            ClusterSession.releaseClusterSession(me);
             System.out.println("Done");
         } catch (Exception e) {
 

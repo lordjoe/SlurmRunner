@@ -58,6 +58,7 @@ public class BlastLaunchServlet extends HttpServlet {
             String s = json.toString().replace(",",",\n");
        //     System.out.println(s);
             Map<String,Object> map = json.toMap();
+
             IJobRunner runner = JobRunnerUtilities.createRunner(map);
 
 

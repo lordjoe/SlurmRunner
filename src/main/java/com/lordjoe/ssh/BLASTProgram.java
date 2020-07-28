@@ -48,7 +48,7 @@ public enum BLASTProgram {
                         "bp_evalue",
                         "bp_word_size",
                         "bp_matrix",
-              //          "bp_gapcosts",
+                        "bp_gapcosts",
                         "bp_filter1",
                         "bp_filter2",
 
