@@ -191,6 +191,7 @@ public class LocalJobRunner {
             dto.format = BLASTFormat.XML2;
             dto.output = output;
 
+            boolean isXML = true;
 
             File parentFile = query.getParentFile();
             if(parentFile == null)
@@ -220,7 +221,7 @@ public class LocalJobRunner {
             BlastJob ret = new BlastJob(dto, tempFiles, output);
 
             for (File tempFile : tempFiles) {
-                String outName = BlastLaunchDTO.makeOutputName(tempFile);
+                String outName = BlastLaunchDTO.makeOutputName(tempFile,isXML);
                 File outFile = new File(outSplitDirectory,outName) ;
                 BlastLaunchDTO newdto =  dto.withNewQuery(tempFile,outFile.getName());
                 List<String> commandInformation = buildCommandList(newdto);

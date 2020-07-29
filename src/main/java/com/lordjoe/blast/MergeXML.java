@@ -15,7 +15,7 @@ public class MergeXML {
     public static final String FOOTER_P =
             "</BlastXML2>\n";
 
-    
+
     public static void writeFile(String fileName, String data)    {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(new File(fileName)));
@@ -57,35 +57,6 @@ public class MergeXML {
         }
     }
 
-    private static void addHits_N(PrintWriter out, File inFile,int[] hitnum) {
-        try {
-            LineNumberReader rdr = new LineNumberReader(new FileReader(inFile));
-            String line = rdr.readLine();
-            while(line != null && !line.startsWith("<Iteration>"))
-                line = rdr.readLine();
-            while (line != null) {
-                if(line.startsWith("  <Iteration_iter-num>") ) {
-                    hitnum[0]++;
-                    line =  "  <Iteration_iter-num>" +   hitnum[0] +   "</Iteration_iter-num>";
-                }
-                if( line.startsWith("  <Iteration_query-ID>Query_") )  {
-                    line =  "  <Iteration_query-ID>Query_" +   hitnum[0] +   "</Iteration_query-ID>";
-                }
-                if (line.startsWith("</BlastOutput_iterations>")) {
-                    rdr.close();
-                    return;
-                }
-                out.println(line);
-                line = rdr.readLine();
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-
-    }
-
     private static void addHits_P(PrintWriter out, File inFile,int[] hitnum) {
         try {
             System.out.println(inFile.getAbsolutePath());
@@ -109,27 +80,7 @@ public class MergeXML {
 
     }
 
-    private static String readHeaderN(File inFile) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            LineNumberReader rdr = new LineNumberReader(new FileReader(inFile));
-            String line = rdr.readLine();
-            while (line != null) {
-                if (line.trim().startsWith("<Iteration>")) {
-                    rdr.close();
-                    return sb.toString();
-                }
-                sb.append(line);
-                sb.append("\n");
-                line = rdr.readLine();
-            }
 
-            return sb.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
     private static String readHeaderP(File inFile) {
         try {
             StringBuilder sb = new StringBuilder();

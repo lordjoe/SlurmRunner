@@ -45,8 +45,12 @@ public class JobRunnerUtilities {
         File defaultJobDirectory = dto.getLocalJobDirectory();
         dto.query = new File(defaultJobDirectory,params.sequenceFile);
         dto.format = BLASTFormat.fromCode(Integer.parseInt(params.outputFormat));
-        if(dto.format == BLASTFormat.XML2) {
+        if(dto.format == BLASTFormat.XML2 || dto.format == BLASTFormat.XML ) {
             dto.output = makeXMLFileName( dto.query).getName();
+        }
+        else {
+            dto.output = makeTxtFileName( dto.query).getName();
+
         }
 
         int numberFasta = FastaTools.countFastaEntities( dto.query);
@@ -106,21 +110,24 @@ public class JobRunnerUtilities {
         String name = f.getName();
         name = name.substring(0, name.lastIndexOf("."));
         if (parent != null) {
-            return makeXMLFileName(parent, name);
+            return new File(parent, name +  ".xml");
         }
-         File test = new File(name + ".xml");
-         return test;
-    }
-
-
-    private static File makeXMLFileName(File parent, String name) {
-        int index = 1;
-        File test = new File(parent, name + index++ + ".xml");
-        while (test.exists()) {
-            test = new File(parent, name + index++ + ".xml");
-        }
+        File test = new File(name + ".xml");
         return test;
     }
+
+      private static File makeTxtFileName(File f) {
+        File parent = f.getParentFile();
+        String name = f.getName();
+        name = name.substring(0, name.lastIndexOf("."));
+        if (parent != null) {
+           return new File(parent, name +  ".txt");
+        }
+        File test = new File(name + ".txt");
+        return test;
+    }
+
+
 
     public static void main(String[] args) {
         Map<String, String> map = BLASTRunnerServlet.readParameters(new File(args[0]));

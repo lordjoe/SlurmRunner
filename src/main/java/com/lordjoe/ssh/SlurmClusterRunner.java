@@ -28,6 +28,8 @@ public class SlurmClusterRunner implements IJobRunner {
     public Map<String, Object> parameters = new HashMap<>();
     public final static Properties clusterProperties = getClusterProperties("ClusterLaunchCluster.properties");
     private PrintWriter logger;
+    private boolean xml = true;
+
 
     //   public final ClusterSession session = ClusterSession.getClusterSession();
     private final AtomicReference<JobState> state = new AtomicReference<JobState>();
@@ -44,6 +46,7 @@ public class SlurmClusterRunner implements IJobRunner {
 
     public SlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         this.job = job;
+        setXml(job.format == BLASTFormat.XML2 || job.format == BLASTFormat.XML);
         IJobRunner.registerRunner(this);
         filterProperties(param);
 
@@ -60,7 +63,7 @@ public class SlurmClusterRunner implements IJobRunner {
         return lastState;
     }
 
-    public  void logMessage(String s) {
+    public void logMessage(String s) {
         try {
             OpenLogFile();
             LOG.warning(s);
@@ -135,6 +138,8 @@ public class SlurmClusterRunner implements IJobRunner {
         }
         ret.output = out;
         ret.query = new File(query);
+        if (true)
+            throw new UnsupportedOperationException("Fix This"); // ToDo
         ret.format = BLASTFormat.XML2;
         ret.database = database;
         return ret;
@@ -151,8 +156,8 @@ public class SlurmClusterRunner implements IJobRunner {
             Object value = in.get(s);
             if (value != null) {
                 String key = s.substring(prefix.length());
-                 adjustValue(key,value,ret );
-             }
+                adjustValue(key, value, ret);
+            }
         }
         String email = (String) in.get("email");
         if (email != null)
@@ -164,16 +169,16 @@ public class SlurmClusterRunner implements IJobRunner {
         return ret;
     }
 
-     /**
-      * This saves parameters making adjustments
+    /**
+     * This saves parameters making adjustments
      **/
     private void adjustValue(String key, Object value, Map<String, Object> map) {
-        String ret =value.toString();
-        if(key.equals("gapcosts"))  {
-             String[] items = ret.split(",");
+        String ret = value.toString();
+        if (key.equals("gapcosts")) {
+            String[] items = ret.split(",");
             map.put("gapopen", items[0]);
             parameters.put("gapopen", items[0]);
-            if(items.length > 1) {
+            if (items.length > 1) {
                 map.put("gapextend", items[1]);
                 parameters.put("gapextend", items[1]);
             }
@@ -217,6 +222,8 @@ public class SlurmClusterRunner implements IJobRunner {
 
         ret.output = out;
         ret.query = new File(query);
+        if (true)
+            throw new UnsupportedOperationException("Fix This"); // ToDo
         ret.format = BLASTFormat.XML2;
         return ret;
 
@@ -280,18 +287,33 @@ public class SlurmClusterRunner implements IJobRunner {
 
         StringBuilder sb = new StringBuilder();
         sb.append("java -jar");
-        sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar com.lordjoe.blast.MergeXML ");
+
+        sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar ");
+        if(isXml())
+            sb.append(" com.lordjoe.blast.MergeXML ") ;
+        else
+            sb.append(" com.lordjoe.blast.MergeTXT ") ;
+
 
         sb.append(locationOfDefaultDirectory + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
         String output = job.output.toString().replace("\\", "/");
-        String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
+    //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
         sb.append(locationOfDefaultDirectory + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
-        sb.append(outputx);
+        sb.append(output);
 
         String s = sb.toString();
         return s;
     }
+
+    public boolean isXml() {
+        return xml;
+    }
+
+    public void setXml(boolean xml) {
+        this.xml = xml;
+    }
+
 
     public String generateExecutionScript() {
         Set<String> usedParameters = new HashSet<>();
@@ -318,7 +340,11 @@ public class SlurmClusterRunner implements IJobRunner {
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
-        sb.append("base=${base1}.xml\n");
+        if(isXml())
+            sb.append("base=${base1}.xml\n");
+        else
+            sb.append("base=${base1}.txt\n");
+
         sb.append("export BLASTDB=" + clusterProperties.getProperty("LocationOfDatabaseFiles") + "\n");
 
         String program = clusterProperties.getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
@@ -386,8 +412,8 @@ public class SlurmClusterRunner implements IJobRunner {
             me.ftpFileCreate(file, is);
 
             file = "sampleSubmitToCPUNode.sh";
-             data = makeSampleSubmitToCPU(data);
-             is = new ByteArrayInputStream(data.getBytes());
+            data = makeSampleSubmitToCPU(data);
+            is = new ByteArrayInputStream(data.getBytes());
             me.ftpFileCreate(file, is);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -395,11 +421,15 @@ public class SlurmClusterRunner implements IJobRunner {
     }
 
     private String makeSampleSubmitToCPU(String data) {
-        String inputLocationDir = clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id ;
+        String inputLocationDir = clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id;
         String inputLocation = inputLocationDir + "/splitFile001.faa";
-        data = data.replace("${filename}",inputLocation );
-        data = data.replace("${base}","splitFile001.xml");
-        data = data.replace("batchOutput$2.txt","batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
+        data = data.replace("${filename}", inputLocation);
+        if(isXml())
+            data = data.replace("${base}", "splitFile001.xml");
+        else
+            data = data.replace("${base}", "splitFile001.txt");
+
+        data = data.replace("batchOutput$2.txt", "batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
         return data;
     }
 
@@ -596,7 +626,7 @@ public class SlurmClusterRunner implements IJobRunner {
 
     private void guaranteeJarFile(int call) {
         File defaultDir = new File("/opt/blastserver");
-        File local = new File(defaultDir,"SLURM_Runner.jar");
+        File local = new File(defaultDir, "SLURM_Runner.jar");
         if (!local.exists()) {
             String path = local.getAbsolutePath();
             throw new IllegalStateException("local jar not found at " + path);
@@ -664,7 +694,6 @@ public class SlurmClusterRunner implements IJobRunner {
             String defaultDirectory = clusterProperties.getProperty("LocationOfDefaultDirectory");
 
 
-
             logMessage("guaranteeJarFile");
             guaranteeJarFile(0);
 
@@ -680,16 +709,16 @@ public class SlurmClusterRunner implements IJobRunner {
             ClusterSession.releaseClusterSession(session);
             File outDirectory = splitQuery(job.query);
             writeScripts();
-             logMessage("writeScripts");
+            logMessage("writeScripts");
             setState(JobState.ScriptsWritten);
 
             transferFilesToCluster();
             setState(JobState.InputUploaded);
-             logMessage("transferFilesToCluster");
+            logMessage("transferFilesToCluster");
 
             logMessage("Clean up directory " + outDirectory.getAbsolutePath());
             FileUtilities.expungeDirectory(outDirectory);
-             logMessage("clean split");
+            logMessage("clean split");
 
             // what is the user running before we start
             Set<Integer> priors = getJobNumbers(session);
@@ -699,7 +728,7 @@ public class SlurmClusterRunner implements IJobRunner {
 
             session.executeOneLineCommand(command);
             waitEmptyJobQueue(session, priors);
-             logMessage("blast run");
+            logMessage("blast run");
             setState(JobState.BlastFinished);
 
             // what is the user running before we start
@@ -713,9 +742,9 @@ public class SlurmClusterRunner implements IJobRunner {
             setState(JobState.FilesMerged);
 
 
-       //     ChannelSftp sftp = session.getSFTP();
+            //     ChannelSftp sftp = session.getSFTP();
             String output = job.output.toString().replace("\\", "/");
-            String outputx = output.substring(Math.max(0, output.indexOf("/") ));
+            String outputx = output.substring(Math.max(0, output.indexOf("/")));
             StringBuilder sb = new StringBuilder();
 
             sb.append(clusterProperties.getProperty("LocationOfDefaultDirectory") + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
@@ -726,7 +755,7 @@ public class SlurmClusterRunner implements IJobRunner {
 
             File outfile = new File(job.getLocalJobDirectory(), job.output);
             session.ftpFileGet(outfile, mergedOutput);
-             setState(JobState.OututDownloaded);
+            setState(JobState.OututDownloaded);
 
 
             //     cleanUp();
@@ -743,15 +772,15 @@ public class SlurmClusterRunner implements IJobRunner {
             System.out.println(e.getMessage());
             logMessage(getStaceTraceString(e));
             setState(JobState.Failed);
-         }
+        }
     }
 
-    public static String getStaceTraceString(Exception e)  {
+    public static String getStaceTraceString(Exception e) {
         StringBuilder sb = new StringBuilder();
 
-         StackTraceElement[] stackTrace = e.getStackTrace();
+        StackTraceElement[] stackTrace = e.getStackTrace();
         for (int i = 0; i < stackTrace.length; i++) {
-             sb.append(stackTrace[i].toString() + "\n");
+            sb.append(stackTrace[i].toString() + "\n");
 
         }
         return sb.toString();
@@ -759,23 +788,23 @@ public class SlurmClusterRunner implements IJobRunner {
 
     private void setState(JobState j) {
         logMessage(j.toString());
-         state.set(j);
+        state.set(j);
     }
 
     public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver") ;
-        File jobdir = new File(base,job.id);
+        File base = new File("/opt/blastserver");
+        File jobdir = new File(base, job.id);
         jobdir.mkdirs();
-        File logFile = new File(jobdir,"log.txt");
-        FileWriter writer = new FileWriter(logFile,true); // append
+        File logFile = new File(jobdir, "log.txt");
+        FileWriter writer = new FileWriter(logFile, true); // append
         logger = new PrintWriter(writer);
     }
 
 
     public static SlurmClusterRunner run(Map<String, String> data) {
         ClusterSession.fixLogging();
-         BlastLaunchDTO dto = handleLocBlastArgs(data);
-          SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        BlastLaunchDTO dto = handleLocBlastArgs(data);
+        SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
         me.logMessage("Starting SlurmClusterRunner");
         me.logMessage(" id " + dto.id);
         me.logMessage(" query " + dto.query.getAbsolutePath());
@@ -791,7 +820,7 @@ public class SlurmClusterRunner implements IJobRunner {
         Map<String, String> data = new HashMap<>();
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
-         SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
         me.setParameters(args);
 
         me.logMessage("Starting SlurmClusterRunner");

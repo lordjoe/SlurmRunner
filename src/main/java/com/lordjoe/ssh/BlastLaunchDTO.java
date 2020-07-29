@@ -55,10 +55,14 @@ public class BlastLaunchDTO {
         return ret;
     }
 
-    public static  String makeOutputName(File in)  {
+    public static  String makeOutputName(File in,boolean isXML)  {
         String name = in.getName();
         String base = name.substring(0,name.lastIndexOf('.')) ;
-        return base + ".xml";
+        if(isXML)
+             return base + ".xml";
+        else
+            return base + ".txt";
+
     }
 
     public File getLocalJobDirectory() {

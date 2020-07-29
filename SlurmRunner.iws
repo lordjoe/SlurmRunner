@@ -9,8 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="Now">
+    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="Version 1.0 now pushed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeTXT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTFormat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +92,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lordjoe.blast" />
       <recent name="com.lordjoe.server" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -275,7 +283,7 @@
       <workItem from="1595201910596" duration="24252000" />
       <workItem from="1595519116129" duration="34019000" />
       <workItem from="1595959172620" duration="2188000" />
-      <workItem from="1595966974035" duration="6966000" />
+      <workItem from="1595966974035" duration="17103000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -319,7 +327,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595974734325</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Version 1.0">
+      <created>1596041433594</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1596041433594</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,7 +347,8 @@
     <MESSAGE value="Fixes large searches" />
     <MESSAGE value="Added intellij projects" />
     <MESSAGE value="runs except mail" />
-    <option name="LAST_COMMIT_MESSAGE" value="runs except mail" />
+    <MESSAGE value="Version 1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 1.0" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2162" y="172" width="1030" height="846" key="#Project_Structure" timestamp="1592684107583">
@@ -349,9 +365,10 @@
     <state x="3999" y="486" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595373908313" />
     <state x="3780" y="517" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1595106365688" />
     <state x="631" y="285" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750039649" />
-    <state x="767" y="316" key="#com.intellij.ide.util.MemberChooser" timestamp="1594674207520">
-      <screen x="0" y="0" width="1920" height="1170" />
+    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser" timestamp="1596044214810">
+      <screen x="1680" y="0" width="1920" height="1200" />
     </state>
+    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596044214810" />
     <state x="767" y="316" key="#com.intellij.ide.util.MemberChooser/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594674207520" />
     <state x="4254" y="621" width="531" height="417" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1593041713208">
       <screen x="3600" y="250" width="1920" height="1080" />
@@ -365,38 +382,38 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2381" y="255" width="1031" height="680" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685921625" />
-    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2" timestamp="1596040618131">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1596041465276">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="807" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596040618131" />
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596041465276" />
     <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1594837354301">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1594837354301" />
     <state x="4599" y="554" width="430" height="485" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593041789218" />
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom" timestamp="1596039796976">
+    <state width="1710" height="508" key="GridCell.Tab.0.bottom" timestamp="1596060524958">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596039796976" />
-    <state width="1691" height="760" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
+    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524958" />
+    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.center" timestamp="1596039796976">
+    <state width="1710" height="508" key="GridCell.Tab.0.center" timestamp="1596060524957">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596039796976" />
-    <state width="1691" height="760" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
+    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524957" />
+    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.left" timestamp="1596039796976">
+    <state width="1710" height="508" key="GridCell.Tab.0.left" timestamp="1596060524957">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596039796976" />
-    <state width="1691" height="760" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
+    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524957" />
+    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.right" timestamp="1596039796976">
+    <state width="1710" height="508" key="GridCell.Tab.0.right" timestamp="1596060524958">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596039796976" />
-    <state width="1691" height="760" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593380156456" />
+    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524958" />
+    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
     <state width="1167" height="299" key="GridCell.Tab.1.bottom" timestamp="1592688488011">
       <screen x="1680" y="0" width="1920" height="1200" />
@@ -455,10 +472,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595870714156" />
-    <state x="2348" y="366" width="1014" height="522" key="find.popup" timestamp="1596039724692">
+    <state x="2348" y="366" width="1014" height="522" key="find.popup" timestamp="1596047233590">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2348" y="366" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596039724692" />
+    <state x="2348" y="366" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596047233590" />
     <state x="4285" y="588" width="594" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202061047" />
     <state x="685" y="366" width="594" height="534" key="find.popup/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594746340321" />
     <state x="2283" y="277" key="run.anything.popup" timestamp="1595954504146">
@@ -496,7 +513,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java</url>
-          <line>239</line>
+          <line>240</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -520,34 +537,59 @@
           <option name="timeStamp" value="131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="143" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>512</line>
+          <line>542</line>
           <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="157" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java</url>
-          <line>60</line>
+          <line>61</line>
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>273</line>
+          <line>280</line>
           <option name="timeStamp" value="159" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/BLastTools.java</url>
+          <line>116</line>
+          <option name="timeStamp" value="167" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>357</line>
-          <option name="timeStamp" value="166" />
+          <line>141</line>
+          <option name="timeStamp" value="168" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>225</line>
+          <option name="timeStamp" value="169" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>805</line>
+          <option name="timeStamp" value="173" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>821</line>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="187" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
