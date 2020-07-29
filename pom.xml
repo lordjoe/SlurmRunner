@@ -11,9 +11,9 @@
 
     <name>SLURM_Runner</name>
     <description>Remotely Runs SLURM Jobs</description>
+
     <dependencies>
-  
-        <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-log -->
+    <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-log -->
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-log</artifactId>
