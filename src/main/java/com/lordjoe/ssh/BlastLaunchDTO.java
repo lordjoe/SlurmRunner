@@ -66,7 +66,7 @@ public class BlastLaunchDTO {
     }
 
     public File getLocalJobDirectory() {
-        File f = SlurmClusterRunner.getDefaultTomcatDirectory();
+        File f =  new File("/opt/blastserver") ;
         File jobDir = new File(f,id);
         if(!jobDir.exists())   {
             jobDir.mkdirs();

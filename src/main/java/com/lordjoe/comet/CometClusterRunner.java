@@ -1,9 +1,12 @@
-package com.lordjoe.ssh;
+package com.lordjoe.comet;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
+import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.ssh.ClusterSession;
+import com.lordjoe.ssh.JobState;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
@@ -16,13 +19,13 @@ import java.util.logging.Logger;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
+public class CometClusterRunner extends AbstractCometClusterRunner {
 
-    static Logger LOG = Logger.getLogger(SlurmClusterRunner.class.getName());
+    static Logger LOG = Logger.getLogger(CometClusterRunner.class.getName());
 
 
 
-    public SlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
+    public CometClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         super(job, param);
 
     }
@@ -67,10 +70,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append("java -jar");
 
         sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar ");
-        if(isXml())
-            sb.append(" com.lordjoe.blast.MergeXML ") ;
-        else
-            sb.append(" com.lordjoe.blast.MergeTXT ") ;
+               sb.append(" com.lordjoe.blast.MergeCometXML ") ;
 
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
@@ -112,10 +112,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
-        if(isXml())
-            sb.append("base=${base1}.xml\n");
-        else
-            sb.append("base=${base1}.txt\n");
+              sb.append("base=${base1}.pep.xml\n");
+
 
         sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
 
@@ -196,10 +194,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         String inputLocationDir = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
         String inputLocation = inputLocationDir + "/splitFile001.faa";
         data = data.replace("${filename}", inputLocation);
-        if(isXml())
-            data = data.replace("${base}", "splitFile001.xml");
-        else
-            data = data.replace("${base}", "splitFile001.txt");
+             data = data.replace("${base}", "splitFile001.xml");
 
         data = data.replace("batchOutput$2.txt", "batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
         return data;
@@ -559,10 +554,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     }
 
 
-    public static SlurmClusterRunner run(Map<String, String> data) {
+    public static CometClusterRunner run(Map<String, String> data) {
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(data);
-        SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        CometClusterRunner me = new CometClusterRunner(dto, data);
         me.logMessage("Starting SlurmClusterRunner");
         me.logMessage(" id " + dto.id);
         me.logMessage(" query " + dto.query.getAbsolutePath());
@@ -574,14 +569,14 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         return me;
     }
 
-    public static SlurmClusterRunner run(String[] args) {
+    public static CometClusterRunner run(String[] args) {
         Map<String, String> data = new HashMap<>();
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
-        SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
+        CometClusterRunner me = new CometClusterRunner(dto, data);
         me.setParameters(args);
 
-        me.logMessage("Starting SlurmClusterRunner");
+        me.logMessage("Starting CometClusterRunner");
         me.logMessage(" id " + dto.id);
         me.logMessage(" query " + dto.query.getAbsolutePath());
         me.logMessage(" db " + dto.database);
@@ -594,7 +589,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
     public static void main(String[] args) {
-        SlurmClusterRunner.run(args);
+        CometClusterRunner.run(args);
     }
 }
 

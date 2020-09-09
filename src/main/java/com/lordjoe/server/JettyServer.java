@@ -1,5 +1,6 @@
 package com.lordjoe.server;
 
+import com.lordjoe.blast.JSonRunner;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -16,13 +17,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * com.lordjoe.server.JettyServer
  * User: Steve
  * Date: 6/25/20
  */
-public class JettyServer {
+public class JettyServer implements Runnable {
 
     public static final int SERVER_PORT = 8007;
 
@@ -57,6 +61,7 @@ public class JettyServer {
         handler.addServletWithMapping(PingServlet.class, "/ping");
         handler.addServletWithMapping(StopServlet.class, "/stop");
         handler.addServletWithMapping(BlastLaunchServlet.class, "/runProgram");
+        handler.addServletWithMapping(CometLaunchServlet.class, "/runComet");
         server.setConnectors(new Connector[]{connector});
         return server;
     }
@@ -117,13 +122,50 @@ public class JettyServer {
         }
 
     }
+
+    @Override
+    public void run() {
+        try {
+            Server s = start();
+            s.start();
+            System.out.println("launched");
+            String pingResponse = getResponse("http://localhost:8007/ping");
+            System.out.println(pingResponse);
+            s.join();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+    private static void handleAddedArguments(String[] args) {
+        String idx = UUID.randomUUID().toString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("JobId",idx);
+        map.put("program","blastp");
+        //  -user slewis ./blastp -db swissprot -query EColi100.fas -db swissprot -remote -outfmt 16 -out EColi100.xml -email lordjoe2000@gmail.com
+        for (int i = 1; i < args.length; i++) {
+            String arg = args[i];
+            if(arg.startsWith("-")) {
+                String key = arg.substring(1);
+                i++;
+                String value = args[i];
+                map.put(key,value);
+            }
+        }
+        JSonRunner jr = new JSonRunner(map);
+        jr.startJob();
+
+    }
     public static void main(String[] args) throws Exception {
         stop();
-        Server s = start();
-        s.start();
-        System.out.println("launched");
-        String pingResponse = getResponse("http://localhost:8007/ping");
-        System.out.println(pingResponse);
-        s.join();
-     }
+        new Thread(new JettyServer()).start();
+        if(args.length > 1)  {
+            handleAddedArguments(args);
+        }
+      }
+
+
 }

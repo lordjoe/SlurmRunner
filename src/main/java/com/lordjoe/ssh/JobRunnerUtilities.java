@@ -19,6 +19,7 @@ public class JobRunnerUtilities {
 
 	private SftpException createdToForceClassLoad;
     public static final int LOCAL_LIMIT = 90;
+    public static final boolean RUN_LOCALLY = true;
 
     public static IJobRunner createRunner(Map<String,? extends Object> parameters) {
         String userDir = System.getProperty("user.dir");
@@ -27,6 +28,9 @@ public class JobRunnerUtilities {
         if(id == null)
             id = UUID.randomUUID().toString();
         String program = (String)parameters.get("program"); //   BlastP, BlastN, BlastX, tBlastN...
+        if("comet".equalsIgnoreCase(program))    {
+            
+        }
  //       SlurmClusterRunner.logMessage("Program is " + program );
         GenericBlastParameters params = GenericBlastParameters.getRealParameters(program);
         params.datalib = (String)parameters.get("datalib"); //  NR, NR/NT, SwissProt, RefSeq-Protein, ...
@@ -54,7 +58,7 @@ public class JobRunnerUtilities {
         }
 
         int numberFasta = FastaTools.countFastaEntities( dto.query);
-        if( false && numberFasta <= LOCAL_LIMIT) {
+        if( RUN_LOCALLY || numberFasta <= LOCAL_LIMIT) {
              ret = new SlurmLocalRunner(dto,parameters);
          }
         else  {
