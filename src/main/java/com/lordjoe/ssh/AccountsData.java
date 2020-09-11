@@ -21,8 +21,7 @@ public class AccountsData {
     public static final String DELIMITER = ",,,,,";
 
 
-    private static String FILENAME = "property.dat";
-    public static final String ENCRYPTED_NAME = "EncryptedProperties.txt";
+      public static final String ENCRYPTED_NAME = "EncryptedProperties.txt";
 
     private static Properties accountsTableX = new Properties();
     private static Map<String,AccountsData> accounts = new HashMap<>();
@@ -142,7 +141,7 @@ public class AccountsData {
         return sb.toString();
     }
 
-    protected static void loadUsers()
+    protected static void loadUsers(String name)
     {
         try {
             // saving the properties in file
@@ -152,7 +151,7 @@ public class AccountsData {
             //System.out.println("Properties has been saved in: " + accountsTable);
 
             // loading the saved properties
-            loadProperties(FILENAME,accountsTableX);
+            loadProperties(name,accountsTableX);
 
             for (String o : accountsTableX.stringPropertyNames()) {
                 String email = o;
@@ -169,10 +168,10 @@ public class AccountsData {
 
     }
 
-    protected static  void createEncryptedUsers()
+    protected static  void createEncryptedUsers(String propFileName)
     {
         try {
-            loadUsers();
+            loadUsers(propFileName);
 
             PrintWriter out = new PrintWriter(new FileWriter(ENCRYPTED_NAME));
             for (String o : accounts.keySet()) {
