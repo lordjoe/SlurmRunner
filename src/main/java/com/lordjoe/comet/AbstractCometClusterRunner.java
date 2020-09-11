@@ -4,10 +4,7 @@ import com.jcraft.jsch.SftpException;
 import com.lordjoe.ssh.*;
 import com.lordjoe.utilities.SendMail;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -82,12 +79,10 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
         int index = 0;
-        BLASTProgram program = BLASTProgram.BLASTP;
+        BLASTProgram program = BLASTProgram.COMET;
         String database = "xxx";
         String query = "xxx";
         String out = "xxx";
-        if (args[index].toLowerCase().endsWith("blastn"))
-            program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
         BlastLaunchDTO ret = new BlastLaunchDTO(program);
         while (index < args.length) {
@@ -108,13 +103,18 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
                 database = args[index++];
                 continue;
             }
-            if (next.equalsIgnoreCase("-remote")) {
+            if (next.equalsIgnoreCase("-params")) {
                 index++;
                 continue;
             }
-            if (next.equalsIgnoreCase("-query")) {
+              if (next.equalsIgnoreCase("-query")) {
                 index++;
                 query = args[index++];
+                continue;
+            }
+            if (next.equalsIgnoreCase("-outFolder")) {
+                index++;
+                out = args[index++];
                 continue;
             }
             if (next.equalsIgnoreCase("-out")) {
@@ -132,7 +132,7 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
                 index++;
                 continue;
             }
-            if (next.toLowerCase().contains("blast")) {
+            if (next.toLowerCase().contains("comet")) {
                 index++;     // ignore blast program
                 continue;
             }
@@ -148,19 +148,24 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
 
     }
 
+    public final static  Map<String, ? extends Object> buildParameters(String[] args) {
+        Map<String, Object> ret = new HashMap<>();
+        int index = 0;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i++];
+            String value = args[i];
+            ret.put(arg.substring(1),value);
+        }
+
+        return ret;
+    }
+
 
     public final Map<String, ? extends Object> filterProperties(Map<String, ? extends Object> in) {
         Map<String, Object> ret = new HashMap<>();
         String[] added = BLASTProgram.relevantProperties(getJob().program);
         String prefix = BLASTProgram.prefix(getJob().program);
-        for (int i = 0; i < added.length; i++) {
-            String s = added[i];
-            Object value = in.get(s);
-            if (value != null) {
-                String key = s.substring(prefix.length());
-                adjustValue(key, value, ret);
-            }
-        }
+
         String email = (String) in.get("email");
         if (email != null)
             parameters.put("email", email);
@@ -171,25 +176,7 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
         return ret;
     }
 
-    /**
-     * This saves parameters making adjustments
-     **/
-    protected final    void adjustValue(String key, Object value, Map<String, Object> map) {
-        String ret = value.toString();
-        if (key.equals("gapcosts")) {
-            String[] items = ret.split(",");
-            map.put("gapopen", items[0]);
-            parameters.put("gapopen", items[0]);
-            if (items.length > 1) {
-                map.put("gapextend", items[1]);
-                parameters.put("gapextend", items[1]);
-            }
 
-            return;
-        }
-        map.put(key, value);
-        parameters.put(key, value);
-    }
 
     public final void setParameters(String[] args) {
         int index = 0;
@@ -232,7 +219,16 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
     }
 
 
-    public abstract  Properties buildClusterProperties( ) ;
+
+    public final Properties buildClusterProperties() {
+        try {
+            Properties ret = new Properties();
+            ret.load(new FileInputStream("ClusterLaunchCluster.properties"));
+            return ret;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public JobState getState() {
         return state.get();
@@ -267,7 +263,20 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
         logMessage("emailSent");
     }
 
-    protected abstract  String buildDownloadUrl();
+
+    protected final String buildDownloadUrl() {
+        StringBuilder sb = new StringBuilder();
+        String tomcatURL = getClusterProperties().getProperty("TomcatUrl");
+        sb.append(tomcatURL);
+        sb.append("?filename=");
+        sb.append(job.output);
+        sb.append("&directory=");
+        sb.append(job.id);
+
+        return sb.toString();
+    }
+
+
 
 
 

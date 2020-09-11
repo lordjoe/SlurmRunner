@@ -1,37 +1,35 @@
 package com.lordjoe.comet;
 
 import com.devdaily.system.SystemCommandExecutor;
+import com.lordjoe.ssh.BlastLaunchDTO;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * com.lordjoe.comet.LocalCometRunner
  * User: Steve
  * Date: 9/1/20
  */
-public class LocalCometRunner implements Runnable {
-    public static final LocalCometRunner[] EMPTY_ARRAY = {};
-    public static File baseDir = new File("/opt/blastserver");
+public class LocalCometRunner extends AbstractCometClusterRunner {
+      public static File baseDir = new File("/opt/blastserver");
 
-    public final String id;
-    public final File jobBase;
-    public final File input_dir;
-    public final File output_dir;
-    public final File data;
-    public final File params;
+     public final File jobBase;
+     public final File input_dir;
+     public final File output_dir;
+     public final File data;
+     public final File params;
 
 
-    public LocalCometRunner(String uid, File query, File params) {
-        id = uid;
-        jobBase = new File(baseDir, id);
-        this.params = params;
-        this.data = query;
+    public LocalCometRunner(BlastLaunchDTO job, Map<String, ? extends Object> paramsX) {
+        super(job,paramsX);
+        jobBase = new File(baseDir, job.id);
 
+        data = new File(paramsX.get("query").toString());
+        params = new File(paramsX.get("params").toString());
         if (!jobBase.mkdirs())
             throw new UnsupportedOperationException("Cannot make directory " + jobBase.getAbsolutePath());
         input_dir = new File(jobBase, "input_files");
@@ -40,7 +38,15 @@ public class LocalCometRunner implements Runnable {
         output_dir = new File(jobBase, "output_files");
         if (!output_dir.mkdirs())
             throw new UnsupportedOperationException("Cannot make directory " + output_dir.getAbsolutePath());
-        CometUtilities.splitFile(query, input_dir);
+        CometUtilities.splitFile(data, input_dir);
+
+    }
+
+
+
+
+    @Override
+    protected void cleanUp() {
 
     }
 
@@ -63,9 +69,9 @@ public class LocalCometRunner implements Runnable {
             if (parentFile == null)
                 splitDirectory = getInputDirectory();
             else
-                splitDirectory = new File(parentFile, id);
+                splitDirectory = new File(parentFile, job.id);
             if (!splitDirectory.isDirectory() && !splitDirectory.mkdirs())
-                throw new UnsupportedOperationException("cannot make directory " + id);
+                throw new UnsupportedOperationException("cannot make directory " + job.id);
 
             File outSplitDirectory = getOutputDirectory();
             if (!outSplitDirectory.isDirectory() && !outSplitDirectory.mkdirs())
@@ -148,17 +154,17 @@ public class LocalCometRunner implements Runnable {
     }
 
     public static void main(String[] args) {
-        int index = 0;
-        File query = new File(args[index++]);
-        File params = new File(args[index++]);
-        File output = new File(args[index++]);
-        String id = UUID.randomUUID().toString();
-
-        LocalCometRunner me = new LocalCometRunner(id, query, params);
-        me.runSplitBlastPJob();
+        run(args);
 
     }
 
+
+    public static void run(String[] args) {
+        BlastLaunchDTO dto = handleLocBlastArgs(args) ;
+        Map<String, ?> params = buildParameters(args);
+        LocalCometRunner me = new LocalCometRunner(dto,params);
+        me.runSplitBlastPJob();
+    }
 
     @Override
     public void run() {

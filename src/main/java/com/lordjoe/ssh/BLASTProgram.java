@@ -7,7 +7,7 @@ package com.lordjoe.ssh;
  */
 public enum BLASTProgram {
 
-    BLASTN, BLASTP,BLASTX, RPBLAST, RPSTBLAST, PSIBLAST, TBLASTN;
+    BLASTN, BLASTP,BLASTX, RPBLAST, RPSTBLAST, PSIBLAST, TBLASTN,COMET;
 
     public static BLASTProgram fromString(String s) {
         s = s.toUpperCase();
@@ -24,6 +24,8 @@ public enum BLASTProgram {
                 return "bx_";
             case TBLASTN:
                 return "tbn_";
+            case COMET:
+                return "cmt_";
             default:
                 return "xxxx_";
         }
@@ -73,6 +75,11 @@ public enum BLASTProgram {
                         "tbn_gapcosts",
                         "tbn_filter1",
                         "tbn_filter2",
+
+                };
+            case COMET:
+                return new String[]{
+
 
                 };
             default:

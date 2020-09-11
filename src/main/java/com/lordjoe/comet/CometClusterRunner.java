@@ -30,17 +30,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     }
 
-    @Override
-
-    public Properties buildClusterProperties() {
-        try {
-            Properties ret = new Properties();
-            ret.load(new FileInputStream("ClusterLaunch.properties"));
-            return ret;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-         }
-    }
+ 
 
 
     public String generateSlurmScript() {
@@ -432,17 +422,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
 
-    protected String buildDownloadUrl() {
-        StringBuilder sb = new StringBuilder();
-        String tomcatURL = getClusterProperties() .getProperty("TomcatUrl");
-        sb.append(tomcatURL);
-        sb.append("?filename=");
-        sb.append(job.output);
-        sb.append("&directory=");
-        sb.append(job.id);
-
-        return sb.toString();
-    }
+ 
 
 
     @Override
@@ -570,26 +550,23 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     }
 
     public static CometClusterRunner run(String[] args) {
-        Map<String, String> data = new HashMap<>();
+        Map<String, ?> data = buildParameters(args);
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
         CometClusterRunner me = new CometClusterRunner(dto, data);
-        me.setParameters(args);
 
-        me.logMessage("Starting CometClusterRunner");
-        me.logMessage(" id " + dto.id);
-        me.logMessage(" query " + dto.query.getAbsolutePath());
-        me.logMessage(" db " + dto.database);
-        me.logMessage(" out " + dto.output);
 
         new Thread(me).start();
 
         return me;
     }
 
-
+     public static final boolean  RUN_LOCAL = false;
     public static void main(String[] args) {
-        CometClusterRunner.run(args);
+        if(RUN_LOCAL)
+            LocalCometRunner.run(args);
+        else
+            CometClusterRunner.run(args);
     }
 }
 

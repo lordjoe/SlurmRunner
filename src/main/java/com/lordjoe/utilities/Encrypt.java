@@ -1,12 +1,12 @@
 package com.lordjoe.utilities;
 
 /**
- * Simple shell for blowfish encrypts up to 40 char strings into a 60 char encrypted string and back
+ * Simple shell for blowfish encrypts up to 3000 char strings into a 60 char encrypted string and back
  *   com.lordjoe.utilities.Encrypt
  * @author Steve LewisS
  */
 public class Encrypt {
-    public static final int CYPHER_LENGTH = 40;
+    public static final int CYPHER_LENGTH = 3000;
     public static final String BASE_KEY = "LordJoe2000.";
     public static final String DEFAULT_KEY_ENCRYPTED = "HwpsFRwPmdaFM53lsbwBGZlhvB7QnN8vEiOcN2ShnTFQNSD1EDbyK9dd5T93j92CKvY+kfAuffH94K+dzvmVN/GqwjYLXadtswIx5Qr+7/9UA7PLlSTBAsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxsGdKimcWI/GwZ0qKZxYj8bBnSopnFiPxg==";
     public static  final String DEFAULT_KEY; //  = "What hath God wrought.In union thers is strength. In money glory and in neigher peace.";
