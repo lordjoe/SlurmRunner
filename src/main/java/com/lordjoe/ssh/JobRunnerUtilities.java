@@ -19,7 +19,7 @@ public class JobRunnerUtilities {
 
 	private SftpException createdToForceClassLoad;
     public static final int LOCAL_LIMIT = 90;
-    public static final boolean RUN_LOCALLY = true;
+    public static final boolean RUN_LOCALLY = false;
 
     public static IJobRunner createRunner(Map<String,? extends Object> parameters) {
         String userDir = System.getProperty("user.dir");

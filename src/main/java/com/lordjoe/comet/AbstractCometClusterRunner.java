@@ -223,7 +223,7 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
     public final Properties buildClusterProperties() {
         try {
             Properties ret = new Properties();
-            ret.load(new FileInputStream("ClusterLaunchCluster.properties"));
+            ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
             return ret;
         } catch (IOException e) {
             throw new RuntimeException(e);
