@@ -276,19 +276,21 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
             String outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
             me.mkdir(outputDirectoryOnCluster);
-
+            me.executeCommand("chmod a+rwx " + outputDirectoryOnCluster);
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
             String directoryOnCluster = getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
+            me.executeCommand("chmod a+rwx " + directoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             directoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
+            me.executeCommand("chmod a+rwx " + directoryOnCluster);
 
 
             writeExecutionScript(me);
@@ -316,6 +318,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
         File outDirectory = new File(getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();
+        outDirectory.setReadable(true,true);
 
         String baseName = "splitFile";
         FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
@@ -528,6 +531,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         File base = new File("/opt/blastserver");
         File jobdir = new File(base, job.id);
         jobdir.mkdirs();
+        jobdir.setReadable(true,true);
         File logFile = new File(jobdir, "log.txt");
         FileWriter writer = new FileWriter(logFile, true); // append
         logger = new PrintWriter(writer);

@@ -31,8 +31,8 @@ public class SendMail {
         g_username = username;
     }
 
+    private static String g_encrypted_password = "ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEY";
 
-    private static String g_encrypted_password;
 
     public static String getEncrypted_password() {
         return g_encrypted_password;
@@ -58,6 +58,10 @@ public class SendMail {
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.socketFactory.class",
+                    "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
         }
         else {
             props.put("mail.smtp.auth", "false");
@@ -65,15 +69,25 @@ public class SendMail {
             props.put("mail.smtp.host", "smtp.private.list.lu");
             props.put("mail.smtp.port", "25");
          }
-
+        //Get properties object
+          props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+         //get Session
         final String pwdx = password; // allow inner class access
-        Session session = Session.getInstance(props,
+        Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, pwdx);
+                        return new PasswordAuthentication(username,pwdx);
                     }
                 });
 
+//           Session session = Session.getInstance(props,
+//                new javax.mail.Authenticator() {
+//                    protected PasswordAuthentication getPasswordAuthentication() {
+//                        return new PasswordAuthentication(username, pwdx);
+//                    }
+//                });
+//
         try {
 
             Message message = new MimeMessage(session);
@@ -135,7 +149,7 @@ public class SendMail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("lordjoe2000@gmail.com"));
+            message.setFrom(new InternetAddress("lordjoe2000@gmail.com <lordjoe2000@gmail.com>"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipient));
             //message.setSubject("Testing Subject");
@@ -180,13 +194,15 @@ public class SendMail {
 
         if(!UseListSMTP) {
             setUsername("lordjoe2000@gmail.com");
-            setEncrypted_password("ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGA==");
+             String EncryptedPassword = "ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEY";
+            setEncrypted_password(EncryptedPassword);
         }
-        String recipient = "lordjoe2000@gmail.com";
+        String recipient = "lordjoe2000@gmail.com <lordjoe2000@gmail.com>";
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        sendMailWithAttachment(recipient, subjectline, messagebody,results);
+        sendMail (recipient, subjectline, messagebody);
+     //   sendMailWithAttachment(recipient, subjectline, messagebody,results);
         System.out.println("Done");
     }
 }

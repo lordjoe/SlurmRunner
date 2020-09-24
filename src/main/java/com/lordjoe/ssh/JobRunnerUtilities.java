@@ -29,7 +29,7 @@ public class JobRunnerUtilities {
             id = UUID.randomUUID().toString();
         String program = (String)parameters.get("program"); //   BlastP, BlastN, BlastX, tBlastN...
         if("comet".equalsIgnoreCase(program))    {
-            
+             throw new UnsupportedOperationException("Fix This"); // ToDo
         }
  //       SlurmClusterRunner.logMessage("Program is " + program );
         GenericBlastParameters params = GenericBlastParameters.getRealParameters(program);

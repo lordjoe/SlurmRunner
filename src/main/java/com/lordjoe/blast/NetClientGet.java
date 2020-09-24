@@ -54,11 +54,13 @@ public class NetClientGet {
             if(json != null) {
                 OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                 //	        System.out.println(json.toString());
-                osw.write(json.toString());
+                String s = json.toString();
+                osw.write(s);
                 osw.flush();
                 osw.close();
             }
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 return true;
             } else {
                 return false;

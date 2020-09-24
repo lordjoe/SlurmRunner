@@ -9,15 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="Version 1.0 now pushed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeTXT.java" afterDir="false" />
+    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="commit from PC somed comet code not fully realized encrypted">
+      <change beforePath="$PROJECT_DIR$/SlurmRunner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlurmRunner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/NetClientGet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/NetClientGet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/server/JettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/server/JettyServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +56,9 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="5i632om9" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -62,6 +66,7 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -76,7 +81,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="public" />
-    <property name="last_opened_file_path" value="/mnt/beegfs/proj/int/eva/blast" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/comet" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -91,29 +96,38 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.build.tools" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.lordjoe.comet" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/comet" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lordjoe.comet" />
       <recent name="com.lordjoe.blast" />
       <recent name="com.lordjoe.server" />
+      <recent name="com.lordjoe.ssh" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/web/WEB-INF" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.JettyServer">
+  <component name="RunManager" selected="Application.JavaEmail">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Gateway" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.lordjoe.ssh.Gateway" />
+    <configuration name="CometClusterRunner" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.comet.CometClusterRunner" />
       <module name="SlurmRunner" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <option name="PROGRAM_PARAMETERS" value="-query eg3.mgf -params cometeg3.params -outFolder Output_Data -db swissSmall.fasta   -out eg3.mgf.pep.xml -email lordjoe2000@gmail.com" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/comet" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.lordjoe.ssh.*" />
+          <option name="PATTERN" value="com.lordjoe.comet.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -121,7 +135,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Jetty launce" type="Application" factoryName="Application">
+    <configuration name="JavaEmail" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.JavaEmail" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="EColi100.xml" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lordjoe.utilities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Jetty launch" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
       <module name="SlurmRunner" />
       <option name="PROGRAM_PARAMETERS" value="com.lordjoe.server.JettyServer" />
@@ -130,13 +159,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JettyServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.lordjoe.server.JettyServer" />
+    <configuration name="JettyServer EColi100" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="com.lordjoe.server.JettyServer -user slewis ./blastp -db swissprot -query EColi100.fas -db swissprot -remote -outfmt 16 -out EColi100.xml -email lordjoe2000@gmail.com" />
+      <option name="WORKING_DIRECTORY" value="/opt/blastserver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LocalCometRunner" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.comet.LocalCometRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="eg3.mgf cometeg3.params Output_Data" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/comet" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lordjoe.comet.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Mailer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.Mailer" />
       <module name="SlurmRunner" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.lordjoe.server.*" />
+          <option name="PATTERN" value="com.lordjoe.utilities.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -166,7 +219,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SlurmClusterRunner EColi100" type="Application" factoryName="Application">
+    <configuration name="MergeCometXML" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.comet.MergeCometXML" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="comet_answer merged_file.xml" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lordjoe.comet.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SendMail" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.SendMail" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="EColi100.xml" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lordjoe.utilities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlurmClusterRunner EColi100 (1)" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
       <module name="SlurmRunner" />
       <option name="PROGRAM_PARAMETERS" value=" com.lordjoe.ssh.SlurmClusterRunner -user slewis ./blastp -db swissprot -query EColi100.fas -db swissprot -remote -outfmt 16 -out EColi100.xml -email lordjoe2000@gmail.com" />
@@ -189,6 +272,33 @@
       <module name="SlurmRunner" />
       <option name="PROGRAM_PARAMETERS" value=" com.lordjoe.ssh.SlurmClusterRunner -user slewis ./blastp -db swissprot -query EColi100.fas -db swissprot -remote -outfmt 16 -out php56CB.xml -email lordjoe2000@gmail.com" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlurmLocaCometlRunner Eg320" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="com.lordjoe.comet.LocalCometRunner  swissSmall.fasta cometeg3_20.params -user slewis  -db swissprot   -email lordjoe2000@gmail.com " />
+      <option name="WORKING_DIRECTORY" value="/opt/blastserver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlurmLocalRunner EColi100  " type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="com.lordjoe.ssh.SlurmLocalRunner blastp -user slewis  -db swissprot -query EColi100.fas -db swissprot -remote -outfmt 16 -out EColi100.xml -email lordjoe2000@gmail.com" />
+      <option name="WORKING_DIRECTORY" value="/opt/blastserver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlurmLocalRunner EColi8" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.MainRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="com.lordjoe.ssh.SlurmLocalRunner blastp -user slewis  -db swissprot -query EColi8.fas -db swissprot -remote -outfmt 16 -out EColi8.xml -email lordjoe2000@gmail.com" />
+      <option name="WORKING_DIRECTORY" value="/opt/blastserver" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -238,20 +348,30 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Jetty launce" />
+      <item itemvalue="Application.CometClusterRunner" />
+      <item itemvalue="Application.Jetty launch" />
+      <item itemvalue="Application.JettyServer EColi100" />
+      <item itemvalue="Application.LocalCometRunner" />
       <item itemvalue="Application.Merge" />
-      <item itemvalue="Application.SlurmClusterRunner EColi100" />
+      <item itemvalue="Application.SlurmClusterRunner EColi100 (1)" />
       <item itemvalue="Application.SlurmClusterRunner EColiFull" />
       <item itemvalue="Application.SlurmClusterRunner php56CB" />
-      <item itemvalue="Application.Gateway" />
-      <item itemvalue="Application.JettyServer" />
+      <item itemvalue="Application.SlurmLocaCometlRunner Eg320" />
+      <item itemvalue="Application.SlurmLocalRunner EColi100  " />
+      <item itemvalue="Application.SlurmLocalRunner EColi8" />
       <item itemvalue="Application.MainNew" />
+      <item itemvalue="Application.MergeCometXML" />
+      <item itemvalue="Application.SendMail" />
+      <item itemvalue="Application.Mailer" />
+      <item itemvalue="Application.JavaEmail" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.JettyServer" />
+        <item itemvalue="Application.JavaEmail" />
+        <item itemvalue="Application.Mailer" />
+        <item itemvalue="Application.SendMail" />
+        <item itemvalue="Application.MergeCometXML" />
         <item itemvalue="Application.MainNew" />
-        <item itemvalue="Application.Gateway" />
       </list>
     </recent_temporary>
   </component>
@@ -283,7 +403,27 @@
       <workItem from="1595201910596" duration="24252000" />
       <workItem from="1595519116129" duration="34019000" />
       <workItem from="1595959172620" duration="2188000" />
-      <workItem from="1595966974035" duration="17103000" />
+      <workItem from="1595966974035" duration="65627000" />
+      <workItem from="1596210208543" duration="2065000" />
+      <workItem from="1596212310190" duration="8900000" />
+      <workItem from="1596479382234" duration="4057000" />
+      <workItem from="1596649026372" duration="2482000" />
+      <workItem from="1596744682478" duration="1205000" />
+      <workItem from="1597039781357" duration="65000" />
+      <workItem from="1597040045278" duration="1192000" />
+      <workItem from="1598464047564" duration="4266000" />
+      <workItem from="1598995196395" duration="6816000" />
+      <workItem from="1599089653608" duration="2830000" />
+      <workItem from="1599509350529" duration="16029000" />
+      <workItem from="1599688278148" duration="17312000" />
+      <workItem from="1599858320620" duration="3756000" />
+      <workItem from="1600101788091" duration="168000" />
+      <workItem from="1600101967196" duration="1348000" />
+      <workItem from="1600189787478" duration="1979000" />
+      <workItem from="1600268909858" duration="73651000" />
+      <workItem from="1600623688708" duration="2702000" />
+      <workItem from="1600882723052" duration="39000" />
+      <workItem from="1600882876572" duration="14684000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -334,7 +474,49 @@
       <option name="project" value="LOCAL" />
       <updated>1596041433594</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added all text formats - merge may not work for text">
+      <created>1596061908449</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1596061908449</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added all text formats - merge may not work for text fixws comment">
+      <created>1596062031562</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1596062031562</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added AccountsData">
+      <created>1599868338727</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1599868338727</updated>
+    </task>
+    <task id="LOCAL-00011" summary="commit from PC somed comet code not fully realized">
+      <created>1599868421699</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1599868421699</updated>
+    </task>
+    <task id="LOCAL-00012" summary="commit from PC somed comet code not fully realized encrypted">
+      <created>1599868570714</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1599868570714</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fixed clusterproperties">
+      <created>1600275664038</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1600275664038</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +530,13 @@
     <MESSAGE value="Added intellij projects" />
     <MESSAGE value="runs except mail" />
     <MESSAGE value="Version 1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 1.0" />
+    <MESSAGE value="Added all text formats - merge may not work for text" />
+    <MESSAGE value="Added all text formats - merge may not work for text fixws comment" />
+    <MESSAGE value="Added AccountsData" />
+    <MESSAGE value="commit from PC somed comet code not fully realized" />
+    <MESSAGE value="commit from PC somed comet code not fully realized encrypted" />
+    <MESSAGE value="Fixed clusterproperties" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed clusterproperties" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2162" y="172" width="1030" height="846" key="#Project_Structure" timestamp="1592684107583">
@@ -359,16 +547,20 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2359" y="249" width="637" height="692" key="#TomEE/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685750366" />
-    <state x="3999" y="486" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595373908313">
+    <state x="3690" y="306" width="1467" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600969306354">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
-    <state x="3999" y="486" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595373908313" />
+    <state x="3690" y="306" width="1467" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600969306354" />
     <state x="3780" y="517" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1595106365688" />
     <state x="631" y="285" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750039649" />
-    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser" timestamp="1596044214810">
+    <state x="2322" y="451" width="595" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599003654186">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596044214810" />
+    <state x="2322" y="451" width="595" height="397" key="#com.intellij.fileTypes.FileTypeChooser/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599003654186" />
+    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser" timestamp="1599846945709">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599846945709" />
     <state x="767" y="316" key="#com.intellij.ide.util.MemberChooser/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594674207520" />
     <state x="4254" y="621" width="531" height="417" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1593041713208">
       <screen x="3600" y="250" width="1920" height="1080" />
@@ -382,37 +574,50 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2381" y="255" width="1031" height="680" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685921625" />
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1596041465276">
+    <state x="642" y="342" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1597039791194">
+      <screen x="0" y="0" width="1920" height="1170" />
+    </state>
+    <state x="642" y="342" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597039791194" />
+    <state x="2575" y="490" width="455" height="273" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1600297201270">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596041465276" />
-    <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1594837354301">
+    <state x="2575" y="490" width="455" height="273" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600297201270" />
+    <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599868381212">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1594837354301" />
+    <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599868381212" />
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1600275663507">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600275663507" />
+    <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1600189790736">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600189790736" />
     <state x="4599" y="554" width="430" height="485" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593041789218" />
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom" timestamp="1596060524958">
+    <state x="999" y="330" key="FileChooserDialogImpl/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597040487857" />
+    <state width="1767" height="765" key="GridCell.Tab.0.bottom" timestamp="1600971930023">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524958" />
+    <state width="1767" height="765" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600971930023" />
     <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.center" timestamp="1596060524957">
+    <state width="1767" height="765" key="GridCell.Tab.0.center" timestamp="1600971930023">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524957" />
+    <state width="1767" height="765" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600971930023" />
     <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.left" timestamp="1596060524957">
+    <state width="1767" height="765" key="GridCell.Tab.0.left" timestamp="1600971930023">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524957" />
+    <state width="1767" height="765" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600971930023" />
     <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1710" height="508" key="GridCell.Tab.0.right" timestamp="1596060524958">
+    <state width="1767" height="765" key="GridCell.Tab.0.right" timestamp="1600971930023">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596060524958" />
+    <state width="1767" height="765" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600971930023" />
     <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
     <state width="1167" height="299" key="GridCell.Tab.1.bottom" timestamp="1592688488011">
@@ -455,37 +660,49 @@
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
     <state x="4080" y="476" width="930" height="685" key="Maven.ArtifactSearchDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593203648944" />
+    <state x="2295" y="384" width="736" height="508" key="NewModule_or_Project.wizard" timestamp="1596645536357">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2295" y="384" width="736" height="508" key="NewModule_or_Project.wizard/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596645536357" />
     <state x="1827" y="343" width="1030" height="846" key="SettingsEditor" timestamp="1595537142678">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="1827" y="343" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595537142678" />
     <state x="3928" y="417" width="1030" height="846" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593379956242" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1595974735924">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1600275666276">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595974735924" />
-    <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1595951956623">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600275666276" />
+    <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1600893690569">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="845" height="500" key="XDebugger.FullValuePopup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595951956623" />
+    <state width="845" height="500" key="XDebugger.FullValuePopup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600893690569" />
+    <state x="1734" y="100" width="1281" height="753" key="dock-window-1" timestamp="1600385178577">
+      <screen x="1680" y="0" width="1920" height="1200" />
+    </state>
+    <state x="1734" y="100" width="1281" height="753" key="dock-window-1/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600385178577" />
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog" timestamp="1595870714156">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595870714156" />
-    <state x="2348" y="366" width="1014" height="522" key="find.popup" timestamp="1596047233590">
+    <state x="2348" y="366" width="1014" height="522" key="find.popup" timestamp="1600384007292">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2348" y="366" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1596047233590" />
+    <state x="2348" y="366" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600384007292" />
     <state x="4285" y="588" width="594" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202061047" />
     <state x="685" y="366" width="594" height="534" key="find.popup/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594746340321" />
+    <state x="336" y="268" key="new project wizard" timestamp="1597041245660">
+      <screen x="0" y="0" width="1920" height="1170" />
+    </state>
+    <state x="336" y="268" key="new project wizard/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597041245660" />
     <state x="2283" y="277" key="run.anything.popup" timestamp="1595954504146">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2283" y="277" key="run.anything.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595954504146" />
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1595959940287">
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1600450294623">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595959940287" />
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600450294623" />
     <state x="4184" y="538" width="672" height="678" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202748703" />
   </component>
   <component name="XDebuggerManager">
@@ -502,28 +719,23 @@
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
-          <line>278</line>
-          <option name="timeStamp" value="95" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java</url>
-          <line>107</line>
+          <line>106</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java</url>
-          <line>240</line>
+          <line>235</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java</url>
-          <line>166</line>
+          <line>162</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
-          <line>535</line>
+          <line>595</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -533,23 +745,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
-          <line>363</line>
+          <line>414</line>
           <option name="timeStamp" value="131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>542</line>
-          <option name="timeStamp" value="146" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java</url>
-          <line>61</line>
+          <line>74</line>
           <option name="timeStamp" value="158" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>280</line>
-          <option name="timeStamp" value="159" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/BLastTools.java</url>
@@ -558,38 +760,148 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>141</line>
-          <option name="timeStamp" value="168" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>225</line>
-          <option name="timeStamp" value="169" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>805</line>
-          <option name="timeStamp" value="173" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>821</line>
+          <line>497</line>
           <option name="timeStamp" value="175" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="207" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="213" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometUtilities.java</url>
+          <line>159</line>
+          <option name="timeStamp" value="219" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
+          <line>433</line>
+          <option name="timeStamp" value="221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
+          <line>398</line>
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
+          <line>508</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/NetClientGet.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="231" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="242" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterLauncher.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="247" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterLauncher.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="248" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterLauncher.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="249" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>138</line>
-          <option name="timeStamp" value="182" />
+          <line>56</line>
+          <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="184" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/server/BlastLaunchServlet.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="187" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="273" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
+          <line>375</line>
+          <option name="timeStamp" value="275" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/NetClientGet.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="278" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AbstractSlurmClusterRunner.java</url>
+          <line>270</line>
+          <option name="timeStamp" value="285" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
+          <line>525</line>
+          <option name="timeStamp" value="288" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java</url>
+          <line>221</line>
+          <option name="timeStamp" value="292" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
+          <line>271</line>
+          <option name="timeStamp" value="294" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
+          <line>387</line>
+          <option name="timeStamp" value="295" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="299" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="300" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="309" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java</url>
+          <line>258</line>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java</url>
+          <line>261</line>
+          <option name="timeStamp" value="311" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="312" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

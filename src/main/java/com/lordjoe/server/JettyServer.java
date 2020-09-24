@@ -156,16 +156,22 @@ public class JettyServer implements Runnable {
             }
         }
         JSonRunner jr = new JSonRunner(map);
+
         jr.startJob();
 
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
+        Thread t = Thread.currentThread();
         stop();
-        new Thread(new JettyServer()).start();
+        Thread thr =  new Thread(new JettyServer());
+        thr.start();
+        t.sleep(1000);
+
         if(args.length > 1)  {
             handleAddedArguments(args);
         }
-      }
+        thr.join();
+    }
 
 
 }
