@@ -102,7 +102,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
-              sb.append("base=${base1}.pep.xml\n");
+        sb.append("base=${base1}.pep.xml\n");
 
 
         sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
@@ -120,8 +120,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
         sb.append("   -num_threads 32   ");
 
-        sb.append(" -outfmt ");
-        sb.append(Integer.toString(job.format.code));
 
         sb.append(" -out ");
         String str = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
@@ -182,7 +180,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     protected String makeSampleSubmitToCPU(String data) {
         String inputLocationDir = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-        String inputLocation = inputLocationDir + "/splitFile001.faa";
+        String inputLocation = inputLocationDir + "/splitFile001.mgf";
         data = data.replace("${filename}", inputLocation);
              data = data.replace("${base}", "splitFile001.xml");
 
@@ -309,8 +307,63 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         }
     }
 
-    public File splitQuery(File in) {
-        int numberEntries = FastaTools.countFastaEntities(in);
+
+    /**
+     * read a fasta file return the number of fields
+     *
+     * @param rdr
+     * @return
+     */
+    public static int countMGFEntities(File f) {
+        try {
+            LineNumberReader rdr = new LineNumberReader(new FileReader(f));
+            return countMGFEntities(rdr);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    /**
+     * read a fasta file return the number of fields
+     *
+     * @param rdr
+     * @return
+     */
+    public static int countMGFEntities(List<File> input) {
+        int ret = 0;
+        for (File file : input) {
+            ret += countMGFEntities(file);
+        }
+        return ret;
+    }
+
+
+    /**
+     * read a fasta file return the number of fields
+     *
+     * @param rdr
+     * @return
+     */
+    public static int countMGFEntities(LineNumberReader rdr) {
+        try {
+            int ret = 0;
+            String line = rdr.readLine();
+            while (line != null) {
+                if (line.startsWith("BEGIN IONS"))
+                    ret++;
+                line = rdr.readLine();
+            }
+            rdr.close();
+            return ret;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public File splitSpectra(File in) {
+        int numberEntries = countMGFEntities(in);
 
         int splitSize = numberEntries;
         if (numberEntries > 70)
@@ -321,8 +374,56 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         outDirectory.setReadable(true,true);
 
         String baseName = "splitFile";
-        FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
+        splitMGFFile(in, outDirectory, baseName, splitSize, numberEntries);
         return outDirectory;
+    }
+
+
+    public static void splitMGFFile(File in, File outDirectory, String baseName, int splitSize, int numberEntries) {
+        splitMGFFile(in, outDirectory, baseName, splitSize,numberEntries, Integer.MAX_VALUE);
+    }
+
+    public static void splitMGFFile(File in, File outDirectory, String baseName, int splitSize,  int numberEntries,int maxsplits) {
+        try {
+            LineNumberReader rdr = FastaTools.getReader(in);
+            if (!outDirectory.exists()) {
+                if (!outDirectory.mkdirs())
+                    throw new UnsupportedOperationException("Cannot make output directory " + outDirectory);
+            }
+               int numberSplits =   numberEntries/ splitSize;
+            rdr = FastaTools.getReader(in);
+            String line = rdr.readLine();
+            for (int i = 0; i < numberSplits; i++) {
+                String index = String.format("%03d", i + 1);
+                File outFile = new File(outDirectory, baseName + index + ".mgf");
+                System.out.println(outFile.getAbsolutePath());
+                PrintWriter out = FastaTools.getWriter(outFile);
+                if(i + 1 == numberSplits)
+                    splitSize = Integer.MAX_VALUE;
+                line = writeSplit(out, rdr, line, splitSize);
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    private static String writeSplit(PrintWriter out, LineNumberReader rdr, String line, int splitSize) throws IOException {
+        int count = 0;
+        while (line != null) {
+            if (line.startsWith("BEGIN IONS")) {
+                count++;
+                if (count > splitSize) {
+                    out.close();
+                    return line;
+                }
+            }
+            out.println(line);
+            line = rdr.readLine();
+        }
+        out.close();
+        return line;
     }
 
 
@@ -447,7 +548,8 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
             ClusterSession.releaseClusterSession(session);
-            File outDirectory = splitQuery(job.query);
+            File spectra = new File(job.query.getParentFile(),job.database);
+            File outDirectory = splitSpectra(spectra);
             writeScripts();
             logMessage("writeScripts");
             setState(JobState.ScriptsWritten);
@@ -475,6 +577,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             priors = getJobNumbers(session);
 
             command = "salloc " + defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
+            System.out.println(command);
             session.executeOneLineCommand(command);
 
             waitEmptyJobQueue(session, priors);
@@ -501,7 +604,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             //     cleanUp();
             setState(JobState.FilesCleanedUp);
 
-            sendEmail();
+            sendEmail(getLogger());
             setState(JobState.NotificationSent);
             ClusterSession.releaseClusterSession(session);
 

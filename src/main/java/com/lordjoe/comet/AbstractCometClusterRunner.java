@@ -2,6 +2,7 @@ package com.lordjoe.comet;
 
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.ssh.*;
+import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
 
 import java.io.*;
@@ -247,19 +248,28 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
 
 
 
+    public ILogger getLogger() {
+        return new ILogger() {
+            @Override
+            public void log(String message) {
+                logMessage(message);
+            }
+        };
+    }
 
 
-      protected abstract  void cleanUp();
 
-    protected final  void sendEmail() {
+    protected abstract  void cleanUp();
+
+    protected final  void sendEmail(ILogger log) {
         String recipient = (String) parameters.get("email");
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += "output is here " + buildDownloadUrl();
+        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
         logMessage("readyToSendEmail");
-        SendMail.sendMail(recipient, subjectline, messagebody);
+        SendMail.sendMail(recipient, subjectline, messagebody,log);
         logMessage("emailSent");
     }
 

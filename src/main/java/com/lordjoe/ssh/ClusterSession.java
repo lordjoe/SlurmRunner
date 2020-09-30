@@ -389,6 +389,7 @@ public class ClusterSession {
                         sftp.cd(folder);
                     } catch (SftpException e) {
                         sftp.mkdir(folder);
+                        sftp.chmod(777,folder);
                         sftp.cd(folder);
                     }
                 }
@@ -501,7 +502,7 @@ public class ClusterSession {
     public String executeOneLineCommand(String command) throws IOException {
         Session session = getSession();
         String out = null;
-
+        int exitStatus = 0;
         System.out.println("Executing  " + command);
         try {
             //Open channel to send commands
@@ -528,7 +529,7 @@ public class ClusterSession {
 
                 }
                 if(channel.isClosed()){
-                    int exitStatus = channel.getExitStatus();
+                      exitStatus = channel.getExitStatus();
 
                     if(exitStatus != 0) {
                         System.out.println("exit-status: " + exitStatus);
@@ -555,6 +556,10 @@ public class ClusterSession {
 
             out = new String(output.toByteArray()).trim();
             String errout = new String(error.toByteArray());
+            if(exitStatus != 0) {
+                System.out.println("Output: " + out);
+                System.out.println("Error: " + errout);
+            }
             return out;
 
         } catch (JSchException e) {

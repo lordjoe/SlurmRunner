@@ -40,18 +40,6 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
         throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
-    @Override
-    protected String buildDownloadUrl() {
-        StringBuilder sb = new StringBuilder();
-        String tomcatURL = getClusterProperties().getProperty("TomcatUrl");
-        sb.append(tomcatURL);
-        sb.append("?filename=");
-        sb.append(job.output);
-        sb.append("&directory=");
-        sb.append(job.id);
-
-        return sb.toString();
-    }
 
 
     @Override
@@ -120,7 +108,7 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
             String result = BLastTools.executeCommand(commandargs);
             logMessage(result);
 
-            sendEmail();
+            sendEmail(getLogger());
             setState(JobState.NotificationSent);
 
             logMessage(job.id + " is completed");

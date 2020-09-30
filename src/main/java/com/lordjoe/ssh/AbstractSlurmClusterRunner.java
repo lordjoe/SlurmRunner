@@ -1,6 +1,7 @@
 package com.lordjoe.ssh;
 
 import com.jcraft.jsch.SftpException;
+import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
 
 import java.io.File;
@@ -260,19 +261,42 @@ public abstract class AbstractSlurmClusterRunner implements IJobRunner {
 
       protected abstract  void cleanUp();
 
-    protected final  void sendEmail() {
+    protected final  void sendEmail(ILogger  logger) {
         String recipient = (String) parameters.get("email");
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += "output is here " + buildDownloadUrl();
+        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+
 
         logMessage("readyToSendEmail");
-        SendMail.sendMail(recipient, subjectline, messagebody);
+        SendMail.sendMail(recipient, subjectline, messagebody,logger);
         logMessage("emailSent");
     }
 
-    protected abstract  String buildDownloadUrl();
+    public ILogger getLogger() {
+        return new ILogger() {
+            @Override
+            public void log(String message) {
+                logMessage(message);
+            }
+        };
+    }
+
+
+    protected String buildDownloadUrl() {
+        StringBuilder sb = new StringBuilder();
+        String tomcatURL = getClusterProperties().getProperty("TomcatUrl");
+        sb.append(tomcatURL);
+        sb.append("/SlurmProject/download");
+        sb.append("?filename=");
+        sb.append(job.output);
+        sb.append("&directory=");
+        sb.append(job.id);
+
+        return sb.toString();
+    }
+
 
 
 

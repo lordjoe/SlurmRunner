@@ -116,7 +116,7 @@ public class FastaTools {
         }
     }
 
-    private static LineNumberReader getReader(File f) {
+    public static LineNumberReader getReader(File f) {
         try {
             return new LineNumberReader(new FileReader(f));
         } catch (FileNotFoundException e) {
@@ -125,7 +125,7 @@ public class FastaTools {
         }
     }
 
-    private static PrintWriter getWriter(File f) {
+    public static PrintWriter getWriter(File f) {
         try {
             return new PrintWriter(new FileWriter(f));
         } catch (IOException e) {

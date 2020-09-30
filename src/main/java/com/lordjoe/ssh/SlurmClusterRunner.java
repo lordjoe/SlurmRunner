@@ -21,7 +21,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     static Logger LOG = Logger.getLogger(SlurmClusterRunner.class.getName());
 
 
-
     public SlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         super(job, param);
 
@@ -36,7 +35,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             return ret;
         } catch (IOException e) {
             throw new RuntimeException(e);
-         }
+        }
     }
 
 
@@ -67,24 +66,22 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append("java -jar");
 
         sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar ");
-        if(isXml())
-            sb.append(" com.lordjoe.blast.MergeXML ") ;
+        if (isXml())
+            sb.append(" com.lordjoe.blast.MergeXML ");
         else
-            sb.append(" com.lordjoe.blast.MergeTXT ") ;
+            sb.append(" com.lordjoe.blast.MergeTXT ");
 
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
         String output = job.output.toString().replace("\\", "/");
-    //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
+        //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(output);
 
         String s = sb.toString();
         return s;
     }
-
-
 
 
     public String generateExecutionScript() {
@@ -112,7 +109,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
-        if(isXml())
+        if (isXml())
             sb.append("base=${base1}.xml\n");
         else
             sb.append("base=${base1}.txt\n");
@@ -182,11 +179,13 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String data = generateExecutionScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
             me.ftpFileCreate(file, is);
+            me.executeCommand("chmod a+x " + file);
 
             file = "sampleSubmitToCPUNode.sh";
             data = makeSampleSubmitToCPU(data);
             is = new ByteArrayInputStream(data.getBytes());
             me.ftpFileCreate(file, is);
+            me.executeCommand("chmod a+x " + file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -196,7 +195,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         String inputLocationDir = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
         String inputLocation = inputLocationDir + "/splitFile001.faa";
         data = data.replace("${filename}", inputLocation);
-        if(isXml())
+        if (isXml())
             data = data.replace("${base}", "splitFile001.xml");
         else
             data = data.replace("${base}", "splitFile001.txt");
@@ -212,6 +211,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String data = generateMergerScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
             me.ftpFileCreate(file, is);
+            me.executeCommand("chmod a+x " + file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -229,7 +229,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         }
     }
 
-    public   Set<Integer> getJobNumbers(ClusterSession me) {
+    public Set<Integer> getJobNumbers(ClusterSession me) {
         String user = getClusterProperties().getProperty("UserName");
         return getJobNumbers(me, user);
     }
@@ -291,6 +291,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             String outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
             me.mkdir(outputDirectoryOnCluster);
+            me.executeOneLineCommand("chmod a+rwx " + defaultDirectory + outputDirectoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
@@ -298,24 +299,25 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             String directoryOnCluster = getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
+            me.executeOneLineCommand("chmod a+rwx "  + defaultDirectory +  directoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             directoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
+            me.executeOneLineCommand("chmod a+rwx "  + defaultDirectory +  directoryOnCluster);
 
 
             writeExecutionScript(me);
             writeMergerScript(me);
             writeIterationScript(me);
 
+            me.executeOneLineCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster + "/*.sh");
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
-            me.executeOneLineCommand("chmod a+x " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/*");
-            me.executeOneLineCommand("chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id);
             ClusterSession.releaseClusterSession(me);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -329,7 +331,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         if (numberEntries > 70)
             splitSize = (numberEntries / 7);
 
-        File outDirectory = new File(getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id);
+        File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();
 
         String baseName = "splitFile";
@@ -340,11 +342,11 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     public void transferFilesToCluster() {
         try {
-            File outDirectory = new File(getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id);
+            File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
             File[] files = outDirectory.listFiles();
             if (files != null) {
-                String directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                        getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id;
+                String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                        getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
                 ClusterSession me = ClusterSession.getClusterSession();
                 me.mkdir(directoryOnCluster);
 
@@ -381,16 +383,16 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
     protected void cleanUp() {
-        String directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id;
+        String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
         ClusterSession me = ClusterSession.getClusterSession();
         ChannelSftp sftp = me.getSFTP();
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
-        directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeOutputDirectory") + "/" + job.id;
+        directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
-        directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id;
+        directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
 
         ClusterSession.releaseClusterSession(me);
@@ -406,7 +408,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         long size = local.length();
         logMessage("LocalFileFound");
         try {
-            String remoteFile = getClusterProperties() .getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
+            String remoteFile = getClusterProperties().getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
             ClusterSession me = ClusterSession.getClusterSession();
             ChannelSftp sftp = me.getSFTP();
             SftpATTRS fileStat = null;
@@ -437,23 +439,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
 
-    protected String buildDownloadUrl() {
-        StringBuilder sb = new StringBuilder();
-        String tomcatURL = getClusterProperties() .getProperty("TomcatUrl");
-        sb.append(tomcatURL);
-        sb.append("?filename=");
-        sb.append(job.output);
-        sb.append("&directory=");
-        sb.append(job.id);
-
-        return sb.toString();
-    }
-
-
     @Override
     public void run() {
         try {
-            String defaultDirectory = getClusterProperties() .getProperty("LocationOfDefaultDirectory");
+            String defaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
 
 
             logMessage("guaranteeJarFile");
@@ -485,31 +474,43 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             // what is the user running before we start
             Set<Integer> priors = getJobNumbers(session);
 
-            String command = defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "runBlast.sh";
+            String command = defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "runBlast.sh";
             setState(JobState.BlastCalled);
+            System.out.println(command);
 
             session.executeOneLineCommand(command);
             waitEmptyJobQueue(session, priors);
             logMessage("blast run");
             setState(JobState.BlastFinished);
 
+            // set permissions
+            command = "chmod a+rwx " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
+            session.executeOneLineCommand(command);
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.xml";
+            session.executeOneLineCommand(command);
+
+
             // what is the user running before we start
             priors = getJobNumbers(session);
 
             command = "salloc " + defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
+            System.out.println(command);
             session.executeOneLineCommand(command);
 
-            waitEmptyJobQueue(session, priors);
+           waitEmptyJobQueue(session, priors);
             logMessage("files merged");
             setState(JobState.FilesMerged);
 
+
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "*.xml";
+            session.executeOneLineCommand(command);
 
             //     ChannelSftp sftp = session.getSFTP();
             String output = job.output.toString().replace("\\", "/");
             String outputx = output.substring(Math.max(0, output.indexOf("/")));
             StringBuilder sb = new StringBuilder();
 
-            sb.append(getClusterProperties() .getProperty("LocationOfDefaultDirectory") + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
+            sb.append(getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
             sb.append(outputx);
 
 
@@ -523,7 +524,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             //     cleanUp();
             setState(JobState.FilesCleanedUp);
 
-            sendEmail();
+            sendEmail(getLogger());
             setState(JobState.NotificationSent);
             ClusterSession.releaseClusterSession(session);
 

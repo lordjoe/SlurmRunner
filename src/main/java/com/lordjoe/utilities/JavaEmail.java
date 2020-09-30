@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.Properties;
 
 public class JavaEmail {
-    public static boolean UseListSMTP = true; // !System.getProperty("user.name").equalsIgnoreCase("steve");
+    public static boolean UseListSMTP = false; // !System.getProperty("user.name").equalsIgnoreCase("steve");
 
     private static String g_username = "FEDER-bio-HPC-jobs@list.lu";
 
