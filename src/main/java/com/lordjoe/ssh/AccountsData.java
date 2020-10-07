@@ -111,7 +111,7 @@ public class AccountsData {
     private static void loadUnEncryptedFile(String file,Properties temp,Map<String,AccountsData> decrypted) {
         try {
             decrypted.clear();
-            loadProperties(ENCRYPTED_NAME,temp);
+            loadProperties(file,temp);
 
             for (String o : temp.stringPropertyNames()) {
                 String name = o;

@@ -9,14 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobState.java" afterDir="false" />
-    </list>
+    <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -440,7 +433,7 @@
       <workItem from="1600882876572" duration="38189000" />
       <workItem from="1601318708203" duration="14733000" />
       <workItem from="1601574071085" duration="8440000" />
-      <workItem from="1601746411973" duration="13551000" />
+      <workItem from="1601746411973" duration="13959000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -547,7 +540,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601424073542</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Working on comet">
+      <created>1602089101461</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1602089101461</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,10 +613,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599868381212" />
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1601424072503">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1602089101290">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601424072503" />
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602089101290" />
     <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1600977063530">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -659,10 +659,10 @@
     </state>
     <state x="1827" y="343" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595537142678" />
     <state x="3928" y="417" width="1030" height="846" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593379956242" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1601424075028">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1602089103557">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601424075028" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602089103557" />
     <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1600893690569">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
