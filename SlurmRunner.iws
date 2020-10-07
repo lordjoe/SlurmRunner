@@ -10,20 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/ILogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/FastaTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/FastaTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/server/CometLaunchServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/server/CometLaunchServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AbstractSlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AbstractSlurmClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JavaEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobState.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +64,6 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -102,11 +93,12 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.build.tools" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/web/WEB-INF" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.lordjoe.comet" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/data/comet" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.lordjoe.comet" />
@@ -114,12 +106,11 @@
       <recent name="com.lordjoe.server" />
       <recent name="com.lordjoe.ssh" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/webapp" />
-      <recent name="$PROJECT_DIR$/web/WEB-INF" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/comet" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SlurmLocalRunner EColi100  ">
+  <component name="RunManager" selected="Application.CometLocalRunner">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -148,6 +139,21 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.lordjoe.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CometLocalRunner" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.comet.CometLocalRunner" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value="-query eg3.mgf -params cometeg3_new.params   -db uniprot_sprot.fasta   -user Steve -email lordjoe2000@gmail.com" />
+      <option name="WORKING_DIRECTORY" value="/opt/blastserver/g66c866a-4249-485d-a26b-06d7aab6260a" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lordjoe.comet.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -229,7 +235,7 @@
     <configuration name="MergeCometXML" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.lordjoe.comet.MergeCometXML" />
       <module name="SlurmRunner" />
-      <option name="PROGRAM_PARAMETERS" value="comet_answer merged_file.xml" />
+      <option name="PROGRAM_PARAMETERS" value="/opt/blastserver/12746dfd-c593-44e5-aa0b-d02ea2c925f0/Output_Dir /opt/blastserver/12746dfd-c593-44e5-aa0b-d02ea2c925f0/scripts/merged_file.pep.xml" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
       <extension name="coverage">
         <pattern>
@@ -356,6 +362,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.CometClusterRunner" />
+      <item itemvalue="Application.CometLocalRunner" />
       <item itemvalue="Application.Jetty launch" />
       <item itemvalue="Application.JettyServer EColi100" />
       <item itemvalue="Application.LocalCometRunner" />
@@ -374,11 +381,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MergeCometXML" />
         <item itemvalue="Application.CometLaunchServlet" />
         <item itemvalue="Application.JavaEmail" />
         <item itemvalue="Application.Mailer" />
         <item itemvalue="Application.SendMail" />
-        <item itemvalue="Application.MergeCometXML" />
       </list>
     </recent_temporary>
   </component>
@@ -431,7 +438,9 @@
       <workItem from="1600623688708" duration="2702000" />
       <workItem from="1600882723052" duration="39000" />
       <workItem from="1600882876572" duration="38189000" />
-      <workItem from="1601318708203" duration="12866000" />
+      <workItem from="1601318708203" duration="14733000" />
+      <workItem from="1601574071085" duration="8440000" />
+      <workItem from="1601746411973" duration="13551000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -531,7 +540,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600972201308</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Working on comet">
+      <created>1601424073541</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1601424073542</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -562,21 +578,18 @@
     <MESSAGE value="commit from PC somed comet code not fully realized encrypted" />
     <MESSAGE value="Fixed clusterproperties" />
     <MESSAGE value="Working in email - added jave email" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working in email - added jave email" />
+    <MESSAGE value="Working on comet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on comet" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2162" y="172" width="1030" height="846" key="#Project_Structure" timestamp="1592684107583">
+    <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1601765205543">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2162" y="172" width="1030" height="846" key="#Project_Structure/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592684107583" />
-    <state x="2359" y="249" width="637" height="692" key="#TomEE" timestamp="1592685750366">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state x="2359" y="249" width="637" height="692" key="#TomEE/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685750366" />
-    <state x="3924" y="475" width="1467" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601405179345">
+    <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601765205543" />
+    <state x="3849" y="382" width="1467" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602086077533">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
-    <state x="3924" y="475" width="1467" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601405179345" />
+    <state x="3849" y="382" width="1467" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602086077533" />
     <state x="3780" y="517" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1595106365688" />
     <state x="631" y="285" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750039649" />
     <state x="2322" y="451" width="595" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599003654186">
@@ -588,18 +601,6 @@
     </state>
     <state x="2447" y="324" width="380" height="627" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599846945709" />
     <state x="767" y="316" key="#com.intellij.ide.util.MemberChooser/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594674207520" />
-    <state x="4254" y="621" width="531" height="417" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1593041713208">
-      <screen x="3600" y="250" width="1920" height="1080" />
-    </state>
-    <state x="4254" y="621" width="531" height="417" key="#com.intellij.ide.util.TreeClassChooserDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593041713208" />
-    <state x="2297" y="264" width="760" height="662" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1592684556347">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state x="2297" y="264" width="760" height="662" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592684556347" />
-    <state x="2381" y="255" width="1031" height="680" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable" timestamp="1592685921625">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state x="2381" y="255" width="1031" height="680" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592685921625" />
     <state x="642" y="342" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1597039791194">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
@@ -612,76 +613,39 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599868381212" />
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1600972200594">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1601424072503">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600972200594" />
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601424072503" />
     <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1600977063530">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600977063530" />
-    <state x="4599" y="554" width="430" height="485" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593041789218" />
     <state x="999" y="330" key="FileChooserDialogImpl/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597040487857" />
-    <state width="1440" height="765" key="GridCell.Tab.0.bottom" timestamp="1601403948653">
+    <state width="1440" height="765" key="GridCell.Tab.0.bottom" timestamp="1602028900456">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="765" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601403948653" />
+    <state width="1440" height="765" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602028900456" />
     <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="765" key="GridCell.Tab.0.center" timestamp="1601403948653">
+    <state width="1440" height="765" key="GridCell.Tab.0.center" timestamp="1602028900456">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="765" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601403948653" />
+    <state width="1440" height="765" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602028900456" />
     <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="765" key="GridCell.Tab.0.left" timestamp="1601403948653">
+    <state width="1440" height="765" key="GridCell.Tab.0.left" timestamp="1602028900456">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="765" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601403948653" />
+    <state width="1440" height="765" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602028900456" />
     <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="765" key="GridCell.Tab.0.right" timestamp="1601403948653">
+    <state width="1440" height="765" key="GridCell.Tab.0.right" timestamp="1602028900456">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="765" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601403948653" />
+    <state width="1440" height="765" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602028900456" />
     <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1167" height="299" key="GridCell.Tab.1.bottom" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.1.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state width="1167" height="299" key="GridCell.Tab.1.center" timestamp="1592688488010">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.1.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488010" />
-    <state width="1167" height="299" key="GridCell.Tab.1.left" timestamp="1592688488010">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.1.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488010" />
-    <state width="1167" height="299" key="GridCell.Tab.1.right" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.1.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state width="1167" height="299" key="GridCell.Tab.2.bottom" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.2.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state width="1167" height="299" key="GridCell.Tab.2.center" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.2.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state width="1167" height="299" key="GridCell.Tab.2.left" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.2.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state width="1167" height="299" key="GridCell.Tab.2.right" timestamp="1592688488011">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state width="1167" height="299" key="GridCell.Tab.2.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592688488011" />
-    <state x="2262" y="332" width="1216" height="692" key="IDE.errors.dialog" timestamp="1592687333424">
-      <screen x="1680" y="0" width="1920" height="1200" />
-    </state>
-    <state x="2262" y="332" width="1216" height="692" key="IDE.errors.dialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1592687333424" />
     <state x="4080" y="476" width="930" height="685" key="Maven.ArtifactSearchDialog" timestamp="1593203648944">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
@@ -695,10 +659,10 @@
     </state>
     <state x="1827" y="343" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595537142678" />
     <state x="3928" y="417" width="1030" height="846" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593379956242" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1600972230739">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1601424075028">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1600972230739" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601424075028" />
     <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1600893690569">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -725,10 +689,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2283" y="277" key="run.anything.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595954504146" />
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1601402105562">
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup" timestamp="1602087651445">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601402105562" />
+    <state x="2264" y="320" width="672" height="754" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602087651445" />
     <state x="4184" y="538" width="672" height="678" key="search.everywhere.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1593202748703" />
   </component>
   <component name="XDebuggerManager">
@@ -811,7 +775,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
-          <line>611</line>
+          <line>504</line>
           <option name="timeStamp" value="223" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -821,7 +785,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java</url>
-          <line>102</line>
+          <line>144</line>
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -895,11 +859,6 @@
           <option name="timeStamp" value="312" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java</url>
-          <line>268</line>
-          <option name="timeStamp" value="313" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
           <line>497</line>
           <option name="timeStamp" value="317" />
@@ -911,18 +870,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
-          <line>448</line>
+          <line>341</line>
           <option name="timeStamp" value="330" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
-          <line>556</line>
+          <line>449</line>
           <option name="timeStamp" value="332" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
-          <line>181</line>
-          <option name="timeStamp" value="333" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
@@ -933,6 +887,46 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
           <line>103</line>
           <option name="timeStamp" value="340" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java</url>
+          <line>163</line>
+          <option name="timeStamp" value="354" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java</url>
+          <line>235</line>
+          <option name="timeStamp" value="357" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java</url>
+          <line>225</line>
+          <option name="timeStamp" value="363" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java</url>
+          <line>197</line>
+          <option name="timeStamp" value="365" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="366" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="367" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/MergeCometXML.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="368" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/MergeCometXML.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="369" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

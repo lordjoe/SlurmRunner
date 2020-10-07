@@ -3,14 +3,15 @@ package com.lordjoe.comet;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.ssh.BlastLaunchDTO;
 import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -182,7 +183,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         String inputLocationDir = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
         String inputLocation = inputLocationDir + "/splitFile001.mgf";
         data = data.replace("${filename}", inputLocation);
-             data = data.replace("${base}", "splitFile001.xml");
+             data = data.replace("${base}", "splitFile001.xml");https://www.google.com/calendar?tab=mc
 
         data = data.replace("batchOutput$2.txt", "batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
         return data;
@@ -233,12 +234,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         }
     }
 
-    protected static Integer parseJobId(String item) {
-        item = item.trim();
-        int index = item.indexOf(" ");
-        String s = item.substring(0, index).trim();
-        return new Integer(s);
-    }
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
         justSleep(2000); // make sure we have jobs
@@ -308,60 +303,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     }
 
 
-    /**
-     * read a fasta file return the number of fields
-     *
-     * @param rdr
-     * @return
-     */
-    public static int countMGFEntities(File f) {
-        try {
-            LineNumberReader rdr = new LineNumberReader(new FileReader(f));
-            return countMGFEntities(rdr);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
-
-    /**
-     * read a fasta file return the number of fields
-     *
-     * @param rdr
-     * @return
-     */
-    public static int countMGFEntities(List<File> input) {
-        int ret = 0;
-        for (File file : input) {
-            ret += countMGFEntities(file);
-        }
-        return ret;
-    }
-
-
-    /**
-     * read a fasta file return the number of fields
-     *
-     * @param rdr
-     * @return
-     */
-    public static int countMGFEntities(LineNumberReader rdr) {
-        try {
-            int ret = 0;
-            String line = rdr.readLine();
-            while (line != null) {
-                if (line.startsWith("BEGIN IONS"))
-                    ret++;
-                line = rdr.readLine();
-            }
-            rdr.close();
-            return ret;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
-
     public File splitSpectra(File in) {
         int numberEntries = countMGFEntities(in);
 
@@ -376,54 +317,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         String baseName = "splitFile";
         splitMGFFile(in, outDirectory, baseName, splitSize, numberEntries);
         return outDirectory;
-    }
-
-
-    public static void splitMGFFile(File in, File outDirectory, String baseName, int splitSize, int numberEntries) {
-        splitMGFFile(in, outDirectory, baseName, splitSize,numberEntries, Integer.MAX_VALUE);
-    }
-
-    public static void splitMGFFile(File in, File outDirectory, String baseName, int splitSize,  int numberEntries,int maxsplits) {
-        try {
-            LineNumberReader rdr = FastaTools.getReader(in);
-            if (!outDirectory.exists()) {
-                if (!outDirectory.mkdirs())
-                    throw new UnsupportedOperationException("Cannot make output directory " + outDirectory);
-            }
-               int numberSplits =   numberEntries/ splitSize;
-            rdr = FastaTools.getReader(in);
-            String line = rdr.readLine();
-            for (int i = 0; i < numberSplits; i++) {
-                String index = String.format("%03d", i + 1);
-                File outFile = new File(outDirectory, baseName + index + ".mgf");
-                System.out.println(outFile.getAbsolutePath());
-                PrintWriter out = FastaTools.getWriter(outFile);
-                if(i + 1 == numberSplits)
-                    splitSize = Integer.MAX_VALUE;
-                line = writeSplit(out, rdr, line, splitSize);
-
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
-
-    private static String writeSplit(PrintWriter out, LineNumberReader rdr, String line, int splitSize) throws IOException {
-        int count = 0;
-        while (line != null) {
-            if (line.startsWith("BEGIN IONS")) {
-                count++;
-                if (count > splitSize) {
-                    out.close();
-                    return line;
-                }
-            }
-            out.println(line);
-            line = rdr.readLine();
-        }
-        out.close();
-        return line;
     }
 
 
@@ -548,7 +441,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
             ClusterSession.releaseClusterSession(session);
-            File spectra = new File(job.query.getParentFile(),job.database);
+            File spectra = job.query;
             File outDirectory = splitSpectra(spectra);
             writeScripts();
             logMessage("writeScripts");
@@ -617,29 +510,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             setState(JobState.Failed);
         }
     }
-
-    public static String getStaceTraceString(Exception e) {
-        StringBuilder sb = new StringBuilder();
-
-        StackTraceElement[] stackTrace = e.getStackTrace();
-        for (int i = 0; i < stackTrace.length; i++) {
-            sb.append(stackTrace[i].toString() + "\n");
-
-        }
-        return sb.toString();
-    }
-
-
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        jobdir.setReadable(true,true);
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
-    }
-
 
     public static CometClusterRunner run(Map<String, String> data) {
         ClusterSession.fixLogging();

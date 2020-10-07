@@ -22,6 +22,7 @@ public enum JobState {
     JarGuaranteed(InputSplit,2),
     RunStarted(JarGuaranteed,1),
     WaitingToStart(RunStarted,0),
+    CometCalled(BlastFinished,13),
 
     Failed(NullState,0);
 
