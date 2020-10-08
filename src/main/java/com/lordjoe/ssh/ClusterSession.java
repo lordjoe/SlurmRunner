@@ -389,7 +389,7 @@ public class ClusterSession {
                         sftp.cd(folder);
                     } catch (SftpException e) {
                         sftp.mkdir(folder);
-                        sftp.chmod(777,folder);
+                        sftp.chmod(0777,folder);
                         sftp.cd(folder);
                     }
                 }
@@ -482,12 +482,15 @@ public class ClusterSession {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         ByteArrayOutputStream error = new ByteArrayOutputStream();
-        shell.exec(command,
+        int exec = shell.exec(command,
                 new DeadInputStream(),
                 output,
                 error
         );
 
+        if(exec != 0)  {
+            System.err.println(command + " returned " + exec);
+        }
         String out = new String(output.toByteArray());
         String errout = new String(error.toByteArray());
 

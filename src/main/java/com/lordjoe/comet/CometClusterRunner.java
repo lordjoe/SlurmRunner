@@ -11,6 +11,7 @@ import com.lordjoe.utilities.FileUtilities;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -79,17 +80,10 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
     public String generateExecutionScript() {
-        Set<String> usedParameters = new HashSet<>();
-        // never use these
-        usedParameters.add("email");
-        usedParameters.add("user");
-        usedParameters.add("JobId");
-        // har code these
-        usedParameters.add("query");
-        usedParameters.add("out");
-        usedParameters.add("db");
-        usedParameters.add("outfmt");
-        usedParameters.add("num_threads");
+
+
+        Properties clusterProperties = getClusterProperties();
+        String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
 
 
         StringBuilder sb = new StringBuilder();
@@ -103,40 +97,21 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
-        sb.append("base=${base1}.pep.xml\n");
+  
 
 
-        sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
-
-        String program = getClusterProperties().getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
+        String program = "comet ";
         sb.append(program);
-        sb.append(" -query ");
-
-        sb.append("${filename}");
-        sb.append(" ");
-
-        sb.append(" -db ");
-        // it does not liek -remote
-        sb.append(job.database.replace("-remote", ""));
-
-        sb.append("   -num_threads 32   ");
+        sb.append(" -P");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.output);
+        sb.append(" -D");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.database);
+        sb.append(" -N");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id   + "/${base1}");
+        sb.append("  ");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id   + "/${base}");
 
 
-        sb.append(" -out ");
-        String str = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
-        str += "/" + "${base}";
-        sb.append(str);
-
-
-        for (String parameter : parameters.keySet()) {
-            if (usedParameters.contains(parameter))
-                continue;
-            usedParameters.add(parameter);
-            sb.append(" -" + parameter);
-            String value = parameters.get(parameter).toString();
-            sb.append(" ");
-            sb.append(value);
-        }
 
 
         String s = sb.toString();
@@ -147,8 +122,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     public String generateSlurmIterateScript() {
         StringBuilder sb = new StringBuilder();
-        sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
-        sb.append("for file in ");
+          sb.append("for file in ");
         sb.append(getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         sb.append("/*\n");
 
@@ -180,14 +154,30 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     }
 
     protected String makeSampleSubmitToCPU(String data) {
-        String inputLocationDir = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-        String inputLocation = inputLocationDir + "/splitFile001.mgf";
-        data = data.replace("${filename}", inputLocation);
-             data = data.replace("${base}", "splitFile001.xml");https://www.google.com/calendar?tab=mc
+        Properties clusterProperties = getClusterProperties();
+        String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
+        StringBuilder sb = new StringBuilder();
+        String base1 = "splitFile001";
+        String basef = "splitFile001";
 
-        data = data.replace("batchOutput$2.txt", "batchOutput$2.txt\n#SBATCH --output=" + inputLocationDir + "/error.txt");
-        return data;
-    }
+        String program = "comet ";
+        sb.append(program);
+        sb.append(" -P");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptsDirectory") + "/" + job.id + "/"  + job.output);
+        sb.append(" -D");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptsDirectory") + "/" + job.id + "/"  + job.database);
+        sb.append(" -N");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeOutputsDirectory") + "/" + job.id + "/"  + job.database + "/" + base1);
+        sb.append("  ");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeInputsDirectory") + "/" + job.id + "/"  + job.database + "/" + basef);
+
+
+
+
+        String s = sb.toString();
+        System.out.println(s);
+        return s;
+     }
 
 
     public void writeMergerScript(ClusterSession me) {
@@ -269,21 +259,22 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
             String outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
             me.mkdir(outputDirectoryOnCluster);
-            me.executeCommand("chmod a+rwx " + outputDirectoryOnCluster);
+     //       me.executeCommand("chmod a+rwx " + defaultDirectory + outputDirectoryOnCluster);
 
-            if (!me.cd(defaultDirectory))
+                if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
             String directoryOnCluster = getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
-            me.executeCommand("chmod a+rwx " + directoryOnCluster);
+ //           me.executeCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             directoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
-            me.mkdir(directoryOnCluster);
-            me.executeCommand("chmod a+rwx " + directoryOnCluster);
+            String path =   directoryOnCluster;
+            me.mkdir(path);
+    //        me.executeCommand("chmod a+rwx " + path);
 
 
             writeExecutionScript(me);
@@ -438,13 +429,13 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 throw new IllegalStateException("cannot change to defaultDirectory");
             logMessage("Directory Guaranteed");
             setState(JobState.JarGuaranteed);
-
-
             ClusterSession.releaseClusterSession(session);
-            File spectra = job.query;
-            File outDirectory = splitSpectra(spectra);
+
             writeScripts();
             logMessage("writeScripts");
+
+            File spectra = job.query;
+            File outDirectory = splitSpectra(spectra);
             setState(JobState.ScriptsWritten);
 
             transferFilesToCluster();
@@ -526,16 +517,14 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         return me;
     }
 
-    public static CometClusterRunner run(String[] args) {
+    public static void run(String[] args) {
         Map<String, ?> data = buildParameters(args);
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
         CometClusterRunner me = new CometClusterRunner(dto, data);
 
+        me.run();
 
-        new Thread(me).start();
-
-        return me;
     }
 
      public static final boolean  RUN_LOCAL = false;
