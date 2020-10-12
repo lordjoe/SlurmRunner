@@ -75,11 +75,25 @@ public class MergeCometXML {
             System.out.println(inFile.getAbsolutePath());
             LineNumberReader rdr = new LineNumberReader(new FileReader(inFile));
             String line = rdr.readLine();
+            int NHeaderLines = 0;
+            int NHitLines = 0;
+            int NHits = 0;
+            int NSpectra = 0;
+            int NLines = 0;
             while (line != null && !line.contains("</search_summary>")) {
+                NLines++;
+                NHeaderLines++;
                 line = rdr.readLine();
             }
             line = rdr.readLine();
             while (line != null) {
+                NLines++;
+                NHitLines++;
+                if(line.contains("<spectrum_query"))
+                    NSpectra++;
+                if(line.contains("<search_hit"))
+                    NHits++;
+
                 if (line.startsWith("</msms_run_summary>")) {
                     rdr.close();
                     return;
@@ -87,6 +101,10 @@ public class MergeCometXML {
                 out.println(line);
                 line = rdr.readLine();
             }
+            rdr.close();
+            System.out.println("Number Lines = " + NLines);
+            System.out.println("Number Spectra = " + NSpectra);
+            System.out.println("Number Lines = " + NHits);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -27,7 +27,7 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
     @SuppressWarnings("unused")
     protected  SftpException forceClassLoadSoNotFoundException;
     public final BlastLaunchDTO job;
-    public Map<String, Object> parameters = new HashMap<>();
+    protected Map<String, Object> parameters = new HashMap<>();
     public final   Properties clusterPropertiesX = buildClusterProperties( );
     protected  PrintWriter logger;
 
@@ -402,8 +402,9 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
         StringBuilder sb = new StringBuilder();
         String tomcatURL = getClusterProperties().getProperty("TomcatUrl");
         sb.append(tomcatURL);
+        sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(job.output);
+        sb.append(getOutputName());
         sb.append("&directory=");
         sb.append(job.id);
 
@@ -411,7 +412,9 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
     }
 
 
-
+    public String getOutputName() {
+        return job.database.replace(".mgf",".pep.xml");
+    }
 
 
     public static String getStaceTraceString(Exception e) {

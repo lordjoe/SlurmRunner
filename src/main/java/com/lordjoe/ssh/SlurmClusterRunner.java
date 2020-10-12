@@ -125,7 +125,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         sb.append(" -db ");
         // it does not liek -remote
-        sb.append(job.database.replace("-remote", ""));
 
         sb.append("   -num_threads 32   ");
 
@@ -258,7 +257,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     }
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
-        justSleep(2000); // make sure we have jobs
+        justSleep(10000); // make sure we have jobs
         String user = getClusterProperties().getProperty("UserName");
         Set<Integer> current;
         while (true) {
@@ -266,7 +265,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             current.removeAll(priors);
             if (current.isEmpty())
                 return;
-            justSleep(1000);
+            justSleep(3000);
         }
 
     }
@@ -497,7 +496,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             System.out.println(command);
             session.executeOneLineCommand(command);
 
-           waitEmptyJobQueue(session, priors);
+            waitEmptyJobQueue(session, priors);
             logMessage("files merged");
             setState(JobState.FilesMerged);
 
