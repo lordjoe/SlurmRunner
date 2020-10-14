@@ -198,9 +198,9 @@ public class AccountsData {
     public String asTextString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(userName);
-        sb.append("=");
         sb.append(email);
+        sb.append("=");
+        sb.append(userName);
         sb.append(DELIMITER);
         sb.append(encryptedPublicKey);
 
@@ -280,12 +280,14 @@ public class AccountsData {
             loadUnEncryptedFile(propFileName,accountsTableX,accounts) ;
 
             PrintWriter out = new PrintWriter(new FileWriter(outfile));
-            for (String o : accounts.keySet()) {
-                String email = o;
+            for (Object o : accountsTableX.keySet()) {
+                String email = (String)o;
                 AccountsData value = accounts.get(o);
                 out.println(value.asTextString());
             }
             out.close();
+
+
             // Validate keys
             for (String o : accounts.keySet()) {
                 String email = o;
