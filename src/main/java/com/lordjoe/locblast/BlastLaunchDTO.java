@@ -1,4 +1,4 @@
-package com.lordjoe.ssh;
+package com.lordjoe.locblast;
 
 import java.io.File;
 import java.util.UUID;

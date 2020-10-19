@@ -1,4 +1,7 @@
-package com.lordjoe.ssh;
+package com.lordjoe.locblast;
+
+import com.lordjoe.ssh.ClusterLauncher;
+import com.lordjoe.ssh.ClusterSession;
 
 import java.io.File;
 import java.util.List;
@@ -40,8 +43,8 @@ public class BlastNRunner extends BlastRunnerTemplate {
         throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
-    private static void runOnCluster(BlastLaunchDTO dto,ClusterLauncher cl) {
-        ClusterSession  me = ClusterSession.getClusterSession();
+    private static void runOnCluster(BlastLaunchDTO dto, ClusterLauncher cl) {
+        ClusterSession me = ClusterSession.getClusterSession();
 
         File tempDir = new File(dto.id);
         List<File> files = cl.buildFileSplit(tempDir);

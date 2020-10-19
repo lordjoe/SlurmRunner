@@ -4,6 +4,9 @@ import com.jcraft.jsch.SftpException;
 import com.lordjoe.blast.*;
 import com.lordjoe.comet.CometClusterRunner;
 import com.lordjoe.fasta.FastaTools;
+import com.lordjoe.locblast.BLASTFormat;
+import com.lordjoe.locblast.BLASTProgram;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.File;

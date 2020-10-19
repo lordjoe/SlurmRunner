@@ -1,5 +1,7 @@
 package com.lordjoe.ssh;
 
+import com.lordjoe.locblast.BlastLaunchDTO;
+
 /**
  * com.lordjoe.ssh.ScriptGenerator
  * User: Steve

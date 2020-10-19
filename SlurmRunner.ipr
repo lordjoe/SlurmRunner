@@ -41,10 +41,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SlurmRunner" />
+        <module name="SSHUser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SlurmRunner" target="1.8" />
+      <module name="SSHUser" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="InspectionProjectProfileManager">
@@ -58,6 +60,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../sshuser/pom.xml" />
       </list>
     </option>
   </component>
@@ -184,9 +187,30 @@
   </component>
   <component name="ProjectCodeStyleConfiguration">
     <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
+    <code_scheme name="Project" version="173">
+      <JetCodeStyleSettings>
+        <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+          <value>
+            <package name="java.util" alias="false" withSubpackages="false" />
+            <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+            <package name="io.ktor" alias="false" withSubpackages="true" />
+          </value>
+        </option>
+        <option name="PACKAGES_IMPORT_LAYOUT">
+          <value>
+            <package name="" alias="false" withSubpackages="true" />
+            <package name="java" alias="false" withSubpackages="true" />
+            <package name="javax" alias="false" withSubpackages="true" />
+            <package name="kotlin" alias="false" withSubpackages="true" />
+            <package name="" alias="true" withSubpackages="true" />
+          </value>
+        </option>
+      </JetCodeStyleSettings>
+    </code_scheme>
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../sshuser/SSHUser.iml" filepath="$PROJECT_DIR$/../sshuser/SSHUser.iml" />
       <module fileurl="file://$PROJECT_DIR$/SlurmRunner.iml" filepath="$PROJECT_DIR$/SlurmRunner.iml" />
     </modules>
   </component>
@@ -313,6 +337,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/jcabi/jcabi-ssh/1.6/jcabi-ssh-1.6-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: com.jcraft:jsch:0.1.54">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/jcraft/jsch/0.1.54/jsch-0.1.54-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/jcraft/jsch/0.1.54/jsch-0.1.54-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: com.jcraft:jsch:0.1.55">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/jcraft/jsch/0.1.55/jsch-0.1.55.jar!/" />
@@ -399,6 +434,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.commons:commons-lang3:3.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apache.commons:commons-lang3:3.9">

@@ -1,5 +1,7 @@
 package com.lordjoe.ssh;
 
+import com.lordjoe.locblast.BlastLaunchDTO;
+
 import java.util.HashMap;
 import java.util.Map;
 

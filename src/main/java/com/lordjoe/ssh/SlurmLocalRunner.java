@@ -2,6 +2,9 @@ package com.lordjoe.ssh;
 
 import com.lordjoe.blast.BLastTools;
 import com.lordjoe.blast.OSValidator;
+import com.lordjoe.locblast.AbstractSlurmClusterRunner;
+import com.lordjoe.locblast.BLASTProgram;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.File;
@@ -42,7 +45,7 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
 
 
 
-    @Override
+ 
     public Properties buildClusterProperties() {
         try {
             File config = new File(BASE_DIRECTORY, "config");

@@ -2,7 +2,15 @@ package com.lordjoe.comet;
 
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
-import com.lordjoe.ssh.*;
+import com.lordjoe.locblast.AbstractJobRunner;
+import com.lordjoe.locblast.BLASTFormat;
+import com.lordjoe.locblast.BLASTProgram;
+import com.lordjoe.locblast.BlastLaunchDTO;
+import com.lordjoe.ssh.ClusterSession;
+import com.lordjoe.ssh.IJobRunner;
+import com.lordjoe.ssh.JobState;
+import com.lordjoe.ssh.SSHUserData;
+import com.lordjoe.utilities.FileUtilities;
 import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
 
@@ -10,9 +18,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
@@ -20,33 +26,19 @@ import java.util.logging.Logger;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public abstract class AbstractCometClusterRunner implements IJobRunner {
+public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
-    static Logger LOG = Logger.getLogger(AbstractCometClusterRunner.class.getName());
 
     @SuppressWarnings("unused")
     protected  SftpException forceClassLoadSoNotFoundException;
-    public final BlastLaunchDTO job;
-    protected Map<String, Object> parameters = new HashMap<>();
-    public final   Properties clusterPropertiesX = buildClusterProperties( );
-    protected  PrintWriter logger;
+     protected Map<String, Object> parameters = new HashMap<>();
+     protected  PrintWriter logger;
 
 
     //   public final ClusterSession session = ClusterSession.getClusterSession();
     protected  final AtomicReference<JobState> state = new AtomicReference<JobState>();
     protected    JobState lastState;
 
-    public Properties getClusterProperties() {
-        return clusterPropertiesX;
-    }
-
-    public File getDefaultTomcatDirectory() {
-        String localDir = getClusterProperties().getProperty("LocalOperatingDirectory");
-        File file = new File(localDir);
-        if (!file.exists())
-            file.mkdirs();
-        return file;
-    }
 
     protected static Integer parseJobId(String item) {
         item = item.trim();
@@ -57,48 +49,13 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
 
 
 
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        jobdir.setReadable(true,true);
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
-    }
-
-
-
     public AbstractCometClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
-        this.job = job;
+        super(job,param);
          IJobRunner.registerRunner(this);
         filterProperties(param);
 
     }
 
-
-    @Override
-    public void setLastState(JobState s) {
-        lastState = s;
-    }
-
-    @Override
-    public final JobState getLastState() {
-        return lastState;
-    }
-
-    public final void logMessage(String s) {
-        try {
-            OpenLogFile();
-            LOG.warning(s);
-            logger.println(s);
-            System.out.println(s);
-            logger.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
 
 
 
@@ -278,11 +235,21 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
             String value = args[i];
             ret.put(arg.substring(1),value);
         }
+        String user = (String)ret.get("user");
+        String email = (String)ret.get("email");
+        SSHUserData user1 = SSHUserData.getUser(email);
+        ClusterSession.setUser(user1);
+
 
         return ret;
     }
 
 
+    public static byte[] getZorzanKey() {
+        File pk = new File("/opt/blastserver/HPC.ppk");
+        return FileUtilities.readFileBytes(pk);
+    }
+  ;
 
 
 
@@ -292,11 +259,18 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
         String prefix = BLASTProgram.prefix(getJob().program);
 
         String email = (String) in.get("email");
-        if (email != null)
+        if (email != null) {
             parameters.put("email", email);
-        String user = (String) in.get("user");
-        if (user != null)
-            parameters.put("user", email);
+            SSHUserData user1 = SSHUserData.getUser(email);
+            ClusterSession.setUser(user1);
+            parameters.put("user", user1.userName);
+           }
+        else {
+            String user = (String) in.get("user");
+            if (user != null)
+                parameters.put("user", email);
+
+        }
 
         return ret;
     }
@@ -343,30 +317,7 @@ public abstract class AbstractCometClusterRunner implements IJobRunner {
 
     }
 
-
-
-    public final Properties buildClusterProperties() {
-        try {
-            Properties ret = new Properties();
-            ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
-            return ret;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public JobState getState() {
-        return state.get();
-    }
-
-    public String getId() {
-        return this.job.id;
-    }
-
-    public BlastLaunchDTO getJob() {
-        return job;
-    }
-
+ 
 
 
 

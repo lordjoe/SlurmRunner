@@ -2,10 +2,10 @@ package com.lordjoe.fasta;
 
 import com.devdaily.system.SystemCommandExecutor;
 import com.lordjoe.blast.OSValidator;
-import com.lordjoe.ssh.BLASTFormat;
-import com.lordjoe.ssh.BLASTProgram;
-import com.lordjoe.ssh.BlastJob;
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BLASTFormat;
+import com.lordjoe.locblast.BLASTProgram;
+import com.lordjoe.locblast.BlastJob;
+import com.lordjoe.locblast.BlastLaunchDTO;
 
 import java.io.File;
 import java.io.IOException;

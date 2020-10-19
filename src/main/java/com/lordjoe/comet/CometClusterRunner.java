@@ -1,9 +1,8 @@
 package com.lordjoe.comet;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.utilities.FileUtilities;
@@ -168,12 +167,12 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "submitToCPUNode.sh";
             String data = generateExecutionScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
+            me.ftpFileCreate(file, is,0777);
 
             file = "sampleSubmitToCPUNode.sh";
             data = makeSampleSubmitToCPU(data);
             is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
+            me.ftpFileCreate(file, is,0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -186,7 +185,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "mergeXMLFiles.sh";
             String data = generateMergerScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
+            me.ftpFileCreate(file, is,0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -198,7 +197,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "runBlast.sh";
             String data = generateSlurmIterateScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
+            me.ftpFileCreate(file, is,0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -286,10 +285,14 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
+            String ScriptJobDir = defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
+            ChannelSftp sftp = me.getSFTP();
+            sftp.chmod(0777,ScriptJobDir);
             me.executeOneLineCommand("chmod a+x " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/*");
-            me.executeOneLineCommand("chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id);
-            ClusterSession.releaseClusterSession(me);
-        } catch (IOException e) {
+             ClusterSession.releaseClusterSession(me);
+        } catch (SftpException e) {
+            throw new RuntimeException(e);
+        }catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -337,7 +340,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                     String fileName = file.getName();
                     String path = directoryOnCluster + "/" + fileName;
                     //           me.prepareUpload(me.getSFTP(),path,true);
-                    me.ftpFileCreate(path, is);
+                    me.ftpFileCreate(path, is,777);
                     System.out.println("Uploaded " + file.getAbsolutePath());
                 }
                 // cleanup local copy
@@ -354,7 +357,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 String fileName = job.query.getName();
                 String path = directoryOnCluster + "/" + fileName;
                 //           me.prepareUpload(me.getSFTP(),path,true);
-                me.ftpFileCreate(path, is);
+                me.ftpFileCreate(path, is,0777);
                 System.out.println("Uploaded " + job.query.getAbsolutePath());
 
                 // copy params file
@@ -363,7 +366,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
                  path = directoryOnCluster + "/" + job.output;
                 //           me.prepareUpload(me.getSFTP(),path,true);
-                me.ftpFileCreate(path, is);
+                me.ftpFileCreate(path, is,0777);
                 System.out.println("Uploaded " + params.getAbsolutePath());
 
 
@@ -393,44 +396,6 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         ClusterSession.releaseClusterSession(me);
     }
 
-    protected void guaranteeJarFile(int call) {
-        File defaultDir = new File("/opt/blastserver");
-        File local = new File(defaultDir, "SLURM_Runner.jar");
-        if (!local.exists()) {
-            String path = local.getAbsolutePath();
-            throw new IllegalStateException("local jar not found at " + path);
-        }
-        long size = local.length();
-        logMessage("LocalFileFound");
-        try {
-            String remoteFile = getClusterProperties() .getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
-            ClusterSession me = ClusterSession.getClusterSession();
-            ChannelSftp sftp = me.getSFTP();
-            SftpATTRS fileStat = null;
-            try {
-                fileStat = sftp.lstat(remoteFile);
-                long remotesize = fileStat.getSize();
-                if (remotesize == size) {
-                    ClusterSession.releaseClusterSession(me);
-                    logMessage("Remote Jar Same");
-                    return;
-                }
-            } catch (SftpException e) {
-                FileInputStream is = new FileInputStream(local);
-                me.ftpFileCreate(remoteFile, is);
-                logMessage("Remote Jar Downloaded");
-                if (call == 0)
-                    guaranteeJarFile(call + 1);
-            }
-            ClusterSession.releaseClusterSession(me);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
-
-
-    }
 
 
 

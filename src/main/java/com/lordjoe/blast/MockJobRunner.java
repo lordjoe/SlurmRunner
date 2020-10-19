@@ -1,6 +1,6 @@
 package com.lordjoe.blast;
 
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 

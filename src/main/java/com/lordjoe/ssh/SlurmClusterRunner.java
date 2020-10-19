@@ -1,13 +1,17 @@
 package com.lordjoe.ssh;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
+import com.lordjoe.locblast.AbstractSlurmClusterRunner;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -26,17 +30,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     }
 
-    @Override
-
-    public Properties buildClusterProperties() {
-        try {
-            Properties ret = new Properties();
-            ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
-            return ret;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     public String generateSlurmScript() {
@@ -124,7 +117,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append(" ");
 
         sb.append(" -db ");
+        String db = job.database.replace("-remote","");
         // it does not liek -remote
+        sb.append(db);
 
         sb.append("   -num_threads 32   ");
 
@@ -177,15 +172,15 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String file = "submitToCPUNode.sh";
             String data = generateExecutionScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
-            me.executeCommand("chmod a+x " + file);
+            me.ftpFileCreate(file, is,0777);
+            System.out.println(data);
 
             file = "sampleSubmitToCPUNode.sh";
             data = makeSampleSubmitToCPU(data);
             is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
-            me.executeCommand("chmod a+x " + file);
-        } catch (IOException e) {
+            me.ftpFileCreate(file, is,0777);
+            System.out.println(data);
+          } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -209,9 +204,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String file = "mergeXMLFiles.sh";
             String data = generateMergerScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
-            me.executeCommand("chmod a+x " + file);
-        } catch (IOException e) {
+            me.ftpFileCreate(file, is,0777);
+         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -222,14 +216,15 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String file = "runBlast.sh";
             String data = generateSlurmIterateScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is);
+            me.ftpFileCreate(file, is,0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Set<Integer> getJobNumbers(ClusterSession me) {
-        String user = getClusterProperties().getProperty("UserName");
+        SSHUserData user1 = ClusterSession.getUser();
+        String user = user1.userName;
         return getJobNumbers(me, user);
     }
 
@@ -290,7 +285,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             String outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
             me.mkdir(outputDirectoryOnCluster);
-            me.executeOneLineCommand("chmod a+rwx " + defaultDirectory + outputDirectoryOnCluster);
+            ChannelSftp sftp = me.getSFTP();
 
 
             if (!me.cd(defaultDirectory))
@@ -298,27 +293,34 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             String directoryOnCluster = getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
-            me.executeOneLineCommand("chmod a+rwx "  + defaultDirectory +  directoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             directoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
-            me.executeOneLineCommand("chmod a+rwx "  + defaultDirectory +  directoryOnCluster);
 
 
             writeExecutionScript(me);
             writeMergerScript(me);
             writeIterationScript(me);
 
-            me.executeOneLineCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster + "/*.sh");
+            outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
+            String path = defaultDirectory + outputDirectoryOnCluster + "/" + "mergeXMLFiles.sh";
+            sftp.chmod(0777, path);
+            String path1 = defaultDirectory + outputDirectoryOnCluster + "/" +"runBlast.sh";
+            sftp.chmod(0777, path1);
+            String path2 = defaultDirectory + outputDirectoryOnCluster + "/" +"submitToCPUNode.sh";
+            sftp.chmod(0777, path2);
+            String path3 = defaultDirectory + outputDirectoryOnCluster + "/" +"sampleSubmitToCPUNode.sh";
+            sftp.chmod(0777, path3);
+            //     me.executeOneLineCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster + "/*.sh");
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
             ClusterSession.releaseClusterSession(me);
-        } catch (IOException e) {
+        } catch ( Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -347,7 +349,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                 String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
                         getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
                 ClusterSession me = ClusterSession.getClusterSession();
-                me.mkdir(directoryOnCluster);
+//                me.mkdir(directoryOnCluster);
 
 //                try {
 //                    ChannelSftp sftp = me.getSFTP();
@@ -364,7 +366,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                     String fileName = file.getName();
                     String path = directoryOnCluster + "/" + fileName;
                     //           me.prepareUpload(me.getSFTP(),path,true);
-                    me.ftpFileCreate(path, is);
+                    me.ftpFileCreate(path, is,0666);
                 }
                 // cleanup local copy
                 for (int i = 0; i < files.length; i++) {
@@ -396,46 +398,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         ClusterSession.releaseClusterSession(me);
     }
-
-    protected void guaranteeJarFile(int call) {
-        File defaultDir = new File("/opt/blastserver");
-        File local = new File(defaultDir, "SLURM_Runner.jar");
-        if (!local.exists()) {
-            String path = local.getAbsolutePath();
-            throw new IllegalStateException("local jar not found at " + path);
-        }
-        long size = local.length();
-        logMessage("LocalFileFound");
-        try {
-            String remoteFile = getClusterProperties().getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
-            ClusterSession me = ClusterSession.getClusterSession();
-            ChannelSftp sftp = me.getSFTP();
-            SftpATTRS fileStat = null;
-            try {
-                fileStat = sftp.lstat(remoteFile);
-                long remotesize = fileStat.getSize();
-                if (remotesize == size) {
-                    ClusterSession.releaseClusterSession(me);
-                    logMessage("Remote Jar Same");
-                    return;
-                }
-            } catch (SftpException e) {
-                FileInputStream is = new FileInputStream(local);
-                me.ftpFileCreate(remoteFile, is);
-                logMessage("Remote Jar Downloaded");
-                if (call == 0)
-                    guaranteeJarFile(call + 1);
-            }
-            ClusterSession.releaseClusterSession(me);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
-
-
-    }
-
+ 
 
 
     @Override
@@ -450,6 +413,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             ClusterSession session = ClusterSession.getClusterSession();
 
+            ChannelSftp sftp = session.getSFTP();
             if (!session.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             logMessage("Directory Guaranteed");
@@ -470,6 +434,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             FileUtilities.expungeDirectory(outDirectory);
             logMessage("clean split");
 
+            // we are having session problems
+            ClusterSession.releaseClusterSession(session);
+            session = ClusterSession.getClusterSession();
+
             // what is the user running before we start
             Set<Integer> priors = getJobNumbers(session);
 
@@ -482,9 +450,11 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             logMessage("blast run");
             setState(JobState.BlastFinished);
 
+            String ScriptJobDir = defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
+             sftp = session.getSFTP();
             // set permissions
-            command = "chmod a+rwx " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
-            session.executeOneLineCommand(command);
+            sftp.chmod(0777,ScriptJobDir);
+            sftp.chmod(0777, defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
             command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.xml";
             session.executeOneLineCommand(command);
 
@@ -530,6 +500,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             setState(JobState.JobFinished);
             logMessage(job.id + " is completed");
             logger.close();
+        } catch (SftpException e) {
+            System.out.println(e.getMessage());
+            logMessage(getStaceTraceString(e));
+            setState(JobState.Failed);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             logMessage(getStaceTraceString(e));

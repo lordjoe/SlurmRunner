@@ -1,11 +1,10 @@
 package com.lordjoe.comet;
 
 import com.devdaily.system.SystemCommandExecutor;
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BlastLaunchDTO;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 

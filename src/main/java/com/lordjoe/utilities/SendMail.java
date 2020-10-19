@@ -89,7 +89,7 @@ public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
       //  props.put("mail.smtp.socketFactory.port", "465");
         //get Session
 
-        if(logger != null)   {
+        if(false && logger != null)   {
             logger.log("Mail properties set "  );
             for (Object o : props.keySet()) {
                 String property = props.getProperty((String) o);

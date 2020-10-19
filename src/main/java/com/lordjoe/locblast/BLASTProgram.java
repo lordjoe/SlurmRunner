@@ -1,4 +1,4 @@
-package com.lordjoe.ssh;
+package com.lordjoe.locblast;
 
 /**
  * com.lordjoe.ssh.BLASTProgram

@@ -1,7 +1,7 @@
 package com.lordjoe.comet;
 
 
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.JobState;
 
 import java.io.*;

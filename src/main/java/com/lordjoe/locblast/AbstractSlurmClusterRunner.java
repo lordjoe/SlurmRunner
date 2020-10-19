@@ -1,6 +1,9 @@
-package com.lordjoe.ssh;
+package com.lordjoe.locblast;
 
-import com.jcraft.jsch.SftpException;
+import com.lordjoe.ssh.ClusterSession;
+import com.lordjoe.ssh.IJobRunner;
+import com.lordjoe.ssh.JobState;
+import com.lordjoe.ssh.SSHUserData;
 import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
 
@@ -10,8 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 /**
@@ -20,67 +21,24 @@ import java.util.logging.Logger;
  * Date: 2/5/20
  * will be the main BLAST CAller
  */
-public abstract class AbstractSlurmClusterRunner implements IJobRunner {
+public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
 
     static Logger LOG = Logger.getLogger(AbstractSlurmClusterRunner.class.getName());
 
     @SuppressWarnings("unused")
-    protected  SftpException forceClassLoadSoNotFoundException;
-    public final BlastLaunchDTO job;
-    public Map<String, Object> parameters = new HashMap<>();
-    public final   Properties clusterPropertiesX = buildClusterProperties( );
-    protected  PrintWriter logger;
-    protected  boolean xml = true;
+     protected  boolean xml = true;
 
 
-    //   public final ClusterSession session = ClusterSession.getClusterSession();
-    protected  final AtomicReference<JobState> state = new AtomicReference<JobState>();
-    protected    JobState lastState;
-
-    public Properties getClusterProperties() {
-        return clusterPropertiesX;
-    }
-
-    public File getDefaultTomcatDirectory() {
-        String localDir = getClusterProperties().getProperty("LocalOperatingDirectory");
-        File file = new File(localDir);
-        if (!file.exists())
-            file.mkdirs();
-        return file;
-    }
 
 
     public AbstractSlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
-        this.job = job;
+        super(job,param);
         setXml(job.format == BLASTFormat.XML2 || job.format == BLASTFormat.XML);
         IJobRunner.registerRunner(this);
         filterProperties(param);
 
     }
 
-
-    @Override
-    public void setLastState(JobState s) {
-        lastState = s;
-    }
-
-    @Override
-    public final JobState getLastState() {
-        return lastState;
-    }
-
-    public final void logMessage(String s) {
-        try {
-            OpenLogFile();
-            LOG.warning(s);
-            logger.println(s);
-            System.out.println(s);
-            logger.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
-    }
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
         int index = 0;
@@ -164,8 +122,11 @@ public abstract class AbstractSlurmClusterRunner implements IJobRunner {
             }
         }
         String email = (String) in.get("email");
-        if (email != null)
+        if (email != null) {
             parameters.put("email", email);
+            SSHUserData user1 = SSHUserData.getUser(email);
+            ClusterSession.setUser(user1);
+        }
         String user = (String) in.get("user");
         if (user != null)
             parameters.put("user", email);
@@ -233,20 +194,9 @@ public abstract class AbstractSlurmClusterRunner implements IJobRunner {
 
     }
 
+ 
 
-    public abstract  Properties buildClusterProperties( ) ;
 
-    public JobState getState() {
-        return state.get();
-    }
-
-    public String getId() {
-        return this.job.id;
-    }
-
-    public BlastLaunchDTO getJob() {
-        return job;
-    }
 
 
     public boolean isXml() {
@@ -290,7 +240,7 @@ public abstract class AbstractSlurmClusterRunner implements IJobRunner {
         sb.append(tomcatURL);
         sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(job.output);
+        sb.append(job.output + ".zip");
         sb.append("&directory=");
         sb.append(job.id);
 

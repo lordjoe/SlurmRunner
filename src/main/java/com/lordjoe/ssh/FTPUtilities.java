@@ -16,7 +16,7 @@ public class FTPUtilities {
         ClusterSession  me =  ClusterSession.getClusterSession();
         try {
             String command = FileUtilities.readInFile(new File(args[0]));
-            me.ftpFileCreate(args[1], command);
+            me.ftpFileCreate(args[1], command,0666);
             Session session = me.getSession();
             session.disconnect();
             ClusterSession.releaseClusterSession(me);

@@ -1,7 +1,7 @@
 package com.lordjoe.blast;
 
-import com.lordjoe.ssh.BLASTProgram;
-import com.lordjoe.ssh.BlastLaunchDTO;
+import com.lordjoe.locblast.BLASTProgram;
+import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.JobState;
 import org.json.JSONObject;
 
