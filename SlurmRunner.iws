@@ -10,55 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/AbstractJobRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SlurmRunner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SlurmRunner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/JSonRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/JSonRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MockJobRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MockJobRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/AbstractCometClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AbstractSlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/AbstractSlurmClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/AccountsData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BLASTFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BLASTProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BLASTProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastLaunchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastNRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastNRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BlastRunnerTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastRunnerTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/BuildBlastFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BuildBlastFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterProperties.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ClusterSession.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/FTPUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/FTPUtilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/IJobRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/IJobRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/MyProgressMonitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/MyUserInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ScriptGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/ScriptGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmLocalRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Base64.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Base64Float.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Blowfish.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Deployer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/ElapsedTimer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Encrypt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/ExceptionUtilities.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/FileUtilities.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/ILogger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/IntegerRef.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/JarUtilities.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/SendMail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities/Util.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sshuser/SSHUser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/SSHUser.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sshuser/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/ClusterSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/ClusterSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/SSHUserData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/SSHUserData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/utilities/MainRunner.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -370,13 +322,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -494,7 +448,8 @@
       <workItem from="1602880877857" duration="72047000" />
       <workItem from="1602952979508" duration="1844000" />
       <workItem from="1603124076153" duration="640000" />
-      <workItem from="1603126606265" duration="14349000" />
+      <workItem from="1603126606265" duration="16669000" />
+      <workItem from="1603211717096" duration="1063000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -636,7 +591,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602654236452</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Broke out sshuser - refactored runners">
+      <created>1603148306579</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1603148306579</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -670,17 +632,19 @@
     <MESSAGE value="Working on comet" />
     <MESSAGE value="Oops used wrong permissions" />
     <MESSAGE value="Fixed Accountsa Dat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Accountsa Dat" />
+    <MESSAGE value="Broke out sshuser - refactored runners" />
+    <option name="LAST_COMMIT_MESSAGE" value="Broke out sshuser - refactored runners" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1601765205543">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601765205543" />
-    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602867112086">
+    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603149089715">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
-    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602867112086" />
+    <state x="11" y="281" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@0.150.1680.1050" timestamp="1603148918723" />
+    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603149089715" />
     <state x="3780" y="517" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1595106365688" />
     <state x="631" y="285" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750039649" />
     <state x="2322" y="451" width="595" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599003654186">
@@ -704,38 +668,38 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599868381212" />
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1602654236390">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1603148305979">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602654236390" />
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603148305979" />
     <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1603124954103">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603124954103" />
     <state x="999" y="330" key="FileChooserDialogImpl/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597040487857" />
-    <state width="1440" height="708" key="GridCell.Tab.0.bottom" timestamp="1603147482071">
+    <state width="1440" height="708" key="GridCell.Tab.0.bottom" timestamp="1603211516593">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603147482071" />
-    <state width="1710" height="508" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
+    <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516593" />
+    <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.center" timestamp="1603147482071">
+    <state width="1440" height="708" key="GridCell.Tab.0.center" timestamp="1603211516592">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603147482071" />
-    <state width="1710" height="508" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
+    <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516592" />
+    <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.left" timestamp="1603147482071">
+    <state width="1440" height="708" key="GridCell.Tab.0.left" timestamp="1603211516592">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603147482071" />
-    <state width="1710" height="508" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
+    <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516592" />
+    <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.right" timestamp="1603147482071">
+    <state width="1440" height="708" key="GridCell.Tab.0.right" timestamp="1603211516593">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603147482071" />
-    <state width="1710" height="508" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1596059499795" />
+    <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516593" />
+    <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
     <state x="2188" y="288" width="930" height="685" key="Maven.ArtifactSearchDialog" timestamp="1602869607503">
       <screen x="1680" y="0" width="1920" height="1200" />
@@ -749,10 +713,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2147" y="221" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603140069721" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1602654237747">
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1603148308360">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602654237747" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603148308360" />
     <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1602868597995">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
