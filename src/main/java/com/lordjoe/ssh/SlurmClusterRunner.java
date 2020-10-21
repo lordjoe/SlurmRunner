@@ -56,7 +56,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         String locationOfDefaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
 
         StringBuilder sb = new StringBuilder();
-        sb.append("java -jar");
+        String program = getClusterProperties().getProperty("LocationOfJava") ;
+        sb.append(program);
+        sb.append("java  -jar");
 
         sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar ");
         if (isXml())
@@ -253,7 +255,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
         justSleep(10000); // make sure we have jobs
-        String user = getClusterProperties().getProperty("UserName");
+        SSHUserData user1 = ClusterSession.getUser();
+        String user = user1.userName;
         Set<Integer> current;
         while (true) {
             current = getJobNumbers(me, user);

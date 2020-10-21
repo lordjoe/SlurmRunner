@@ -11,6 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +77,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="/opt/blastserver/eg3.mgf" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -322,15 +325,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -449,7 +450,8 @@
       <workItem from="1602952979508" duration="1844000" />
       <workItem from="1603124076153" duration="640000" />
       <workItem from="1603126606265" duration="16669000" />
-      <workItem from="1603211717096" duration="1063000" />
+      <workItem from="1603211717096" duration="5028000" />
+      <workItem from="1603219410005" duration="8958000" />
     </task>
     <task id="LOCAL-00001" summary="Project now runs as a Jetty server">
       <created>1593365123330</created>
@@ -598,7 +600,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603148306579</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Broke out sshuser - refactored runners">
+      <created>1603213341925</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1603213341925</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -640,11 +649,11 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1601765205543" />
-    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603149089715">
+    <state x="3666" y="428" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603218877010">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
     <state x="11" y="281" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@0.150.1680.1050" timestamp="1603148918723" />
-    <state x="3613" y="385" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603149089715" />
+    <state x="3666" y="428" width="1716" height="789" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603218877010" />
     <state x="3780" y="517" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1595106365688" />
     <state x="631" y="285" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750039649" />
     <state x="2322" y="451" width="595" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599003654186">
@@ -668,37 +677,37 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2364" y="367" width="530" height="503" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1599868381212" />
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1603148305979">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2" timestamp="1603213341831">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603148305979" />
-    <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1603124954103">
+    <state x="2223" y="213" width="811" height="904" key="CommitChangelistDialog2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603213341831" />
+    <state x="2679" y="338" width="430" height="485" key="FileChooserDialogImpl" timestamp="1603231339480">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603124954103" />
+    <state x="2679" y="338" width="646" height="514" key="FileChooserDialogImpl/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603231339480" />
     <state x="999" y="330" key="FileChooserDialogImpl/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1597040487857" />
-    <state width="1440" height="708" key="GridCell.Tab.0.bottom" timestamp="1603211516593">
+    <state width="1440" height="708" key="GridCell.Tab.0.bottom" timestamp="1603234778082">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516593" />
+    <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603234778082" />
     <state width="1440" height="708" key="GridCell.Tab.0.bottom/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.bottom/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.center" timestamp="1603211516592">
+    <state width="1440" height="708" key="GridCell.Tab.0.center" timestamp="1603234778082">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516592" />
+    <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603234778082" />
     <state width="1440" height="708" key="GridCell.Tab.0.center/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.center/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.left" timestamp="1603211516592">
+    <state width="1440" height="708" key="GridCell.Tab.0.left" timestamp="1603234778082">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516592" />
+    <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603234778082" />
     <state width="1440" height="708" key="GridCell.Tab.0.left/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.left/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
-    <state width="1440" height="708" key="GridCell.Tab.0.right" timestamp="1603211516593">
+    <state width="1440" height="708" key="GridCell.Tab.0.right" timestamp="1603234778082">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603211516593" />
+    <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603234778082" />
     <state width="1440" height="708" key="GridCell.Tab.0.right/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1603148926799" />
     <state width="1816" height="854" key="GridCell.Tab.0.right/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594750148517" />
     <state x="2188" y="288" width="930" height="685" key="Maven.ArtifactSearchDialog" timestamp="1602869607503">
@@ -709,14 +718,14 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2295" y="384" width="736" height="508" key="NewModule_or_Project.wizard/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1602954651748" />
-    <state x="2147" y="221" width="1030" height="846" key="SettingsEditor" timestamp="1603140069721">
+    <state x="2147" y="221" width="1030" height="846" key="SettingsEditor" timestamp="1603219424116">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2147" y="221" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603140069721" />
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1603148308360">
+    <state x="2147" y="221" width="1337" height="731" key="SettingsEditor/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603219424116" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2" timestamp="1603213344472">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603148308360" />
+    <state x="2223" y="400" width="806" height="529" key="Vcs.Push.Dialog.v2/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603213344472" />
     <state width="845" height="500" key="XDebugger.FullValuePopup" timestamp="1602868597995">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -733,10 +742,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2422" y="382" width="530" height="455" key="extract.method.dialog/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1595870714156" />
-    <state x="4032" y="552" width="1014" height="558" key="find.popup" timestamp="1603147760728">
+    <state x="4032" y="552" width="1014" height="558" key="find.popup" timestamp="1603231135878">
       <screen x="3600" y="250" width="1920" height="1080" />
     </state>
-    <state x="4032" y="552" width="1014" height="558" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603147760728" />
+    <state x="4032" y="552" width="1014" height="558" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@1680.0.1920.1200" timestamp="1603231135878" />
     <state x="3976" y="579" width="1014" height="522" key="find.popup/1680.0.1920.1200/3600.250.1920.1080/0.150.1680.1050@3600.250.1920.1080" timestamp="1602609295009" />
     <state x="685" y="366" width="594" height="534" key="find.popup/1920.323.1920.1050/-1680.140.1680.1020/0.0.1920.1170@0.0.1920.1170" timestamp="1594746340321" />
     <state x="336" y="268" key="new project wizard" timestamp="1597041245660">
@@ -882,12 +891,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
-          <line>149</line>
+          <line>148</line>
           <option name="timeStamp" value="337" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
-          <line>103</line>
+          <line>102</line>
           <option name="timeStamp" value="340" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -917,7 +926,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
-          <line>128</line>
+          <line>127</line>
           <option name="timeStamp" value="367" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -932,13 +941,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java</url>
-          <line>323</line>
+          <line>326</line>
           <option name="timeStamp" value="378" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java</url>
-          <line>290</line>
-          <option name="timeStamp" value="385" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

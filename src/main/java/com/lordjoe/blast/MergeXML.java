@@ -1,5 +1,7 @@
 package com.lordjoe.blast;
 
+import com.lordjoe.utilities.FileUtilities;
+
 import java.io.*;
 
 /**
@@ -25,10 +27,7 @@ public class MergeXML {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(file));
             out.println(data);
-
-            file.setReadable(true, true);
-            file.setWritable(true, true);
-            out.close();
+             out.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
          }
@@ -62,7 +61,7 @@ public class MergeXML {
                 File merged = new File(parent, "mergefilemade.txt");
                 writeFile(merged, sb.toString());
             }
-
+            FileUtilities.setReadWritePermissions(outF);
 
         } catch (IOException e) {
 
