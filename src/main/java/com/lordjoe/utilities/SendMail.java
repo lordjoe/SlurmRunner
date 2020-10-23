@@ -124,26 +124,6 @@ public class SendMail {
             throw new RuntimeException(e);
         }
 
-//      if(pwd)
-//            if(encrypted_password !=null)
-//
-//    {
-//        password = Encrypt.decryptString(encrypted_password);
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.host", "smtp.gmail.com");
-//        props.put("mail.smtp.port", "587");
-//        props.put("mail.smtp.socketFactory.class",
-//                "javax.net.ssl.SSLSocketFactory");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.port", "465");
-//        final String pwdx = password; // allow inner class access
-//        authenticator = new javax.mail.Authenticator() {
-//            protected PasswordAuthentication getPasswordAuthentication() {
-//                return new PasswordAuthentication(username, pwdx);
-//            }
-//        };
-//    } else
 //
 //    {
 //        props.put("mail.smtp.auth", "false");
