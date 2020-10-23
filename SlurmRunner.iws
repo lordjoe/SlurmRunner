@@ -10,7 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="788d45ba-aa94-4103-8215-d38c80c3d419" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/SlurmRunner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlurmRunner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlurmRunner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SlurmRunner.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/lordjoe/fasta/FastaToolsTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../sshuser/SSHUser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/SSHUser.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/ClusterSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/ClusterSession.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/SSHUserData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sshuser/src/main/java/com/lordjoe/ssh/SSHUserData.java" afterDir="false" />
@@ -35,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="71" column="43" lean-forward="true" selection-start-line="71" selection-start-column="43" selection-end-line="71" selection-end-column="43" />
+            <state relative-caret-position="140">
+              <caret line="477" column="8" selection-start-line="477" selection-start-column="8" selection-end-line="477" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -47,11 +53,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="60" column="77" selection-start-line="60" selection-start-column="77" selection-end-line="60" selection-end-column="77" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="46" column="33" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="33" />
+            <state relative-caret-position="43">
+              <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
               <folding>
                 <element signature="e#820#821#0" expanded="true" />
                 <element signature="e#849#850#0" expanded="true" />
@@ -64,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/HandleBlastP.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="60" />
+              <caret line="14" column="54" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -93,8 +111,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2650">
-              <caret line="163" column="23" selection-start-line="163" selection-start-column="23" selection-end-line="163" selection-end-column="23" />
+            <state relative-caret-position="2013">
+              <caret line="181" selection-start-line="181" selection-end-line="181" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -132,6 +150,7 @@
       <find>mergeXMLFiles_P</find>
       <find>merge</find>
       <find>throw</find>
+      <find>*.xml</find>
     </findStrings>
     <replaceStrings>
       <replace>job.getQuery()</replace>
@@ -155,11 +174,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometLocalRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/comet/CometClusterRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/fasta/LocalJobRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java" />
       </list>
     </option>
   </component>
@@ -187,6 +206,11 @@
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="227" />
+    <option name="width" value="1702" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectId" id="1dbBj6GTadM9crElxdDxciYPTyB" />
   <component name="ProjectView">
@@ -316,7 +340,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/lordjoe/utilities" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mnt/beegfs/proj/int/eva/blast" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../opt/blastserver/testMerge" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -362,7 +386,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Merge">
+  <component name="RunManager" selected="Application.Jetty launch">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -499,6 +523,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MergeXML" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lordjoe.blast.MergeXML" />
+      <module name="SlurmRunner" />
+      <option name="PROGRAM_PARAMETERS" value=" /opt/blastserver/TestMerge /opt/blastserver/TestMerge/output.xml" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../opt/blastserver/testMerge" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SendMail" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.lordjoe.utilities.SendMail" />
       <module name="SlurmRunner" />
@@ -609,6 +642,7 @@
       <item itemvalue="Application.LocalCometRunner" />
       <item itemvalue="Application.Merge" />
       <item itemvalue="Application.SlurmClusterRunner EColi100 (1)" />
+      <item itemvalue="Application.MergeXML" />
       <item itemvalue="Application.SlurmClusterRunner EColiFull" />
       <item itemvalue="Application.SlurmClusterRunner php56CB" />
       <item itemvalue="Application.SlurmLocaCometlRunner Eg320" />
@@ -868,14 +902,22 @@
       <option name="project" value="LOCAL" />
       <updated>1603493657835</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Implemented in DTO a method setOutputFileName that checks if the filename ends with .zip&#10;The merge metho will create a temporary file with the same name but a different extension to do the merge, and will pass this filename to the zip method that will zip it.&#10;In this way we are sure that the final file and its name will be .zip">
+      <created>1603493889770</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1603493889770</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6638000" />
+    <option name="totallyTimeSpent" value="8383000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22348994" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -886,8 +928,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49932885" weight="0.5387994" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30600291" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49932885" weight="0.41874084" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22254759" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49932885" weight="0.52122986" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -895,9 +937,9 @@
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.51537335" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50067115" side_tool="true" weight="0.45241582" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.4172767" />
+      <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.6632504" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" weight="0.15080526" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.6281113" />
       <window_info anchor="bottom" id="Analyze Dataflow to" order="14" weight="0.329429" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -947,7 +989,8 @@
     <MESSAGE value="Refactored DTO and commented out comet code" />
     <MESSAGE value="Refactored DTO and commented comet" />
     <MESSAGE value="Implemented in DTP a method setOutputFileName that checks if the filename ends with .zip&#10;The merge metho will create a temporary file with the same name but a different extension to do the merge, and will pass this filename to the zip method that will zip it.&#10;In this way we are sure that the final file and its name will be .zip" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented in DTP a method setOutputFileName that checks if the filename ends with .zip&#10;The merge metho will create a temporary file with the same name but a different extension to do the merge, and will pass this filename to the zip method that will zip it.&#10;In this way we are sure that the final file and its name will be .zip" />
+    <MESSAGE value="Implemented in DTO a method setOutputFileName that checks if the filename ends with .zip&#10;The merge metho will create a temporary file with the same name but a different extension to do the merge, and will pass this filename to the zip method that will zip it.&#10;In this way we are sure that the final file and its name will be .zip" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented in DTO a method setOutputFileName that checks if the filename ends with .zip&#10;The merge metho will create a temporary file with the same name but a different extension to do the merge, and will pass this filename to the zip method that will zip it.&#10;In this way we are sure that the final file and its name will be .zip" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2460" y="484" width="330" height="285" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1601765205543">
@@ -1101,7 +1144,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java</url>
-          <line>111</line>
+          <line>108</line>
           <properties />
           <option name="timeStamp" value="158" />
         </line-breakpoint>
@@ -1119,7 +1162,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java</url>
-          <line>69</line>
+          <line>71</line>
           <properties />
           <option name="timeStamp" value="212" />
         </line-breakpoint>
@@ -1220,12 +1263,6 @@
           <option name="timeStamp" value="312" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
-          <line>146</line>
-          <properties />
-          <option name="timeStamp" value="340" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/LocalCometRunner.java</url>
           <line>165</line>
           <properties />
@@ -1256,12 +1293,6 @@
           <option name="timeStamp" value="366" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
-          <line>171</line>
-          <properties />
-          <option name="timeStamp" value="367" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/comet/MergeCometXML.java</url>
           <line>30</line>
           <properties />
@@ -1278,6 +1309,20 @@
           <line>326</line>
           <properties />
           <option name="timeStamp" value="378" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
+          <line>181</line>
+          <properties />
+          <option name="timeStamp" value="527" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java</url>
+          <line>75</line>
+          <properties class="com.lordjoe.blast.MergeXML" method="mergeXMLFiles_P">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="525" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1388,16 +1433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="114" column="5" selection-start-line="114" selection-start-column="5" selection-end-line="114" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/AbstractJobRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
@@ -1419,20 +1454,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="71" column="43" lean-forward="true" selection-start-line="71" selection-start-column="43" selection-end-line="71" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/HandleBlastP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="60" />
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -1446,10 +1471,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/lordjoe/fasta/FastaToolsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/blast/MergeXML.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2650">
-          <caret line="163" column="23" selection-start-line="163" selection-start-column="23" selection-end-line="163" selection-end-column="23" />
+        <state relative-caret-position="2013">
+          <caret line="181" selection-start-line="181" selection-end-line="181" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1458,11 +1490,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/locblast/BlastLaunchDTO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="46" column="33" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="33" />
+        <state relative-caret-position="43">
+          <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
           <folding>
             <element signature="e#820#821#0" expanded="true" />
             <element signature="e#849#850#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/JobRunnerUtilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="60" column="77" selection-start-line="60" selection-start-column="77" selection-end-line="60" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lordjoe/ssh/SlurmClusterRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="477" column="8" selection-start-line="477" selection-start-column="8" selection-end-line="477" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1478,7 +1530,6 @@
             <option name="proportions">
               <list>
                 <option value="0.40088496" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>

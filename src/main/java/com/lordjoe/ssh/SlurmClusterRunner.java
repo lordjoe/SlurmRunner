@@ -467,7 +467,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             // set permissions
             sftp.chmod(0777,ScriptJobDir);
             sftp.chmod(0777, defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
-            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.xml";
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.*";
             session.executeOneLineCommand(command);
 
 
@@ -483,7 +483,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             setState(JobState.FilesMerged);
 
 
-            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "*.xml";
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "*.*";
             session.executeOneLineCommand(command);
 
             //     ChannelSftp sftp = session.getSFTP();

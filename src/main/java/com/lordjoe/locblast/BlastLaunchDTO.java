@@ -53,9 +53,6 @@ public class BlastLaunchDTO {
 
 
 
-
-
-
     public BlastLaunchDTO(String id,BLASTProgram program) {
         this.id = id;
         this.program = program;

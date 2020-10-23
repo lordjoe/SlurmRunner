@@ -54,9 +54,11 @@ public class JobRunnerUtilities {
         dto.setQuery(new File(defaultJobDirectory, params.sequenceFile));
         dto.setBLASTFormat(BLASTFormat.fromCode(Integer.parseInt(params.outputFormat)));
         if (dto.getBLASTFormat() == BLASTFormat.XML2 || dto.getBLASTFormat() == BLASTFormat.XML) {
-            dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());
+            //dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());
+            dto.setOutputFileName(makeZipFileName(dto.getQuery()).getName());
         } else {
-            dto.setOutputFileName(makeTxtFileName(dto.getQuery()).getName());
+            //dto.setOutputFileName(makeTxtFileName(dto.getQuery()).getName());
+            dto.setOutputFileName(makeZipFileName(dto.getQuery()).getName());
 
         }
 
@@ -157,6 +159,16 @@ public class JobRunnerUtilities {
         return test;
     }
 
+    private static File makeZipFileName(File f) {
+        File parent = f.getParentFile();
+        String name = f.getName();
+        name = name.substring(0, name.lastIndexOf("."));
+        if (parent != null) {
+            return new File(parent, name + ".zip");
+        }
+        File test = new File(name + ".zip");
+        return test;
+    }
 
     public static void main(String[] args) {
         Map<String, String> map = BLASTRunnerServlet.readParameters(new File(args[0]));
