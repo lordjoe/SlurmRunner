@@ -466,7 +466,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
             //     ChannelSftp sftp = session.getSFTP();
-              String outputx = getOutputName();
+            String outputx = getOutputName();
             StringBuilder sb = new StringBuilder();
 
             sb.append(getClusterProperties() .getProperty("LocationOfDefaultDirectory") + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
