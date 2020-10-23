@@ -1,12 +1,18 @@
 package com.lordjoe.blast;
 
+
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * com.lordjoe.blast.MergeXML
- * User: Steve
+ * User: Steve, Simone
  * Date: 2/9/20
  */
 public class MergeXML {
@@ -17,6 +23,31 @@ public class MergeXML {
     public static final String FOOTER_P =
             "</BlastXML2>\n";
 
+    private static void zipFile(String filePath) {
+        try {
+            File file = new File(filePath);
+            String zipFileName = file.getName().substring(0,file.getName().lastIndexOf(".")).concat(".zip");
+
+            Path path = Paths.get(filePath);
+            String directory = path.getParent().toString();
+
+            FileOutputStream fos = new FileOutputStream(file.getPath().replace(file.getName(), "")+zipFileName);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+
+            zos.putNextEntry(new ZipEntry(file.getName()));
+
+            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
+            zos.write(bytes, 0, bytes.length);
+            zos.closeEntry();
+            zos.close();
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+        } catch (FileNotFoundException ex) {
+            System.err.format("The file %s does not exist", filePath);
+        } catch (IOException ex) {
+            System.err.println("I/O error: " + ex);
+        }
+    }
 
     public static void writeFile(String fileName, String data) {
         File file = new File(fileName);
@@ -24,13 +55,22 @@ public class MergeXML {
     }
 
     public static void writeFile(File file, String data) {
+
         try {
+            //FileOutputStream zipCopy = new FileOutputStream(file);
             PrintWriter out = new PrintWriter(new FileWriter(file));
+            //ZipOutputStream zipOut = new ZipOutputStream(zipCopy);
             out.println(data);
-             out.close();
+            //byte[] bytes = Base64.decodeBase64(data);
+            //zipOut.write(bytes);
+
+            file.setReadable(true, true);
+            file.setWritable(true, true);
+            out.close();
+            //zipIt(file, new File("output.zip"));
         } catch (IOException e) {
             throw new RuntimeException(e);
-         }
+        }
     }
 
     public static void mergeXMLFiles_P(String outFile, File[] inFiles) {
@@ -58,11 +98,11 @@ public class MergeXML {
             out.close();
             File parent = outF.getParentFile();
             if (parent != null) {
-                File merged = new File(parent, "mergefilemade.txt");
+                File merged = new File(parent, "mergefilemade5.txt");
                 writeFile(merged, sb.toString());
+                zipFile(outF.getAbsolutePath());
             }
             FileUtilities.setReadWritePermissions(outF);
-
         } catch (IOException e) {
 
             throw new RuntimeException(e);
@@ -113,7 +153,7 @@ public class MergeXML {
             return sb.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
-         }
+        }
     }
 
 
