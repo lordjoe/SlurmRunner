@@ -15,9 +15,29 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
-public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
+public class SendMail {
+
+    private static final File mailProperties = new File("/opt/blastserver/keys/Mailer.properties");
+
+    private static final Properties mailerProperies = new Properties();
+
+    private static synchronized void guaranterMailProperties() {
+        try {
+            if (mailerProperies.isEmpty()) {
+                FileInputStream fs = new FileInputStream(mailProperties);
+                mailerProperies.load(fs);
+                fs.close();
+                setUsername(mailerProperies.getProperty("mail.smtp.user"));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
 
     public static boolean UseListSMTP = !System.getProperty("user.name").equalsIgnoreCase("steve");
 
@@ -31,73 +51,38 @@ public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
         g_username = username;
     }
 
-    private static String STD_ENCRYPTED = "ihnub1aAK/e7lmKfr/DDd0PsRMIyFCsUory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEYory3H4ueoRiivLcfi56hGKK8tx+LnqEY";
-    private static String g_encrypted_password = STD_ENCRYPTED;
 
+    private static Session getMailSession() {
+        guaranterMailProperties();
+        Properties used = new Properties();
+        used.putAll(mailerProperies);
+        used.remove("mail.smtp.encryptedPassword");
+        used.remove("mail.smtp.user");
+        Authenticator authenticator = null;
+        String username = getUsername();
+        String pwd = mailerProperies.getProperty("mail.smtp.encryptedPassword");
+        String passwordX = mailerProperies.getProperty("mxe.smtp.password");
+        if (pwd != null) {
+            passwordX = Encrypt.decryptString(pwd);
+        }
+          if(passwordX != null) {
+  //           authenticator = new SMTPAuthenticator();
+             final String password = passwordX;
+                 authenticator = new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                     return new PasswordAuthentication(username, password);
+              }
+            };
 
-    public static String getEncrypted_password() {
-        return g_encrypted_password;
+        }
+        Session session = Session.getDefaultInstance(used, authenticator);
+        return session;
     }
 
-    public static void setEncrypted_password(String encrypted_password) {
-        g_encrypted_password = encrypted_password;
-    }
-
-    public static void sendMailX(String recipient, String subjectline, String messagebody) {
-        sendMail(recipient, subjectline, messagebody, null);
-    }
 
     public static void sendMail(String recipient, String subjectline, String messagebody, ILogger logger) {
-        if(logger != null)    logger.log("UseListSMTP " + UseListSMTP);
-        if (!UseListSMTP) {
-            setUsername("lordjoe2000@gmail.com");
-            setEncrypted_password(STD_ENCRYPTED);
-        }
-        else {
-            setEncrypted_password(null);
-        }
-
-        final String username = getUsername();
-        String encrypted_password = getEncrypted_password();
-        Properties props = new Properties();
-        String password = null;
-        Authenticator authenticator = null;
-        if (encrypted_password != null) {
-            password = Encrypt.decryptString(encrypted_password);
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.socketFactory.class",
-                    "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-            final String pwdx = password; // allow inner class access
-             authenticator =   new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, pwdx);
-                }
-            };
-        } else {
-            props.put("mail.smtp.auth", "false");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.private.list.lu");
-            props.put("mail.smtp.port", "25");
-        }
-        //Get properties object
-      //  props.put("mail.smtp.host", "smtp.gmail.com");
-      //  props.put("mail.smtp.socketFactory.port", "465");
-        //get Session
-
-        if(false && logger != null)   {
-            logger.log("Mail properties set "  );
-            for (Object o : props.keySet()) {
-                String property = props.getProperty((String) o);
-                logger.log(" " + o + " = " + property);
-            }
-            logger.log(" " + username + " = " + password);
-        }
-          Session session = Session.getDefaultInstance(props,authenticator);
+        String username = getUsername();
+        Session session = getMailSession();
 
 //           Session session = Session.getInstance(props,
 //                new javax.mail.Authenticator() {
@@ -107,7 +92,7 @@ public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
 //                });
 //
         try {
-            if(logger != null)    logger.log("Session Created " );
+            if (logger != null) logger.log("Session Created ");
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
@@ -129,51 +114,90 @@ public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
 // Put parts in message
             message.setContent(multipart);
 
-            if(logger != null)    logger.log("Message created"  );
+            if (logger != null) logger.log("Message created");
             Transport.send(message);
 
-            if(logger != null)    logger.log("Message sent"  );
+            if (logger != null) logger.log("Message sent");
             System.out.println("EMail Sent");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+
+//      if(pwd)
+//            if(encrypted_password !=null)
+//
+//    {
+//        password = Encrypt.decryptString(encrypted_password);
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.port", "587");
+//        props.put("mail.smtp.socketFactory.class",
+//                "javax.net.ssl.SSLSocketFactory");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.port", "465");
+//        final String pwdx = password; // allow inner class access
+//        authenticator = new javax.mail.Authenticator() {
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication(username, pwdx);
+//            }
+//        };
+//    } else
+//
+//    {
+//        props.put("mail.smtp.auth", "false");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "smtp.private.list.lu");
+//        props.put("mail.smtp.port", "25");
+//    }
+        //Get properties object
+        //  props.put("mail.smtp.host", "smtp.gmail.com");
+        //  props.put("mail.smtp.socketFactory.port", "465");
+        //get Session
+
+
+        try {
+            if (logger != null) logger.log("Session Created ");
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(recipient));
+            //message.setSubject("Testing Subject");
+            message.setSubject(subjectline);
+            //message.setText("Dear Mail Crawler,"
+            //	+ "\n\n No spam to my email, please!");
+            // Create the message part
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+
+// Fill the message
+            messageBodyPart.setText(messagebody, "UTF-8", "html");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+// Put parts in message
+            message.setContent(multipart);
+
+            if (logger != null) logger.log("Message created");
+            Transport.send(message);
+
+            if (logger != null) logger.log("Message sent");
+            System.out.println("EMail Sent");
+
+        } catch (
+                MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public static void sendMailWithAttachment(String recipient, String subjectline, String messagebody, File attachment) {
 
-        final String username = getUsername();
-        String password1 = null;
-        String encrypted_password = getEncrypted_password();
-        if (encrypted_password != null)
-            password1 = Encrypt.decryptString(encrypted_password);
+        String username = getUsername();
+        Session session = getMailSession();
 
-        final String password = password1;
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-
-        if (UseListSMTP) {
-            props.put("mail.smtp.auth", "false");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.private.list.lu");
-            props.put("mail.smtp.port", "25");
-        }
-
-        Session session = null;
-        if (!UseListSMTP) {
-            session = Session.getInstance(props,
-                    new javax.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
-        } else {
-            session = Session.getInstance(props, null); // no authentication
-        }
 
         try {
 
@@ -217,19 +241,13 @@ public class SendMail<LnqEYory3H4ueoRiivLcfi56hGKK8tx> {
 
     public static void main(String[] args) {
 
-        //   UseListSMTP = true;
-        File results = new File(args[0]);
-
-        if (!UseListSMTP) {
-            setUsername("lordjoe2000@gmail.com");
-            String EncryptedPassword = STD_ENCRYPTED;
-            setEncrypted_password(EncryptedPassword);
-        }
         String recipient = "lordjoe2000@gmail.com <lordjoe2000@gmail.com>";
+        if(args.length > 0)
+            recipient = args[0];
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        sendMail(recipient, subjectline, messagebody,null);
+        sendMail(recipient, subjectline, messagebody, null);
         //   sendMailWithAttachment(recipient, subjectline, messagebody,results);
         System.out.println("Done");
     }
