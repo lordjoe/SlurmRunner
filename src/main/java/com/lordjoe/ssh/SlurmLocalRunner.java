@@ -85,7 +85,7 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
             args.add("-db");
             args.add(job.getJobDatabaseName().replace("-remote", ""));
             args.add("-out");
-            File outFile = new File(job.getQuery().getParentFile(),job.getOutputFileName());
+            File outFile = new File(job.getQuery().getParentFile(),job.getOutputZipFileName());
             args.add(outFile.getAbsolutePath());
             args.add("-outfmt");
             args.add(Integer.toString(job.getBLASTFormat().code));
