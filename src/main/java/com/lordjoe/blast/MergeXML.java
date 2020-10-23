@@ -26,7 +26,7 @@ public class MergeXML {
     private static void zipFile(String filePath) {
         try {
             File file = new File(filePath);
-            String zipFileName = file.getName().substring(0,file.getName().lastIndexOf(".")).concat(".zip");
+            String zipFileName = file.getName().substring(0,file.getName().lastIndexOf(".")).concat(".zip"); // change file extension to .zip
 
             Path path = Paths.get(filePath);
             String directory = path.getParent().toString();
@@ -73,12 +73,18 @@ public class MergeXML {
         }
     }
 
-    public static void mergeXMLFiles_P(String outFile, File[] inFiles) {
-        File outF = new File(outFile);
+    public static void mergeXMLFiles_P(String outFilename, File[] inFiles) {
+        //this method will merge the cluster jobs results in a file with already a .zip extension
+        // and will call a method to actually zip the file
+        //This method is not called anywhere in the code, but called via a .jar call in the cluster
+        //by the merge script
+        outFilename=outFilename.substring(0,outFilename.lastIndexOf(".")).concat(".mergedToBeZipped"); //change output extension to create
+                                                                                                            // temporary merged file which
+                                                                                                            //will be zipped
+        File outF = new File(outFilename);
         StringBuilder sb = new StringBuilder();
-        sb.append(outFile);
+        sb.append(outFilename);
         sb.append("\n");
-        //     writeFile("mergefile.txt",sb.toString());
         try {
             PrintWriter out = new PrintWriter(new FileWriter(outF));
             if (inFiles != null && inFiles.length > 0) {
@@ -98,8 +104,6 @@ public class MergeXML {
             out.close();
             File parent = outF.getParentFile();
             if (parent != null) {
-                File merged = new File(parent, "mergefilemade5.txt");
-                writeFile(merged, sb.toString());
                 zipFile(outF.getAbsolutePath());
             }
             FileUtilities.setReadWritePermissions(outF);

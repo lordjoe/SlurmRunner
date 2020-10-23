@@ -103,7 +103,7 @@ public class LocalJobRunner {
 
 
         ret.add("-out");
-        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.getOutputFileName() ;
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.getOutputZipFileName() ;
 
          ret.add(out) ;
 
@@ -150,7 +150,7 @@ public class LocalJobRunner {
 
 
         sb.append(" -out ");
-        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.getOutputFileName();
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.getOutputZipFileName();
         sb.append(out) ;
 
         return sb.toString();

@@ -240,7 +240,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         sb.append(tomcatURL);
         sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(job.getOutputFileName() + ".zip");
+        sb.append(job.getOutputZipFileName() + ".zip");
         sb.append("&directory=");
         sb.append(job.id);
 

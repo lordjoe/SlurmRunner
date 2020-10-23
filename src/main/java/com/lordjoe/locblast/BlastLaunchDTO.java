@@ -40,12 +40,15 @@ public class BlastLaunchDTO {
         this.format = format;
     }
 
-    public String getOutputFileName() {
+    public String getOutputZipFileName() {
         return output;
     }
 
     public void setOutputFileName(String output) {
-        this.output = output;
+        if (output.endsWith(".zip"))
+            this.output = output;
+        else
+            throw new UnsupportedOperationException("trying to set a non zip output filename!");
     }
 
 
