@@ -2,7 +2,7 @@ package com.lordjoe.ssh;
 
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.blast.*;
-import com.lordjoe.comet.CometClusterRunner;
+//import com.lordjoe.comet.CometClusterRunner;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.locblast.BLASTFormat;
 import com.lordjoe.locblast.BLASTProgram;
@@ -49,18 +49,18 @@ public class JobRunnerUtilities {
 
         BlastLaunchDTO dto = new BlastLaunchDTO(id, BLASTProgram.fromString(program));
 
-        dto.database = params.datalib;
+        dto.setJobDatabaseName(params.datalib);
         File defaultJobDirectory = dto.getLocalJobDirectory();
-        dto.query = new File(defaultJobDirectory, params.sequenceFile);
-        dto.format = BLASTFormat.fromCode(Integer.parseInt(params.outputFormat));
-        if (dto.format == BLASTFormat.XML2 || dto.format == BLASTFormat.XML) {
-            dto.output = makeXMLFileName(dto.query).getName();
+        dto.setQuery(new File(defaultJobDirectory, params.sequenceFile));
+        dto.setBLASTFormat(BLASTFormat.fromCode(Integer.parseInt(params.outputFormat)));
+        if (dto.getBLASTFormat() == BLASTFormat.XML2 || dto.getBLASTFormat() == BLASTFormat.XML) {
+            dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());
         } else {
-            dto.output = makeTxtFileName(dto.query).getName();
+            dto.setOutputFileName(makeTxtFileName(dto.getQuery()).getName());
 
         }
 
-        int numberFasta = FastaTools.countFastaEntities(dto.query);
+        int numberFasta = FastaTools.countFastaEntities(dto.getQuery());
         if (RUN_LOCALLY || numberFasta <= LOCAL_LIMIT) {
             ret = new SlurmLocalRunner(dto, parameters);
         } else {
@@ -107,12 +107,12 @@ public class JobRunnerUtilities {
         BlastLaunchDTO dto = new BlastLaunchDTO(id, BLASTProgram.fromString(program));
 
 
-        dto.database = (String)parameters.get("seqfile");
+        dto.setJobDatabaseName((String)parameters.get("seqfile"));
         File defaultJobDirectory = dto.getLocalJobDirectory();
-        dto.query = new File(defaultJobDirectory,(String)parameters.get("fastafile")) ;
-        dto.output = (String)parameters.get("parameters");
+        dto.setQuery(new File(defaultJobDirectory,(String)parameters.get("fastafile")));
+        dto.setOutputFileName((String)parameters.get("parameters"));
 
-        ret = new CometClusterRunner(dto,parameters);
+   //     ret = new CometClusterRunner(dto,parameters);
         return ret;
 
     }

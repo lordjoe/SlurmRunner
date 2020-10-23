@@ -33,7 +33,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
 
     public AbstractSlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         super(job,param);
-        setXml(job.format == BLASTFormat.XML2 || job.format == BLASTFormat.XML);
+        setXml(job.getBLASTFormat() == BLASTFormat.XML2 || job.getBLASTFormat() == BLASTFormat.XML);
         IJobRunner.registerRunner(this);
         filterProperties(param);
 
@@ -49,7 +49,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         if (args[index].toLowerCase().endsWith("blastn"))
             program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
-        BlastLaunchDTO ret = new BlastLaunchDTO(program);
+        BlastLaunchDTO returnedJobData = new BlastLaunchDTO(program);
         while (index < args.length) {
             String next = args[index];
             System.out.println("Handling " + index + " value " + next);
@@ -100,11 +100,11 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
             throw new UnsupportedOperationException("cannot handle " + next);
 
         }
-        ret.output = out;
-        ret.query = new File(query);
-        ret.format = BLASTFormat.XML2;
-        ret.database = database;
-        return ret;
+        returnedJobData.setOutputFileName(out);
+        returnedJobData.setQuery(new File(query));
+        returnedJobData.setBLASTFormat(BLASTFormat.XML2);
+        returnedJobData.setJobDatabaseName(database);
+        return returnedJobData;
 
     }
 
@@ -177,20 +177,20 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         int index = 0;
         String program_name = data.get("program");
         BLASTProgram program = BLASTProgram.fromString(program_name);
-        BlastLaunchDTO ret = new BlastLaunchDTO(program);
-        ret.database = data.get("datalib");
+        BlastLaunchDTO returnedJobData = new BlastLaunchDTO(program);
+        returnedJobData.setJobDatabaseName(data.get("datalib"));
         String query = "xxx";
         String out = "xxx";
         //     if (args[index].toLowerCase().endsWith("blastn"))
         program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
 
-        ret.output = out;
-        ret.query = new File(query);
+        returnedJobData.setOutputFileName(out);
+        returnedJobData.setQuery(new File(query));
         if (true)
             throw new UnsupportedOperationException("Fix This"); // ToDo
-        ret.format = BLASTFormat.XML2;
-        return ret;
+        returnedJobData.setBLASTFormat(BLASTFormat.XML2);
+        return returnedJobData;
 
     }
 
@@ -240,7 +240,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         sb.append(tomcatURL);
         sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(job.output + ".zip");
+        sb.append(job.getOutputFileName() + ".zip");
         sb.append("&directory=");
         sb.append(job.id);
 

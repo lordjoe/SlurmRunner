@@ -20,21 +20,21 @@ public class BlastNRunner extends BlastRunnerTemplate {
         requireString(args[index],"-db",index , args);
         index++;
         
-        ret.database = args[index++];
+        ret.setJobDatabaseName(args[index++]);
         requireString(args[index],"-query",index , args);
         index++;
 
-        ret.query = new File(args[index++]);
+        ret.setQuery(new File(args[index++]));
         requireString(args[index],"-outfmt",index , args);
         index++;
 
         requireString(args[index],"16",index , args);
-        ret.format = BLASTFormat.XML2;
+        ret.setBLASTFormat(BLASTFormat.XML2);
         index++;
 
         requireString(args[index],"-out",index , args);
         index++;
-        ret.query = new File(args[index++]);
+        ret.setQuery( new File(args[index++]));
 
         return ret;
     }
@@ -57,7 +57,7 @@ public class BlastNRunner extends BlastRunnerTemplate {
 
     public static void main(String[] args) {
         BlastLaunchDTO dto =  fromArgs(args) ;
-        ClusterLauncher cl = new ClusterLauncher(dto.query);
+        ClusterLauncher cl = new ClusterLauncher(dto.getQuery());
         if(cl.isLocalRun())  {
             runLocally(dto);
         }

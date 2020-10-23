@@ -11,10 +11,44 @@ import java.util.UUID;
 public class BlastLaunchDTO {
     public final BLASTProgram program;
     public final String id;
-    public String database;
-    public File query;   // original file
-    public BLASTFormat format;
-    public String output;
+    private String database;
+    private File query;   // original file
+    private BLASTFormat format;
+    private String output; //the output filename. Output file will always be a zip file
+
+    public String getJobDatabaseName() {
+        return database;
+    }
+
+    public void setJobDatabaseName(String database) {
+        this.database = database;
+    }
+
+    public File getQuery() {
+        return query;
+    }
+
+    public void setQuery(File query) {
+        this.query = query;
+    }
+
+    public BLASTFormat getBLASTFormat() {
+        return format;
+    }
+
+    public void setBLASTFormat(BLASTFormat format) {
+        this.format = format;
+    }
+
+    public String getOutputFileName() {
+        return output;
+    }
+
+    public void setOutputFileName(String output) {
+        this.output = output;
+    }
+
+
 
 
 

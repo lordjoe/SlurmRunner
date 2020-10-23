@@ -78,7 +78,7 @@ public abstract class AbstractJobRunner  implements IJobRunner {
      * @param job
      * @return
      */
-    public abstract String getUploadFileName(BlastLaunchDTO job);
+    public abstract String getClusterMergeResultZipFileName(BlastLaunchDTO job);
 
 
     public final void logMessage(String s) {

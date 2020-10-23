@@ -46,10 +46,10 @@ public class JSonRunner  {
         String programX = mapx.get("program");
         BLASTProgram program = BLASTProgram.fromString(programX);
         job = new BlastLaunchDTO(id,program );
-        job.database =  mapx.get("database");
+        job.setJobDatabaseName(mapx.get("database"));
         String fileName = mapx.get("query");
         if(fileName != null)
-            job.query =  new File(fileName);
+            job.setQuery(new File(fileName));
         mapx.put("JobId",job.id);
         return job;
     }

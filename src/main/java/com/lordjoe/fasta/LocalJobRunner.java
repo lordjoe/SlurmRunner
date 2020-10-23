@@ -85,25 +85,25 @@ public class LocalJobRunner {
             ret.add(program);
         ret.add("-query");
         String query;
-        if(dto.query.getParentFile() == null)
-           query = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.query.getName();
+        if(dto.getQuery().getParentFile() == null)
+           query = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.getQuery().getName();
         else
-            query   = dto.query.getAbsolutePath();
+            query   = dto.getQuery().getAbsolutePath();
        ret.add(query);
 
 
 
         ret.add("-db");
-        String db = /* cluster.getProperty("LocationOfDatabaseFiles")  + */ dto.database;
+        String db = /* cluster.getProperty("LocationOfDatabaseFiles")  + */ dto.getJobDatabaseName();
         ret.add(db);
 
         ret.add("-outfmt");
-        String fmt = "" + dto.format.code;
+        String fmt = "" + dto.getBLASTFormat().code;
         ret.add(fmt);
 
 
         ret.add("-out");
-        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.output ;
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + "/" + dto.getOutputFileName() ;
 
          ret.add(out) ;
 
@@ -137,20 +137,20 @@ public class LocalJobRunner {
         String insert = "/";
         if(isSplit )
             insert += dto.id + "/";
-        String query = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + insert + dto.query.getName();
+        String query = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeInputDirectory") + insert + dto.getQuery().getName();
           sb.append(query);
 
         sb.append(" -db ");
-        String db = cluster.getProperty("LocationOfDatabaseFiles") + dto.database;
+        String db = cluster.getProperty("LocationOfDatabaseFiles") + dto.getJobDatabaseName();
         sb.append(db);
 
         sb.append(" -outfmt ");
-        String fmt = "" + dto.format.code;
+        String fmt = "" + dto.getBLASTFormat().code;
         sb.append(fmt);
 
 
         sb.append(" -out ");
-        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.output;
+        String out = cluster.getProperty("LocationOfDefaultDirectory") + cluster.getProperty("RelativeOutputDirectory") + insert + dto.getOutputFileName();
         sb.append(out) ;
 
         return sb.toString();
@@ -159,10 +159,10 @@ public class LocalJobRunner {
     public BlastJob runLocalBlastPJob(File query, String database, String output) {
         try {
             BlastLaunchDTO dto = new BlastLaunchDTO(BLASTProgram.BLASTP);
-            dto.query = query;
-            dto.database = database;
-            dto.format = BLASTFormat.XML2;
-            dto.output = output;
+            dto.setQuery(query);
+            dto.setJobDatabaseName(database);
+            dto.setBLASTFormat(BLASTFormat.XML2);
+            dto.setOutputFileName(output);
             List<File> tempFiles = new ArrayList<>();
             tempFiles.add(new File(output));
 
@@ -183,13 +183,15 @@ public class LocalJobRunner {
             throw new RuntimeException(e);
 
         }
-    }    public BlastJob runSplitBlastPJob(File query, String database, String output) {
+    }
+
+    public BlastJob runSplitBlastPJob(File query, String database, String output) {
         try {
             BlastLaunchDTO dto = new BlastLaunchDTO(BLASTProgram.BLASTP);
-            dto.query = query;
-            dto.database = database;
-            dto.format = BLASTFormat.XML2;
-            dto.output = output;
+            dto.setQuery(query);
+            dto.setJobDatabaseName(database);
+            dto.setBLASTFormat(BLASTFormat.XML2);
+            dto.setOutputFileName(output);
 
             boolean isXML = true;
 

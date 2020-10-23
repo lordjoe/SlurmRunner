@@ -1,3 +1,4 @@
+/*
 package com.lordjoe.comet;
 
 import com.devdaily.system.SystemCommandExecutor;
@@ -8,11 +9,13 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.*;
 
+*/
 /**
  * com.lordjoe.comet.LocalCometRunner
  * User: Steve
  * Date: 9/1/20
- */
+ *//*
+
 public class LocalCometRunner extends AbstractCometClusterRunner {
       public static File baseDir = new File("/opt/blastserver");
 
@@ -170,3 +173,4 @@ public class LocalCometRunner extends AbstractCometClusterRunner {
         runSplitBlastPJob();
     }
 }
+*/

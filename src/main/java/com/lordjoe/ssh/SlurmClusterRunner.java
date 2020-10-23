@@ -69,7 +69,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
-        String output = job.output.toString().replace("\\", "/");
+        String output = job.getOutputFileName().toString().replace("\\", "/");
         //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(output);
@@ -119,14 +119,14 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append(" ");
 
         sb.append(" -db ");
-        String db = job.database.replace("-remote","");
+        String db = job.getJobDatabaseName().replace("-remote","");
         // it does not liek -remote
         sb.append(db);
 
         sb.append("   -num_threads 32   ");
 
         sb.append(" -outfmt ");
-        sb.append(Integer.toString(job.format.code));
+        sb.append(Integer.toString(job.getBLASTFormat().code));
 
         sb.append(" -out ");
         String str = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
@@ -407,9 +407,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
      * @param job
      * @return
      */
-    public   String getUploadFileName(BlastLaunchDTO job)
+    public   String getClusterMergeResultZipFileName(BlastLaunchDTO job)
     {
-        throw new UnsupportedOperationException("Fix This"); // ToDo
+        return job.getOutputFileName(); //output will always be a zip file
     }
 
 
@@ -433,7 +433,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
             ClusterSession.releaseClusterSession(session);
-            File outDirectory = splitQuery(job.query);
+            File outDirectory = splitQuery(job.getQuery());
             writeScripts();
             logMessage("writeScripts");
             setState(JobState.ScriptsWritten);
@@ -487,15 +487,15 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             session.executeOneLineCommand(command);
 
             //     ChannelSftp sftp = session.getSFTP();
-            String output = job.output.toString().replace("\\", "/");
+            String output = job.getOutputFileName().toString().replace("\\", "/");
             String outputx = output.substring(Math.max(0, output.indexOf("/")));
 
 
+            String mergedOutputFileName = getClusterMergeResultZipFileName(job) ;    // use the Upload file name to find the file to
+                                                                                    // download from the cluster
 
-            String mergedOutput = getUploadFileName(  job) ;    // use the Upload file name to find the file to upload
-
-            File outfile = new File(job.getLocalJobDirectory(), job.output);
-            session.ftpFileGet(outfile, mergedOutput);
+            File outfile = new File(job.getLocalJobDirectory(), job.getOutputFileName());
+            session.ftpFileGet(outfile, mergedOutputFileName);
             setState(JobState.OututDownloaded);
 
 
@@ -548,9 +548,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
         me.logMessage("Starting SlurmClusterRunner");
         me.logMessage(" id " + dto.id);
-        me.logMessage(" query " + dto.query.getAbsolutePath());
-        me.logMessage(" db " + dto.database);
-        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.output));
+        me.logMessage(" query " + dto.getQuery().getAbsolutePath());
+        me.logMessage(" db " + dto.getJobDatabaseName());
+        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.getOutputFileName()));
 
         new Thread(me).start();
 
@@ -566,9 +566,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         me.logMessage("Starting SlurmClusterRunner");
         me.logMessage(" id " + dto.id);
-        me.logMessage(" query " + dto.query.getAbsolutePath());
-        me.logMessage(" db " + dto.database);
-        me.logMessage(" out " + dto.output);
+        me.logMessage(" query " + dto.getQuery().getAbsolutePath());
+        me.logMessage(" db " + dto.getJobDatabaseName());
+        me.logMessage(" out " + dto.getOutputFileName());
 
         new Thread(me).start();
 

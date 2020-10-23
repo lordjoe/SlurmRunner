@@ -1,3 +1,4 @@
+/*
 package com.lordjoe.comet;
 
 
@@ -8,12 +9,14 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+*/
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
  * User: Steve
  * Date: 2/5/20
  * will be the main BLAST CAller
- */
+ *//*
+
 public class CometLocalRunner extends AbstractCometClusterRunner {
 
     static Logger LOG = Logger.getLogger(CometLocalRunner.class.getName());
@@ -323,3 +326,4 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
 
 
+*/

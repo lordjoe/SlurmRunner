@@ -31,10 +31,15 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
         super(job, param);
          jobDir = new File(BASE_DIRECTORY,job.id);
          jobDir.mkdirs();
-         File listed = job.query;
-         job.query = new File(jobDir,listed.getName());
-         if(!job.query.getAbsoluteFile().equals(listed.getAbsoluteFile()))
-             FileUtilities.copyFile(listed,job.query);
+         File listed = job.getQuery();
+         job.setQuery(new File(jobDir,listed.getName()));
+         if(!job.getQuery().getAbsoluteFile().equals(listed.getAbsoluteFile()))
+             FileUtilities.copyFile(listed,job.getQuery());
+    }
+
+    @Override
+    public String getClusterMergeResultZipFileName(BlastLaunchDTO job) {
+        return null;
     }
 
 
@@ -75,15 +80,15 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
             }
             args.add(program);
             args.add("-query");
-            String qpath = job.query.getAbsolutePath();
-            args.add(job.query.getPath());
+            String qpath = job.getQuery().getAbsolutePath();
+            args.add(job.getQuery().getPath());
             args.add("-db");
-            args.add(job.database.replace("-remote", ""));
+            args.add(job.getJobDatabaseName().replace("-remote", ""));
             args.add("-out");
-            File outFile = new File(job.query.getParentFile(),job.output);
+            File outFile = new File(job.getQuery().getParentFile(),job.getOutputFileName());
             args.add(outFile.getAbsolutePath());
             args.add("-outfmt");
-            args.add(Integer.toString(job.format.code));
+            args.add(Integer.toString(job.getBLASTFormat().code));
 
 
             for (String parameter : parameters.keySet()) {

@@ -1,3 +1,4 @@
+/*
 package com.lordjoe.comet;
 
 import com.jcraft.jsch.SftpException;
@@ -20,12 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+*/
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
  * User: Steve
  * Date: 2/5/20
  * will be the main BLAST CAller
- */
+ *//*
+
 public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
 
@@ -59,12 +62,14 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
 
 
-    /**
+    */
+/**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     */
+     *//*
+
     public static int countMGFEntities(File f) {
         try {
             LineNumberReader rdr = new LineNumberReader(new FileReader(f));
@@ -75,12 +80,14 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         }
     }
 
-    /**
+    */
+/**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     */
+     *//*
+
     public static int countMGFEntities(List<File> input) {
         int ret = 0;
         for (File file : input) {
@@ -90,12 +97,14 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
     }
 
 
-    /**
+    */
+/**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     */
+     *//*
+
     public static int countMGFEntities(LineNumberReader rdr) {
         try {
             int ret = 0;
@@ -389,3 +398,4 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
 
 
+*/
