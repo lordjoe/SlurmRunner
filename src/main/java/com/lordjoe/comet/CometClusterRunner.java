@@ -169,6 +169,19 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     }
 
 
+    /**
+     * comput the file to upload which may be zipped from the job
+     * @param job
+     * @return
+     */
+    public   String getUploadFileName(BlastLaunchDTO job)
+    {
+        //     ChannelSftp sftp = session.getSFTP();
+        String outputx = getOutputName();
+        return outputx;
+    }
+
+
     public void writeExecutionScript(ClusterSession me) {
         try {
 
@@ -465,18 +478,9 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             setState(JobState.FilesMerged);
 
 
-            //     ChannelSftp sftp = session.getSFTP();
-            String outputx = getOutputName();
-            StringBuilder sb = new StringBuilder();
-
-            sb.append(getClusterProperties() .getProperty("LocationOfDefaultDirectory") + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
-            sb.append(outputx);
-
-
-            String mergedOutput = sb.toString();
-
+            String outputx = getUploadFileName(  job) ;    // use the Upload file name to find the file to upload
             File outfile = new File(job.getLocalJobDirectory(),outputx);
-            session.ftpFileGet(outfile, mergedOutput);
+            session.ftpFileGet(outfile, outputx);
             setState(JobState.OututDownloaded);
 
 

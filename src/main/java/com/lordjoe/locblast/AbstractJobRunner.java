@@ -73,6 +73,12 @@ public abstract class AbstractJobRunner  implements IJobRunner {
         logger = new PrintWriter(writer);
     }
 
+    /**
+     * comput the file to upload which may be zipped from the job
+     * @param job
+     * @return
+     */
+    public abstract String getUploadFileName(BlastLaunchDTO job);
 
 
     public final void logMessage(String s) {

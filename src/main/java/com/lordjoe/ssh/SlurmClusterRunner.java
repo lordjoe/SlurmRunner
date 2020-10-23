@@ -401,7 +401,16 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         ClusterSession.releaseClusterSession(me);
     }
- 
+
+    /**
+     * comput the file to upload which may be zipped from the job
+     * @param job
+     * @return
+     */
+    public   String getUploadFileName(BlastLaunchDTO job)
+    {
+        throw new UnsupportedOperationException("Fix This"); // ToDo
+    }
 
 
     @Override
@@ -480,13 +489,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             //     ChannelSftp sftp = session.getSFTP();
             String output = job.output.toString().replace("\\", "/");
             String outputx = output.substring(Math.max(0, output.indexOf("/")));
-            StringBuilder sb = new StringBuilder();
-
-            sb.append(getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
-            sb.append(outputx);
 
 
-            String mergedOutput = sb.toString();
+
+            String mergedOutput = getUploadFileName(  job) ;    // use the Upload file name to find the file to upload
 
             File outfile = new File(job.getLocalJobDirectory(), job.output);
             session.ftpFileGet(outfile, mergedOutput);
