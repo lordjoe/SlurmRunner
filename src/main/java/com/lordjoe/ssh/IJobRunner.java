@@ -1,7 +1,5 @@
 package com.lordjoe.ssh;
 
-import com.lordjoe.locblast.BlastLaunchDTO;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +13,7 @@ public interface IJobRunner extends Runnable {
 
     public String getId();
 
-    public BlastLaunchDTO getJob();
+    public LaunchDTO getJob();
 
     public void setLastState(JobState s);
 

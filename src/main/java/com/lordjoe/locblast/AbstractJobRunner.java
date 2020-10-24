@@ -6,6 +6,7 @@ import com.jcraft.jsch.SftpException;
 import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
+import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.*;
 import java.util.HashMap;
@@ -19,21 +20,21 @@ import java.util.logging.Logger;
  * User: Steve
  * Date: 10/19/20
  */
-public abstract class AbstractJobRunner  implements IJobRunner {
+public abstract class AbstractJobRunner implements IJobRunner {
 
     private static Logger LOG = Logger.getLogger(AbstractJobRunner.class.getName());
 
 
+    public final String id;
     protected SftpException forceClassLoadSoNotFoundException;
-    public final BlastLaunchDTO job;
     public Map<String, Object> parameters = new HashMap<>();
-    public final   Properties clusterPropertiesX = buildClusterProperties( );
+    public final Properties clusterPropertiesX = buildClusterProperties();
     protected PrintWriter logger;
     //   public final ClusterSession session = ClusterSession.getClusterSession();
-    protected  final AtomicReference<JobState> state = new AtomicReference<JobState>();
-    protected    JobState lastState;
+    protected final AtomicReference<JobState> state = new AtomicReference<JobState>();
+    protected JobState lastState;
 
-     public   Properties buildClusterProperties() {
+    public Properties buildClusterProperties() {
         try {
             Properties ret = new Properties();
             ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
@@ -44,10 +45,10 @@ public abstract class AbstractJobRunner  implements IJobRunner {
     }
 
 
-    public AbstractJobRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
-        this.job = job;
-          IJobRunner.registerRunner(this);
-
+    public AbstractJobRunner(String id, Map<String, ? extends Object> param) {
+        this.id = id;
+        IJobRunner.registerRunner(this);
+        OpenLogFile();
     }
 
     public final Properties getClusterProperties() {
@@ -62,37 +63,42 @@ public abstract class AbstractJobRunner  implements IJobRunner {
         return file;
     }
 
-
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        jobdir.setReadable(true,true);
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
+    public final String getId() {
+        return id;
     }
 
-    /**
-     * comput the file to upload which may be zipped from the job
-     * @param job
-     * @return
-     */
-    public abstract String getClusterMergeResultZipFileName(BlastLaunchDTO job);
 
-
-    public final void logMessage(String s) {
+    public void OpenLogFile() {
         try {
-            OpenLogFile();
-            LOG.warning(s);
-            logger.println(s);
-            System.out.println(s);
-            logger.close();
+            File base = new File("/opt/blastserver");
+            File jobdir = new File(base, getId());
+            jobdir.mkdirs();
+            jobdir.setReadable(true, true);
+            File logFile = new File(jobdir, "log.txt");
+            FileWriter writer = new FileWriter(logFile, true); // append
+            logger = new PrintWriter(writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
 
         }
     }
+
+    /**
+     * comput the file to upload which may be zipped from the job
+     *
+     * @param job
+     * @return
+     */
+    public abstract String getClusterMergeResultZipFileName(LaunchDTO job);
+
+
+    public final void logMessage(String s) {
+             OpenLogFile();
+            LOG.warning(s);
+            logger.println(s);
+            System.out.println(s);
+            logger.close();
+     }
 
     protected final void guaranteeJarFile(int call) {
         File defaultDir = new File("/opt/blastserver");
@@ -104,7 +110,7 @@ public abstract class AbstractJobRunner  implements IJobRunner {
         long size = local.length();
         logMessage("LocalFileFound");
         try {
-            String remoteFile = getClusterProperties() .getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
+            String remoteFile = getClusterProperties().getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
             ClusterSession me = ClusterSession.getClusterSession();
             ChannelSftp sftp = me.getSFTP();
             SftpATTRS fileStat = null;
@@ -118,7 +124,7 @@ public abstract class AbstractJobRunner  implements IJobRunner {
                 }
             } catch (SftpException e) {
                 FileInputStream is = new FileInputStream(local);
-                me.ftpFileCreate(remoteFile, is,0666);
+                me.ftpFileCreate(remoteFile, is, 0666);
                 logMessage("Remote Jar Downloaded");
                 if (call == 0)
                     guaranteeJarFile(call + 1);
@@ -143,20 +149,10 @@ public abstract class AbstractJobRunner  implements IJobRunner {
         return lastState;
     }
 
-    @Override
-    public final BlastLaunchDTO getJob() {
-        return job;
-    }
-
 
     public final JobState getState() {
         return state.get();
     }
-
-    public final String getId() {
-        return this.job.id;
-    }
-
 
 
     @Override

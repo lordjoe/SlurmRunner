@@ -1,20 +1,23 @@
-/*
+
 package com.lordjoe.comet;
 
 import com.devdaily.system.SystemCommandExecutor;
 import com.lordjoe.locblast.BlastLaunchDTO;
+import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-*/
+
 /**
  * com.lordjoe.comet.LocalCometRunner
  * User: Steve
  * Date: 9/1/20
- *//*
+ */
 
 public class LocalCometRunner extends AbstractCometClusterRunner {
       public static File baseDir = new File("/opt/blastserver");
@@ -26,7 +29,7 @@ public class LocalCometRunner extends AbstractCometClusterRunner {
      public final File params;
 
 
-    public LocalCometRunner(BlastLaunchDTO job, Map<String, ? extends Object> paramsX) {
+    public LocalCometRunner(CometLaunchDTO job, Map<String, ? extends Object> paramsX) {
         super(job,paramsX);
         jobBase = new File(baseDir, job.id);
 
@@ -44,7 +47,10 @@ public class LocalCometRunner extends AbstractCometClusterRunner {
 
     }
 
-
+    @Override
+    public String getClusterMergeResultZipFileName(LaunchDTO job) {
+        throw new UnsupportedOperationException("Fix This"); // ToDo
+    }
 
 
     @Override
@@ -162,7 +168,7 @@ public class LocalCometRunner extends AbstractCometClusterRunner {
 
 
     public static void run(String[] args) {
-        BlastLaunchDTO dto = handleLocBlastArgs(args) ;
+        CometLaunchDTO dto = handleLocBlastArgs(args) ;
         Map<String, ?> params = buildParameters(args);
         LocalCometRunner me = new LocalCometRunner(dto,params);
         me.runSplitBlastPJob();
@@ -173,4 +179,4 @@ public class LocalCometRunner extends AbstractCometClusterRunner {
         runSplitBlastPJob();
     }
 }
-*/
+

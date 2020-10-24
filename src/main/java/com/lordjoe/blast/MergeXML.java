@@ -31,7 +31,9 @@ public class MergeXML {
             Path path = Paths.get(filePath);
             String directory = path.getParent().toString();
 
-            FileOutputStream fos = new FileOutputStream(file.getPath().replace(file.getName(), "")+zipFileName);
+            String s = file.getPath().replace(file.getName(), "") + zipFileName;
+            File outFile = new File(s);
+            FileOutputStream fos = new FileOutputStream(outFile);
             ZipOutputStream zos = new ZipOutputStream(fos);
 
             zos.putNextEntry(new ZipEntry(file.getName()));
@@ -40,6 +42,7 @@ public class MergeXML {
             zos.write(bytes, 0, bytes.length);
             zos.closeEntry();
             zos.close();
+            FileUtilities.setReadWritePermissions(outFile);
             System.out.println("Working Directory = " + System.getProperty("user.dir"));
 
         } catch (FileNotFoundException ex) {

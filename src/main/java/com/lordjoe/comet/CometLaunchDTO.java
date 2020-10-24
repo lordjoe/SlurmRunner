@@ -1,7 +1,5 @@
 package com.lordjoe.comet;
 
-import com.lordjoe.locblast.BLASTFormat;
-import com.lordjoe.locblast.BLASTProgram;
 import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.File;
@@ -12,12 +10,29 @@ import java.util.UUID;
  * User: Steve
  * Date: 1/25/20
  */
-public class BlastLaunchDTO extends LaunchDTO  {
-    public final BLASTProgram program;
+public class CometLaunchDTO extends LaunchDTO {
     private String database;
-    private File query;   // original file
-    private BLASTFormat format;
-    private String output; //the output filename. Output file will always be a zip file
+    private File params;   // original file
+    private File spectra;   // original file
+
+    public CometLaunchDTO(String id) {
+        super(id);
+    }
+
+    public CometLaunchDTO() {
+        this(UUID.randomUUID().toString());
+    }
+
+    
+    public File getParams() {
+        return params;
+    }
+
+    public void setParams(File params) {
+        this.params = params;
+    }
+
+
 
     public String getJobDatabaseName() {
         return database;
@@ -27,88 +42,55 @@ public class BlastLaunchDTO extends LaunchDTO  {
         this.database = database;
     }
 
-    public File getQuery() {
-        return query;
+    public File getSpectra() {
+        return spectra;
     }
 
-    public void setQuery(File query) {
-        this.query = query;
+    public void setSpectra(File spectra) {
+        this.spectra = spectra;
     }
-
-    public BLASTFormat getBLASTFormat() {
-        return format;
-    }
-
-    public void setBLASTFormat(BLASTFormat format) {
-        this.format = format;
-    }
-
+ 
     public String getOutputZipFileName() {
-        return output;
-    }
-
-    public void setOutputFileName(String output) {
-        if (output.endsWith(".zip"))
-            this.output = output;
-        else
-            throw new UnsupportedOperationException("trying to set a non zip output filename!");
+        return spectra.getName().replace(".mgf",".pep.xml");
     }
 
 
 
-
-
-
-    public BlastLaunchDTO(String id, BLASTProgram program) {
-        super(id);
-        this.program = program;
-    }
-
-    public BlastLaunchDTO(BLASTProgram program) {
-        this(UUID.randomUUID().toString(),program);
-    }
-
-    public String asCommand()
-    {
+    public String asCommand() {
         StringBuffer sb = new StringBuffer();
-        sb.append("-db ") ;
+        sb.append("-db ");
         sb.append(database);
 
-        sb.append("-query ") ;
-        sb.append(query.getAbsolutePath());
+        sb.append("-query ");
+        sb.append(spectra.getAbsolutePath());
 
-        sb.append("-outfmt  ") ;
-        sb.append(format);
-
-        sb.append("-out  ") ;
-        sb.append(query.getAbsolutePath());
+        sb.append("-out  ");
+        sb.append(spectra.getAbsolutePath());
 
         return sb.toString();
     }
 
-    public BlastLaunchDTO  withNewQuery(File newQuery,String output)  {
-        BlastLaunchDTO ret = new BlastLaunchDTO(program);
+    public CometLaunchDTO withNewQuery(File newQuery, String output) {
+        CometLaunchDTO ret = new CometLaunchDTO();
         ret.database = database;
-        ret.format = format;
-        ret.query = newQuery;
-        ret.output = output;
-        return ret;
+        ret.spectra = newQuery;
+          return ret;
     }
 
-    public static  String makeOutputName(File in,boolean isXML)  {
+    public static String makeOutputName(File in, boolean isXML) {
         String name = in.getName();
-        String base = name.substring(0,name.lastIndexOf('.')) ;
-        if(isXML)
-             return base + ".xml";
+        String base = name.substring(0, name.lastIndexOf('.'));
+        if (isXML)
+            return base + ".xml";
         else
             return base + ".txt";
 
     }
 
     public File getLocalJobDirectory() {
-        File f =  new File("/opt/blastserver") ;
-        File jobDir = new File(f,id);
-        if(!jobDir.exists())   {
+        File f = new File("/opt/blastserver");
+        File jobDir = new File(f, id);
+        if (!jobDir.exists()) {
             jobDir.mkdirs();
         }
         return jobDir;
