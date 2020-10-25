@@ -369,7 +369,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
                         getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id;
 
-                // copy fasta file
+                // copy spectrum file
                 FileInputStream is = new FileInputStream(job.getSpectra());
                 String fileName = job.getSpectra().getName();
                 String path = directoryOnCluster + "/" + fileName;
@@ -377,11 +377,19 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 me.ftpFileCreate(path, is,0777);
                 System.out.println("Uploaded " + job.getSpectra().getAbsolutePath());
 
+                // copy fasta file
+                File file = new File("/opt/blastserver/" + getId() + "/" + job.getJobDatabaseName());
+                is = new FileInputStream(file);
+                 fileName = file.getName();
+                 path = directoryOnCluster + "/" + fileName;
+                //           me.prepareUpload(me.getSFTP(),path,true);
+                me.ftpFileCreate(path, is,0777);
+                System.out.println("Uploaded " + fileName );
+
                 // copy params file
                 File params = job.getParams();
                  is = new FileInputStream(params);
-
-                 path = directoryOnCluster + "/" + job.getOutputZipFileName();
+                 path = directoryOnCluster + "/" + params.getName();
                 //           me.prepareUpload(me.getSFTP(),path,true);
                 me.ftpFileCreate(path, is,0777);
                 System.out.println("Uploaded " + params.getAbsolutePath());
