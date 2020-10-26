@@ -237,7 +237,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             String[] items = answer.split("\n");
             for (String item : items) {
                 if (item.contains(user)) {
-                    ret.add(parseJobId(item));
+                    Integer e = parseJobId(item);
+                    if(e > 0)
+                        ret.add(e);
                 }
             }
             return ret;
@@ -246,12 +248,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         }
     }
 
-    protected static Integer parseJobId(String item) {
-        item = item.trim();
-        int index = item.indexOf(" ");
-        String s = item.substring(0, index).trim();
-        return new Integer(s);
-    }
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
         justSleep(10000); // make sure we have jobs

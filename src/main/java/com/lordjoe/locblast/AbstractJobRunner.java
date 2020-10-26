@@ -68,6 +68,19 @@ public abstract class AbstractJobRunner implements IJobRunner {
     }
 
 
+    protected static final Integer parseJobId(String item) {
+        try {
+            item = item.trim();
+            int index = item.indexOf(" ");
+            String s = item.substring(0, index).trim();
+            return new Integer(s);
+        } catch (NumberFormatException e) {
+            return 0;
+
+        }
+    }
+
+
     public void OpenLogFile() {
         try {
             File base = new File("/opt/blastserver");

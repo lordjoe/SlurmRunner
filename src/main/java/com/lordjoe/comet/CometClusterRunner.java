@@ -237,7 +237,9 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String[] items = answer.split("\n");
             for (String item : items) {
                 if (item.contains(user)) {
-                    ret.add(parseJobId(item));
+                    Integer e = parseJobId(item);
+                     if(e > 0)
+                        ret.add(e);
                 }
             }
             return ret;
