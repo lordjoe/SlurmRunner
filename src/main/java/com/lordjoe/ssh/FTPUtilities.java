@@ -4,7 +4,6 @@ import com.jcraft.jsch.Session;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.File;
-
 /**
  * com.lordjoe.ssh.FTPUtilities
  * User: Steve

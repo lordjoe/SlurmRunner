@@ -8,9 +8,9 @@ import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.SSHUserData;
-import com.lordjoe.utilities.FileUtilities;
 import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
+import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
 import java.util.HashMap;
@@ -343,7 +343,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
         logMessage("readyToSendEmail");
         SendMail.sendMail(recipient, subjectline, messagebody,log);

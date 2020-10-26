@@ -5,8 +5,8 @@ import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.LaunchDTO;
 import com.lordjoe.ssh.SSHUserData;
-import com.lordjoe.utilities.FileUtilities;
  import com.lordjoe.utilities.ILogger;
+ import com.lordjoe.utilities.FileUtilities;
 
  import java.io.*;
 import java.util.HashSet;

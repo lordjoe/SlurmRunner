@@ -219,7 +219,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
 
         logMessage("readyToSendEmail");

@@ -42,7 +42,12 @@ public class BlastLaunchDTO extends LaunchDTO  {
     }
 
     public String getOutputZipFileName() {
-        return output + ".zip";
+        if (getFileExtension(output).endsWith("zip")){
+            return output;
+        }
+        else {
+            return output + ".zip";
+        }
     }
 
     public void setOutputFileName(String output) {
@@ -107,5 +112,13 @@ public class BlastLaunchDTO extends LaunchDTO  {
             jobDir.mkdirs();
         }
         return jobDir;
+    }
+
+    private String getFileExtension(String name) {
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 }

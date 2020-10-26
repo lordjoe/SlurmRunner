@@ -182,7 +182,7 @@ public class SendMail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("lordjoe2000@gmail.com <lordjoe2000@gmail.com>"));
+            message.setFrom(new InternetAddress("FEDER-bio-HPC-jobs@list.lu"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipient));
             //message.setSubject("Testing Subject");
