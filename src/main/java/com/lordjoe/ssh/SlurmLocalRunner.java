@@ -38,8 +38,8 @@ public class SlurmLocalRunner extends AbstractSlurmClusterRunner {
     }
 
     @Override
-    public String getClusterMergeResultZipFileName(BlastLaunchDTO job) {
-        return null;
+    public String getClusterMergeResultZipFileName(LaunchDTO job) {
+        throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
 

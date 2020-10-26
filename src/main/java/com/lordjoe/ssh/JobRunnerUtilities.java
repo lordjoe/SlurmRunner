@@ -2,7 +2,8 @@ package com.lordjoe.ssh;
 
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.blast.*;
-//import com.lordjoe.comet.CometClusterRunner;
+import com.lordjoe.comet.CometClusterRunner;
+import com.lordjoe.comet.CometLaunchDTO;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.locblast.BLASTFormat;
 import com.lordjoe.locblast.BLASTProgram;
@@ -106,15 +107,15 @@ public class JobRunnerUtilities {
         //       SlurmClusterRunner.logMessage("Program is " + program );
 
 
-        BlastLaunchDTO dto = new BlastLaunchDTO(id, BLASTProgram.fromString(program));
+        CometLaunchDTO dto = new CometLaunchDTO(id );
 
 
-        dto.setJobDatabaseName((String)parameters.get("seqfile"));
+        dto.setJobDatabaseName((String)parameters.get("fastafile"));
         File defaultJobDirectory = dto.getLocalJobDirectory();
-        dto.setQuery(new File(defaultJobDirectory,(String)parameters.get("fastafile")));
-        dto.setOutputFileName((String)parameters.get("parameters"));
+        dto.setSpectra(new File(defaultJobDirectory,(String)parameters.get("spectrumfile")));
+        dto.setParams(new File(defaultJobDirectory,(String)parameters.get("parameters")));
 
-   //     ret = new CometClusterRunner(dto,parameters);
+       ret = new CometClusterRunner(dto,parameters);
         return ret;
 
     }

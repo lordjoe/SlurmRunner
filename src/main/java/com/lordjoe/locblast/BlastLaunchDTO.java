@@ -1,5 +1,7 @@
 package com.lordjoe.locblast;
 
+import com.lordjoe.ssh.LaunchDTO;
+
 import java.io.File;
 import java.util.UUID;
 
@@ -8,9 +10,8 @@ import java.util.UUID;
  * User: Steve
  * Date: 1/25/20
  */
-public class BlastLaunchDTO {
+public class BlastLaunchDTO extends LaunchDTO  {
     public final BLASTProgram program;
-    public final String id;
     private String database;
     private File query;   // original file
     private BLASTFormat format;
@@ -41,20 +42,25 @@ public class BlastLaunchDTO {
     }
 
     public String getOutputZipFileName() {
-        return output;
+        if (getFileExtension(output).endsWith("zip")){
+            return output;
+        }
+        else {
+            return output + ".zip";
+        }
     }
 
     public void setOutputFileName(String output) {
-        if (output.endsWith(".zip"))
-            this.output = output;
-        else
-            throw new UnsupportedOperationException("trying to set a non zip output filename!");
-    }
+                this.output = output;
+     }
+
+
+
 
 
 
     public BlastLaunchDTO(String id,BLASTProgram program) {
-        this.id = id;
+        super(id);
         this.program = program;
     }
 
@@ -106,5 +112,13 @@ public class BlastLaunchDTO {
             jobDir.mkdirs();
         }
         return jobDir;
+    }
+
+    private String getFileExtension(String name) {
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 }

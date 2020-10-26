@@ -1,33 +1,28 @@
-/*
+ 
 package com.lordjoe.comet;
 
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.locblast.AbstractJobRunner;
-import com.lordjoe.locblast.BLASTFormat;
-import com.lordjoe.locblast.BLASTProgram;
-import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.SSHUserData;
-import com.lordjoe.utilities.FileUtilities;
 import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
+import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-
-*/
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
  * User: Steve
  * Date: 2/5/20
  * will be the main BLAST CAller
- *//*
+ */ 
 
 public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
@@ -35,7 +30,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
     @SuppressWarnings("unused")
     protected  SftpException forceClassLoadSoNotFoundException;
      protected Map<String, Object> parameters = new HashMap<>();
-     protected  PrintWriter logger;
+      public final CometLaunchDTO job;
 
 
     //   public final ClusterSession session = ClusterSession.getClusterSession();
@@ -52,23 +47,27 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
 
 
-    public AbstractCometClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
-        super(job,param);
+    public AbstractCometClusterRunner(CometLaunchDTO job, Map<String, ? extends Object> param) {
+        super(job.id,param);
+        this.job = job;
          IJobRunner.registerRunner(this);
         filterProperties(param);
 
     }
 
+ 
+    @Override
+    public final CometLaunchDTO getJob() {
+        return job;
+    }
 
-
-
-    */
+   
 /**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     *//*
+     */ 
 
     public static int countMGFEntities(File f) {
         try {
@@ -80,13 +79,13 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         }
     }
 
-    */
+ 
 /**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     *//*
+     */ 
 
     public static int countMGFEntities(List<File> input) {
         int ret = 0;
@@ -97,13 +96,13 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
     }
 
 
-    */
+     
 /**
      * read a fasta file return the number of fields
      *
      * @param rdr
      * @return
-     *//*
+     */ 
 
     public static int countMGFEntities(LineNumberReader rdr) {
         try {
@@ -184,14 +183,13 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         return line;
     }
 
-    public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
+    public static CometLaunchDTO handleLocBlastArgs(String[] args) {
         int index = 0;
-        BLASTProgram program = BLASTProgram.COMET;
-        String database = "xxx";
+          String database = "xxx";
         String query = "xxx";
-        String out = "xxx";
+        String params = "xxx";
 
-        BlastLaunchDTO ret = new BlastLaunchDTO(program);
+        CometLaunchDTO ret = new CometLaunchDTO( );
         while (index < args.length) {
             String next = args[index];
             System.out.println("Handling " + index + " value " + next);
@@ -212,7 +210,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
             }
             if (next.equalsIgnoreCase("-params")) {
                 index++;
-                out = args[index++];
+                params = args[index++];
                 continue;
             }
               if (next.equalsIgnoreCase("-query")) {
@@ -228,10 +226,9 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
             throw new UnsupportedOperationException("cannot handle " + next);
 
         }
-        ret.output = out;
-        ret.query = new File(query);
-        ret.format = BLASTFormat.XML2;
-        ret.database = database;
+       ret.setSpectra( new File(query));
+        ret.setJobDatabaseName(database);
+        ret.setParams(new File(params));
         return ret;
 
     }
@@ -264,8 +261,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
     public final Map<String, ? extends Object> filterProperties(Map<String, ? extends Object> in) {
         Map<String, Object> ret = new HashMap<>();
-        String[] added = BLASTProgram.relevantProperties(getJob().program);
-        String prefix = BLASTProgram.prefix(getJob().program);
+
 
         String email = (String) in.get("email");
         if (email != null) {
@@ -305,23 +301,20 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
     }
 
-    public final static BlastLaunchDTO handleLocBlastArgs(Map<String, String> data) {
+    public final static CometLaunchDTO handleLocBlastArgs(Map<String, String> data) {
         int index = 0;
         String program_name = data.get("program");
-        BLASTProgram program = BLASTProgram.fromString(program_name);
-        BlastLaunchDTO ret = new BlastLaunchDTO(program);
-        ret.database = data.get("datalib");
+        CometLaunchDTO ret = new CometLaunchDTO( );
+        ret.setJobDatabaseName(data.get("datalib"));
         String query = "xxx";
         String out = "xxx";
         //     if (args[index].toLowerCase().endsWith("blastn"))
-        program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
 
 
-        ret.output = out;
-        ret.query = new File(query);
+        ret.setJobDatabaseName(out);
+        ret.setSpectra(new File(query));
         if (true)
             throw new UnsupportedOperationException("Fix This"); // ToDo
-        ret.format = BLASTFormat.XML2;
         return ret;
 
     }
@@ -350,7 +343,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
         logMessage("readyToSendEmail");
         SendMail.sendMail(recipient, subjectline, messagebody,log);
@@ -368,12 +361,14 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         sb.append("&directory=");
         sb.append(job.id);
 
-        return sb.toString();
+        String s = sb.toString();
+        return s;
     }
 
 
     public String getOutputName() {
-        return job.database.replace(".mgf",".pep.xml");
+        String name = job.getSpectra().getName();
+        return name.replace(".mgf",".pep.xml");
     }
 
 
@@ -398,4 +393,4 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
 
 
-*/
+ 

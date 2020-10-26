@@ -8,9 +8,6 @@ import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -27,18 +24,24 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
 
     @SuppressWarnings("unused")
      protected  boolean xml = true;
-
+     public final BlastLaunchDTO job;
 
 
 
     public AbstractSlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
-        super(job,param);
+        super(job.id, param);
+        this.job = job;
         setXml(job.getBLASTFormat() == BLASTFormat.XML2 || job.getBLASTFormat() == BLASTFormat.XML);
         IJobRunner.registerRunner(this);
         filterProperties(param);
 
     }
 
+  
+    @Override
+    public final BlastLaunchDTO getJob() {
+        return job;
+    }
 
     public static BlastLaunchDTO handleLocBlastArgs(String[] args) {
         int index = 0;
@@ -216,7 +219,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         String subjectline = "Your BLAST Analysis is complete";
         String messagebody = "The results are attached!";
 
-        messagebody += " Output is here <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
 
         logMessage("readyToSendEmail");
@@ -240,7 +243,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         sb.append(tomcatURL);
         sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(job.getOutputZipFileName() + ".zip");
+        sb.append(job.getOutputZipFileName());
         sb.append("&directory=");
         sb.append(job.id);
 
@@ -266,14 +269,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         state.set(j);
     }
 
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
-    }
+ 
 
   }
 

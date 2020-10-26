@@ -1,8 +1,9 @@
 package com.lordjoe.comet;
 
+import com.lordjoe.utilities.FileUtilities;
+
 import java.io.*;
 import java.util.List;
-
 /**
  * com.lordjoe.blast.MergeXML
  * User: Steve
@@ -41,6 +42,7 @@ public class MergeCometXML {
                 out.println("<!-- No Data!! -->");
             }
             out.close();
+              FileUtilities.setReadWritePermissions(outFile);
 
         } catch (IOException e) {
 

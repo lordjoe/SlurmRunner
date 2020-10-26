@@ -1,28 +1,28 @@
-/*
+ 
 package com.lordjoe.comet;
 
 
-import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.ssh.JobState;
+import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-*/
+ 
 /**
  * com.lordjoe.ssh.SlurmClusterRunner
  * User: Steve
  * Date: 2/5/20
  * will be the main BLAST CAller
- *//*
+ */ 
 
 public class CometLocalRunner extends AbstractCometClusterRunner {
 
     static Logger LOG = Logger.getLogger(CometLocalRunner.class.getName());
 
 
-    public CometLocalRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
+    public CometLocalRunner(CometLaunchDTO job, Map<String, ? extends Object> param) {
         super(job, param);
 
     }
@@ -58,7 +58,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
         sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
 
-        String program = getClusterProperties().getProperty("LocationOfBLASTPrograms") + job.program.toString().toLowerCase();
+        String program = getClusterProperties().getProperty("LocationOfBLASTPrograms") + "comet";
         sb.append(program);
         sb.append(" -query ");
 
@@ -67,7 +67,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
         sb.append(" -db ");
         // it does not liek -remote
-        sb.append(job.database.replace("-remote", ""));
+        sb.append(job.getJobDatabaseName().replace("-remote", ""));
 
         sb.append("   -num_threads 32   ");
 
@@ -118,10 +118,10 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
 
     protected void copyDatabase(File directory) {
-        File db = new File("/opt/blastserver/" + job.database); // todo improve
+        File db = new File("/opt/blastserver/" + job.getJobDatabaseName()); // todo improve
         try {
             LineNumberReader rdr = new LineNumberReader(new FileReader(db));
-            PrintWriter out = new PrintWriter(new FileWriter(new File(directory,job.database)));
+            PrintWriter out = new PrintWriter(new FileWriter(new File(directory,job.getJobDatabaseName())));
             String line = rdr.readLine();
             while(line != null)  {
                 out.println(line);
@@ -137,10 +137,10 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
     }
 
     protected void copyParams(File directory) {
-        File db = new File("/opt/blastserver/" + job.output); // todo improve
+        File db = new File("/opt/blastserver/" + job.getOutputZipFileName()); // todo improve
         try {
             LineNumberReader rdr = new LineNumberReader(new FileReader(db));
-            PrintWriter out = new PrintWriter(new FileWriter(new File(directory,job.output)));
+            PrintWriter out = new PrintWriter(new FileWriter(new File(directory,job.getOutputZipFileName())));
             String line = rdr.readLine();
             while(line != null)  {
                 out.println(line);
@@ -156,7 +156,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
     }
 
     protected File getParamsFile() {
-        return new File(job.output) ;
+        return new File(job.getOutputZipFileName()) ;
 
     }
 
@@ -207,7 +207,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
         copyDatabase(jobDirectory);
 
-        File spectra = job.query;
+        File spectra = job.getSpectra();
 
         File inDirectory = new File(jobDirectory, "Input_Dir");
 
@@ -246,7 +246,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
 
         //     ChannelSftp sftp = session.getSFTP();
-        String output = job.output.toString().replace("\\", "/");
+        String output = job.getOutputZipFileName().toString().replace("\\", "/");
         String outputx = output.substring(Math.max(0, output.indexOf("/")));
         StringBuilder sb = new StringBuilder();
 
@@ -256,7 +256,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
         String mergedOutput = sb.toString();
 
-        File outfile = new File(job.getLocalJobDirectory(), job.output);
+        File outfile = new File(job.getLocalJobDirectory(), job.getOutputZipFileName());
 
 
         //     cleanUp();
@@ -275,31 +275,28 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
         StringBuilder sb = new StringBuilder();
         sb.append("comet ");
         sb.append(" -N" + baseDirectory + "/"  + "Output_Dir/xyzzo");
-        sb.append(" -P" + baseDirectory + "/scripts/" +  job.output);
-        sb.append(" -D" + baseDirectory + "/"  + job.database);
+        sb.append(" -P" + baseDirectory + "/scripts/" +  job.getOutputZipFileName());
+        sb.append(" -D" + baseDirectory + "/"  + job.getJobDatabaseName());
         sb.append("  " + baseDirectory + "/"  + "Input_Dir/xyzzy");
         return sb.toString();
     }
 
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        jobdir.setReadable(true, true);
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
+ 
+
+    @Override
+    public String getClusterMergeResultZipFileName(LaunchDTO job) {
+       throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
 
     public static CometLocalRunner run(Map<String, String> data) {
-        BlastLaunchDTO dto = handleLocBlastArgs(data);
+        CometLaunchDTO dto = handleLocBlastArgs(data);
         CometLocalRunner me = new CometLocalRunner(dto, data);
         me.logMessage("Starting SlurmClusterRunner");
         me.logMessage(" id " + dto.id);
-        me.logMessage(" query " + dto.query.getAbsolutePath());
-        me.logMessage(" db " + dto.database);
-        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.output));
+        me.logMessage(" query " + dto.getSpectra().getAbsolutePath());
+        me.logMessage(" db " + dto.getJobDatabaseName());
+        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.getOutputZipFileName()));
 
         new Thread(me).start();
 
@@ -308,7 +305,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
     public static CometLocalRunner run(String[] args) {
         Map<String, ?> data = buildParameters(args);
-        BlastLaunchDTO dto = handleLocBlastArgs(args);
+        CometLaunchDTO dto = handleLocBlastArgs(args);
         CometLocalRunner me = new CometLocalRunner(dto, data);
 
 
@@ -326,4 +323,4 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
 
 
 
-*/
+ 

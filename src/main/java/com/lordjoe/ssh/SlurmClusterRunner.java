@@ -407,9 +407,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
      * @param job
      * @return
      */
-    public   String getClusterMergeResultZipFileName(BlastLaunchDTO job)
+    public   String getClusterMergeResultZipFileName(LaunchDTO job)
     {
-        return job.getOutputZipFileName(); //output will always be a zip file
+        return ((BlastLaunchDTO)job).getOutputZipFileName(); //output will always be a zip file
     }
 
 
@@ -467,7 +467,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             // set permissions
             sftp.chmod(0777,ScriptJobDir);
             sftp.chmod(0777, defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
-            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.*";
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.xml";
             session.executeOneLineCommand(command);
 
 
@@ -483,19 +483,22 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             setState(JobState.FilesMerged);
 
 
-            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "*.*";
-            session.executeOneLineCommand(command);
+//            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "*.zip";
+//            session.executeOneLineCommand(command);
 
             //     ChannelSftp sftp = session.getSFTP();
-            String output = job.getOutputZipFileName().toString().replace("\\", "/");
-            String outputx = output.substring(Math.max(0, output.indexOf("/")));
+//            String output = job.getOutputZipFileName().toString().replace("\\", "/");
+//            String outputx = output.substring(Math.max(0, output.indexOf("/")));
 
 
             String mergedOutputFileName = getClusterMergeResultZipFileName(job) ;    // use the Upload file name to find the file to
-                                                                                    // download from the cluster
+            String relativeScriptDirectory = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
+            // download from the cluster
 
             File outfile = new File(job.getLocalJobDirectory(), job.getOutputZipFileName());
-            session.ftpFileGet(outfile, mergedOutputFileName);
+            String outputx = defaultDirectory + relativeScriptDirectory + "/" +mergedOutputFileName ;    // use the Upload file name to find the file to upload
+            session.ftpFileGet(outfile, outputx);
+            FileUtilities.setReadWritePermissions(outfile);
             setState(JobState.OututDownloaded);
 
 
@@ -532,14 +535,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     }
 
 
-    public void OpenLogFile() throws IOException {
-        File base = new File("/opt/blastserver");
-        File jobdir = new File(base, job.id);
-        jobdir.mkdirs();
-        File logFile = new File(jobdir, "log.txt");
-        FileWriter writer = new FileWriter(logFile, true); // append
-        logger = new PrintWriter(writer);
-    }
 
 
     public static SlurmClusterRunner run(Map<String, String> data) {
