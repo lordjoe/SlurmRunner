@@ -69,7 +69,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
-        String output = job.getOutputZipFileName().toString().replace("\\", "/");
+        String output = job.getOutputFileName().toString().replace("\\", "/");
         //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(output);
@@ -463,7 +463,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             // set permissions
             sftp.chmod(0777,ScriptJobDir);
             sftp.chmod(0777, defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
-            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.xml";
+            command = "chmod a+rw " + defaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id + "/" + "*.*";
             session.executeOneLineCommand(command);
 
 
@@ -541,7 +541,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         me.logMessage(" id " + dto.id);
         me.logMessage(" query " + dto.getQuery().getAbsolutePath());
         me.logMessage(" db " + dto.getJobDatabaseName());
-        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.getOutputZipFileName()));
+        me.logMessage(" out " + new File(dto.getLocalJobDirectory(), dto.getOutputFileName()));
 
         new Thread(me).start();
 
@@ -559,7 +559,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         me.logMessage(" id " + dto.id);
         me.logMessage(" query " + dto.getQuery().getAbsolutePath());
         me.logMessage(" db " + dto.getJobDatabaseName());
-        me.logMessage(" out " + dto.getOutputZipFileName());
+        me.logMessage(" out " + dto.getOutputFileName());
 
         new Thread(me).start();
 

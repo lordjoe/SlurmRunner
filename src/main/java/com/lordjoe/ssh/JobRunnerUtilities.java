@@ -55,12 +55,9 @@ public class JobRunnerUtilities {
         dto.setQuery(new File(defaultJobDirectory, params.sequenceFile));
         dto.setBLASTFormat(BLASTFormat.fromCode(Integer.parseInt(params.outputFormat)));
         if (dto.getBLASTFormat() == BLASTFormat.XML2 || dto.getBLASTFormat() == BLASTFormat.XML) {
-            //dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());
-            dto.setOutputFileName(makeZipFileName(dto.getQuery()).getName());
+            dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());
         } else {
-            //dto.setOutputFileName(makeTxtFileName(dto.getQuery()).getName());
-            dto.setOutputFileName(makeZipFileName(dto.getQuery()).getName());
-
+            dto.setOutputFileName(makeTxtFileName(dto.getQuery()).getName());
         }
 
         int numberFasta = FastaTools.countFastaEntities(dto.getQuery());

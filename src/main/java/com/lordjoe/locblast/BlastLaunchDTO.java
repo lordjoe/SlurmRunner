@@ -46,12 +46,13 @@ public class BlastLaunchDTO extends LaunchDTO  {
             return output;
         }
         else {
-            return output + ".zip";
+            String newName=output.substring(0,output.lastIndexOf(".")).concat(".zip"); // change file extension to .zip
+            return newName;
         }
     }
 
     public String getOutputFileName() {
-            return output + ".zip";
+            return output;
     }
 
     public void setOutputFileName(String output) {
