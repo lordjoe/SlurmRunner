@@ -1,6 +1,10 @@
 package com.lordjoe.blast;
 
+import com.lordjoe.utilities.FileUtilities;
+
 import java.io.*;
+
+import static com.lordjoe.utilities.FileZipper.zipFile;
 
 /**
  * com.lordjoe.blast.MergeTXT
@@ -22,8 +26,9 @@ public class MergeTXT {
     }
 
     public static void mergeTXTFiles(String outFile, File[] inFiles) {
+        File outF = new File(outFile);
         try {
-            PrintWriter out = new PrintWriter(new FileWriter(outFile));
+            PrintWriter out = new PrintWriter(new FileWriter(outF));
             if (inFiles != null && inFiles.length > 0) {
                 for (int i = 0; i < inFiles.length; i++) {
                     File inFile = inFiles[i];
@@ -36,7 +41,11 @@ public class MergeTXT {
                 }
             }
             out.close();
-
+            File parent = outF.getParentFile();
+            if (parent != null) {
+                zipFile(outF.getAbsolutePath());
+            }
+            FileUtilities.setReadWritePermissions(outF);
         } catch (IOException e) {
 
             throw new RuntimeException(e);
@@ -64,7 +73,6 @@ public class MergeTXT {
             return;
         }
         mergeTXTFiles(outfile.getCanonicalPath(), files);
-
     }
 
     public static void usage(String[] args) {

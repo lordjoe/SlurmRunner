@@ -50,6 +50,10 @@ public class BlastLaunchDTO extends LaunchDTO  {
         }
     }
 
+    public String getOutputFileName() {
+            return output + ".zip";
+    }
+
     public void setOutputFileName(String output) {
                 this.output = output;
      }

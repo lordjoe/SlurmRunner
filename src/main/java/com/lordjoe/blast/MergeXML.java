@@ -4,11 +4,9 @@ package com.lordjoe.blast;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+
+import static com.lordjoe.utilities.FileZipper.zipFile;
+
 /**
  * com.lordjoe.blast.MergeXML
  * User: Steve, Simone
@@ -22,34 +20,6 @@ public class MergeXML {
     public static final String FOOTER_P =
             "</BlastXML2>\n";
 
-    private static void zipFile(String filePath) {
-        try {
-            File file = new File(filePath);
-            String zipFileName = file.getName().substring(0,file.getName().lastIndexOf(".")).concat(".zip"); // change file extension to .zip
-
-            Path path = Paths.get(filePath);
-            String directory = path.getParent().toString();
-
-            String s = file.getPath().replace(file.getName(), "") + zipFileName;
-            File outFile = new File(s);
-            FileOutputStream fos = new FileOutputStream(outFile);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-
-            zos.putNextEntry(new ZipEntry(file.getName()));
-
-            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
-            zos.write(bytes, 0, bytes.length);
-            zos.closeEntry();
-            zos.close();
-            FileUtilities.setReadWritePermissions(outFile);
-            System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
-        } catch (FileNotFoundException ex) {
-            System.err.format("The file %s does not exist", filePath);
-        } catch (IOException ex) {
-            System.err.println("I/O error: " + ex);
-        }
-    }
 
     public static void writeFile(String fileName, String data) {
         File file = new File(fileName);
@@ -59,12 +29,8 @@ public class MergeXML {
     public static void writeFile(File file, String data) {
 
         try {
-            //FileOutputStream zipCopy = new FileOutputStream(file);
             PrintWriter out = new PrintWriter(new FileWriter(file));
-            //ZipOutputStream zipOut = new ZipOutputStream(zipCopy);
             out.println(data);
-            //byte[] bytes = Base64.decodeBase64(data);
-            //zipOut.write(bytes);
 
             file.setReadable(true, true);
             file.setWritable(true, true);
@@ -80,9 +46,7 @@ public class MergeXML {
         // and will call a method to actually zip the file
         //This method is not called anywhere in the code, but called via a .jar call in the cluster
         //by the merge script
-        outFilename=outFilename.substring(0,outFilename.lastIndexOf(".")).concat(".mergedToBeZipped"); //change output extension to create
-                                                                                                            // temporary merged file which
-                                                                                                            //will be zipped
+
         File outF = new File(outFilename);
         StringBuilder sb = new StringBuilder();
         sb.append(outFilename);
