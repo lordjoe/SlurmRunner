@@ -11,7 +11,10 @@ import java.util.UUID;
  * Date: 1/25/20
  */
 public class CometLaunchDTO extends LaunchDTO {
+    private boolean databaseIsRemote;
     private String database;
+
+
     private File params;   // original file
     private File spectra;   // original file
 
@@ -33,6 +36,13 @@ public class CometLaunchDTO extends LaunchDTO {
     }
 
 
+    public boolean isDatabaseIsRemote() {
+        return databaseIsRemote;
+    }
+
+    public void setDatabaseIsRemote(boolean databaseIsRemote) {
+        this.databaseIsRemote = databaseIsRemote;
+    }
 
     public String getJobDatabaseName() {
         return database;

@@ -34,7 +34,7 @@ public abstract class AbstractJobRunner implements IJobRunner {
     protected final AtomicReference<JobState> state = new AtomicReference<JobState>();
     protected JobState lastState;
 
-    public Properties buildClusterProperties() {
+    public static Properties readClusterProperties() {
         try {
             Properties ret = new Properties();
             ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
@@ -42,6 +42,10 @@ public abstract class AbstractJobRunner implements IJobRunner {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public  Properties buildClusterProperties() {
+        return readClusterProperties();
     }
 
 

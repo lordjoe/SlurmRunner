@@ -1,21 +1,21 @@
- package com.lordjoe.comet;
+package com.lordjoe.comet;
 
- import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.ChannelSftp;
 import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.LaunchDTO;
 import com.lordjoe.ssh.SSHUserData;
- import com.lordjoe.utilities.ILogger;
- import com.lordjoe.utilities.FileUtilities;
+import com.lordjoe.utilities.ILogger;
+import com.lordjoe.utilities.FileUtilities;
 
- import java.io.*;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
- /**
+/**
  * com.lordjoe.ssh.SlurmClusterRunner
  * User: Steve
  * Date: 2/5/20
@@ -26,13 +26,10 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     static Logger LOG = Logger.getLogger(CometClusterRunner.class.getName());
 
 
-
     public CometClusterRunner(CometLaunchDTO job, Map<String, ? extends Object> param) {
         super(job, param);
 
     }
-
-
 
 
     public String generateSlurmScript() {
@@ -59,27 +56,36 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         String locationOfDefaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
 
         StringBuilder sb = new StringBuilder();
-        String program = getClusterProperties().getProperty("LocationOfJava") ;
+        String program = getClusterProperties().getProperty("LocationOfJava");
         sb.append(program);
         sb.append("java -jar");
 
         sb.append(" " + locationOfDefaultDirectory + "SLURM_Runner.jar ");
-               sb.append(" com.lordjoe.comet.MergeCometXML ") ;
+        sb.append(" com.lordjoe.comet.MergeCometXML ");
 
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
         String output = getOutputName();
-    //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
-        sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id  + "/");
+        //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
+        sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(output);
 
-         String s = sb.toString();
+        String s = sb.toString();
         System.out.println(s);
         return s;
     }
 
 
+    public String getDatabaseFile(Properties clusterProperties) {
+        String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
+        String ret;
+        if (job.isDatabaseIsRemote())
+            ret = clusterProperties.getProperty("LocationOfCometDb")  + "/" + job.getJobDatabaseName();
+        else
+            ret = baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + job.getJobDatabaseName();
+        return ret;
+    }
 
 
     public String generateExecutionScript() {
@@ -102,61 +108,34 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         sb.append("base1=${base%.*}\n");
 
 
-
-        String program = getClusterProperties().getProperty("LocationOfComet") ;
+        String program = getClusterProperties().getProperty("LocationOfComet");
         sb.append(program);
-         sb.append(" -P");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.getParams().getName());
+        sb.append(" -P");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + job.getParams().getName());
         sb.append(" -D");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.getSpectra().getName());
+        sb.append(getDatabaseFile(clusterProperties));
         sb.append(" -N");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id   + "/${base1}");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id + "/${base1}");
         sb.append("  ");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id   + "/${base}");
-
-
+        sb.append(baseDir + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id + "/${base}");
 
 
         String s = sb.toString();
         System.out.println(s);
         return s;
     }
+
     protected String makeSampleSubmitToCPU(String data) {
-        data = data.replace("${base1}","splitFile001");
-        data = data.replace("${base}","splitFile001.xml");
-        if(true) {
-            System.out.println(data);
-            return data;
-        }
-        Properties clusterProperties = getClusterProperties();
-        String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
-        StringBuilder sb = new StringBuilder();
-        String base1 = "splitFile001";
-        String basef = "splitFile001.mgf";
-
-        String program = getClusterProperties().getProperty("LocationOfComet") ;
-        sb.append(program);
-        sb.append(" -P");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.getParams().getName());
-        sb.append(" -D");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/"  + job.getSpectra().getName());
-        sb.append(" -N");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeOutputDirectory") + "/" + job.id + "/"     + base1);
-        sb.append("  ");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeInputDirectory") + "/" + job.id + "/"     + basef);
-
-
-
-
-        String s = sb.toString();
-        System.out.println(s);
-        return s;
+        data = data.replace("${base1}", "splitFile001");
+        data = data.replace("${base}", "splitFile001.mgf");
+        System.out.println(data);
+        return data;
     }
 
 
     public String generateSlurmIterateScript() {
         StringBuilder sb = new StringBuilder();
-          sb.append("for file in ");
+        sb.append("for file in ");
         sb.append(getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         sb.append("/*\n");
 
@@ -172,11 +151,11 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     /**
      * comput the file to upload which may be zipped from the job
+     *
      * @param job
      * @return
      */
-    public   String getClusterMergeResultZipFileName(LaunchDTO job)
-    {
+    public String getClusterMergeResultZipFileName(LaunchDTO job) {
         //     ChannelSftp sftp = session.getSFTP();
         String outputx = getOutputName();
         return outputx;
@@ -189,17 +168,16 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "submitToCPUNode.sh";
             String data = generateExecutionScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is,0777);
+            me.ftpFileCreate(file, is, 0777);
 
             file = "sampleSubmitToCPUNode.sh";
             data = makeSampleSubmitToCPU(data);
             is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is,0777);
+            me.ftpFileCreate(file, is, 0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 
     public void writeMergerScript(ClusterSession me) {
@@ -207,7 +185,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "mergeXMLFiles.sh";
             String data = generateMergerScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is,0777);
+            me.ftpFileCreate(file, is, 0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -219,7 +197,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             String file = "runBlast.sh";
             String data = generateSlurmIterateScript();
             InputStream is = new ByteArrayInputStream(data.getBytes());
-            me.ftpFileCreate(file, is,0777);
+            me.ftpFileCreate(file, is, 0777);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -227,7 +205,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     public Set<Integer> getJobNumbers(ClusterSession me) {
         SSHUserData user1 = ClusterSession.getUser();
-           return getJobNumbers(me, user1.userName);
+        return getJobNumbers(me, user1.userName);
     }
 
     public static Set<Integer> getJobNumbers(ClusterSession me, String user) {
@@ -238,7 +216,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             for (String item : items) {
                 if (item.contains(user)) {
                     Integer e = parseJobId(item);
-                     if(e > 0)
+                    if (e > 0)
                         ret.add(e);
                 }
             }
@@ -251,7 +229,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
         justSleep(2000); // make sure we have jobs
-         Set<Integer> current;
+        Set<Integer> current;
         while (true) {
             current = getJobNumbers(me);
             current.removeAll(priors);
@@ -282,22 +260,22 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
             String outputDirectoryOnCluster = getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
             me.mkdir(outputDirectoryOnCluster);
-     //       me.executeCommand("chmod a+rwx " + defaultDirectory + outputDirectoryOnCluster);
+            //       me.executeCommand("chmod a+rwx " + defaultDirectory + outputDirectoryOnCluster);
 
-                if (!me.cd(defaultDirectory))
+            if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
             String directoryOnCluster = getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
             me.mkdir(directoryOnCluster);
- //           me.executeCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster);
+            //           me.executeCommand("chmod a+rwx " + defaultDirectory + directoryOnCluster);
 
 
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             directoryOnCluster = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
-            String path =   directoryOnCluster;
+            String path = directoryOnCluster;
             me.mkdir(path);
-    //        me.executeCommand("chmod a+rwx " + path);
+            //        me.executeCommand("chmod a+rwx " + path);
 
 
             writeExecutionScript(me);
@@ -308,8 +286,8 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
-              ClusterSession.releaseClusterSession(me);
-         }catch (Exception e) {
+            ClusterSession.releaseClusterSession(me);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -322,9 +300,9 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         if (numberEntries > 70)
             splitSize = (numberEntries / 7);
 
-        File outDirectory = new File(getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id);
+        File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();
-        outDirectory.setReadable(true,true);
+        outDirectory.setReadable(true, true);
 
         String baseName = "splitFile";
         splitMGFFile(in, outDirectory, baseName, splitSize, numberEntries);
@@ -334,14 +312,14 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     public void transferFilesToCluster() {
         try {
-            File outDirectory = new File(getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id);
+            File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
             File[] files = outDirectory.listFiles();
             if (files != null) {
-                String directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                        getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id;
+                String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                        getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
                 ClusterSession me = ClusterSession.getClusterSession();
-                me.cd(directoryOnCluster) ;
- //               me.mkdir(directoryOnCluster);
+                me.cd(directoryOnCluster);
+                //               me.mkdir(directoryOnCluster);
 
 //                try {
 //                    ChannelSftp sftp = me.getSFTP();
@@ -359,7 +337,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                     String path = directoryOnCluster + "/" + fileName;
                     //           me.prepareUpload(me.getSFTP(),path,true);
                     System.out.println("Uploading " + file.getAbsolutePath());
-                    me.ftpFileCreate(path, is,0777);
+                    me.ftpFileCreate(path, is, 0777);
                     System.out.println("Uploaded " + file.getAbsolutePath());
                 }
                 // cleanup local copy
@@ -368,32 +346,34 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 }
                 outDirectory.delete();
 
-                directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                        getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id;
+                directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                        getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
 
                 // copy spectrum file
                 FileInputStream is = new FileInputStream(job.getSpectra());
                 String fileName = job.getSpectra().getName();
                 String path = directoryOnCluster + "/" + fileName;
                 //           me.prepareUpload(me.getSFTP(),path,true);
-                me.ftpFileCreate(path, is,0777);
+                me.ftpFileCreate(path, is, 0777);
                 System.out.println("Uploaded " + job.getSpectra().getAbsolutePath());
 
                 // copy fasta file
-                File file = new File("/opt/blastserver/" + getId() + "/" + job.getJobDatabaseName());
-                is = new FileInputStream(file);
-                 fileName = file.getName();
-                 path = directoryOnCluster + "/" + fileName;
-                //           me.prepareUpload(me.getSFTP(),path,true);
-                me.ftpFileCreate(path, is,0777);
-                System.out.println("Uploaded " + fileName );
+                if (!job.isDatabaseIsRemote()) {
+                    File file = new File("/opt/blastserver/" + getId() + "/" + job.getJobDatabaseName());
+                    is = new FileInputStream(file);
+                    fileName = file.getName();
+                    path = directoryOnCluster + "/" + fileName;
+                    //           me.prepareUpload(me.getSFTP(),path,true);
+                    me.ftpFileCreate(path, is, 0777);
+                    System.out.println("Uploaded " + fileName);
+                }
 
                 // copy params file
                 File params = job.getParams();
-                 is = new FileInputStream(params);
-                 path = directoryOnCluster + "/" + params.getName();
+                is = new FileInputStream(params);
+                path = directoryOnCluster + "/" + params.getName();
                 //           me.prepareUpload(me.getSFTP(),path,true);
-                me.ftpFileCreate(path, is,0777);
+                me.ftpFileCreate(path, is, 0777);
                 System.out.println("Uploaded " + params.getAbsolutePath());
 
 
@@ -408,31 +388,26 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
     protected void cleanUp() {
-        String directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeInputDirectory") + "/" + job.id;
+        String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
         ClusterSession me = ClusterSession.getClusterSession();
         ChannelSftp sftp = me.getSFTP();
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
-        directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeOutputDirectory") + "/" + job.id;
+        directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
-        directoryOnCluster = getClusterProperties() .getProperty("LocationOfDefaultDirectory") +
-                getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id;
+        directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
+                getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
 
         ClusterSession.releaseClusterSession(me);
     }
 
 
-
-
-
-
-
     @Override
     public void run() {
         try {
-            String defaultDirectory = getClusterProperties() .getProperty("LocationOfDefaultDirectory");
+            String defaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
 
 
             logMessage("guaranteeJarFile");
@@ -450,8 +425,8 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             writeScripts();
             logMessage("writeScripts");
 
-               File spectra = job.getSpectra();
-              File outDirectory = splitSpectra(spectra);
+            File spectra = job.getSpectra();
+            File outDirectory = splitSpectra(spectra);
             setState(JobState.ScriptsWritten);
 
             transferFilesToCluster();
@@ -467,7 +442,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             // what is the user running before we start
             Set<Integer> priors = getJobNumbers(session);
 
-            String command = defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "runBlast.sh";
+            String command = defaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "runBlast.sh";
             setState(JobState.BlastCalled);
 
             session.executeOneLineCommand(command);
@@ -488,12 +463,12 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             setState(JobState.FilesMerged);
 
 
-            String outputx = defaultDirectory + relativeScriptDirectory + "/" + getClusterMergeResultZipFileName(  job) ;    // use the Upload file name to find the file to upload
+            String outputx = defaultDirectory + relativeScriptDirectory + "/" + getClusterMergeResultZipFileName(job);    // use the Upload file name to find the file to upload
             System.out.println(outputx);
             File img = new File(outputx);
             File localJobDirectory = job.getLocalJobDirectory();
             String name = img.getName();
-            File outfile = new File(localJobDirectory,name);
+            File outfile = new File(localJobDirectory, name);
             session.ftpFileGet(outfile, outputx);
             setState(JobState.OututDownloaded);
             FileUtilities.setReadWritePermissions(outfile);
@@ -542,9 +517,10 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     }
 
-     public static final boolean  RUN_LOCAL = false;
+    public static final boolean RUN_LOCAL = false;
+
     public static void main(String[] args) {
-        if(RUN_LOCAL)
+        if (RUN_LOCAL)
             CometLocalRunner.run(args);
         else
             CometClusterRunner.run(args);

@@ -106,8 +106,15 @@ public class JobRunnerUtilities {
 
         CometLaunchDTO dto = new CometLaunchDTO(id );
 
-
-        dto.setJobDatabaseName((String)parameters.get("fastafile"));
+        String remoteFile =  (String)parameters.get("fastaremotefile");
+        if(remoteFile != null) {
+            dto.setJobDatabaseName(remoteFile);
+            dto.setDatabaseIsRemote(true);
+        }
+        else {
+            dto.setJobDatabaseName((String) parameters.get("fastafile"));
+            dto.setDatabaseIsRemote(true);
+        }
         File defaultJobDirectory = dto.getLocalJobDirectory();
         dto.setSpectra(new File(defaultJobDirectory,(String)parameters.get("spectrumfile")));
         dto.setParams(new File(defaultJobDirectory,(String)parameters.get("parameters")));
