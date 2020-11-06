@@ -11,15 +11,13 @@ import java.io.File;
  */
 public class FTPUtilities {
 
-    public  static void createFile(String[] args)  {
-        ClusterSession  me =  ClusterSession.getClusterSession();
-        try {
+    public  static void createFile(String[] args,ClusterSession  me)  {
+          try {
             String command = FileUtilities.readInFile(new File(args[0]));
             me.ftpFileCreate(args[1], command,0666);
             Session session = me.getSession();
             session.disconnect();
-            ClusterSession.releaseClusterSession(me);
-            System.out.println("Done");
+              System.out.println("Done");
         } catch (Exception e) {
 
             throw new RuntimeException(e);
@@ -27,16 +25,14 @@ public class FTPUtilities {
         }
     }
 
-    public  static void downloadFile(String[] args)  {
-        ClusterSession  me = ClusterSession.getClusterSession();
-        try {
+    public  static void downloadFile(String[] args,ClusterSession  me)  {
+          try {
             String local = args[1];
             String remote = args[0];
             me.ftpFileGet(new File(local), remote);
              Session session = me.getSession();
             session.disconnect();
-            ClusterSession.releaseClusterSession(me);
-            System.out.println("Done");
+             System.out.println("Done");
         } catch (Exception e) {
 
             throw new RuntimeException(e);
@@ -45,10 +41,5 @@ public class FTPUtilities {
     }
 
 
-    public static void main(String[] args) {
-        ClusterSession.fixLogging();
-       // createFile(args);
-        downloadFile(args);
-     }
 
 }

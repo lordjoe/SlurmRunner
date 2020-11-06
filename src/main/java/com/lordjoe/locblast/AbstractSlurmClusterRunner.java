@@ -1,6 +1,5 @@
 package com.lordjoe.locblast;
 
-import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.SSHUserData;
@@ -130,8 +129,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         if (email != null) {
             parameters.put("email", email);
             SSHUserData user1 = SSHUserData.getUser(email);
-            ClusterSession.setUser(user1);
-        }
+          }
         String user = (String) in.get("user");
         if (user != null)
             parameters.put("user", email);

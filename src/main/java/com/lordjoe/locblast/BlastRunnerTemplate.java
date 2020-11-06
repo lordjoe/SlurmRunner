@@ -1,15 +1,22 @@
 package com.lordjoe.locblast;
 
+import com.lordjoe.ssh.LaunchDTO;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * com.lordjoe.ssh.BlastRunnerTemplate
  * User: Steve
  * Date: 1/25/20
  */
-public class BlastRunnerTemplate {
+public class BlastRunnerTemplate extends AbstractJobRunner {
+    public BlastRunnerTemplate(String id, Map<String, ?> param) {
+        super(id, param);
+    }
+
     public static String concat(String[] args) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < args.length; i++) {
@@ -49,4 +56,23 @@ public class BlastRunnerTemplate {
         return ret;
     }
 
+    @Override
+    public String getClusterMergeResultZipFileName(LaunchDTO job) {
+       throw new UnsupportedOperationException("Fix This"); // ToDo
+    }
+
+    @Override
+    public LaunchDTO getJob() {
+        return null;
+    }
+
+    @Override
+    public Map<String, ? extends Object> filterProperties(Map<String, ?> in) {
+        return null;
+    }
+
+    @Override
+    public void run() {
+
+    }
 }

@@ -225,7 +225,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     }
 
     public Set<Integer> getJobNumbers(ClusterSession me) {
-        SSHUserData user1 = ClusterSession.getUser();
+        SSHUserData user1 =  getUser();
         String user = user1.userName;
         return getJobNumbers(me, user);
     }
@@ -251,7 +251,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
         justSleep(10000); // make sure we have jobs
-        SSHUserData user1 = ClusterSession.getUser();
+        SSHUserData user1 =  getUser();
         String user = user1.userName;
         Set<Integer> current;
         while (true) {
@@ -278,7 +278,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     public void writeScripts() {
         try {
             String defaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
-            ClusterSession me = ClusterSession.getClusterSession();
+            ClusterSession me = getClusterSession();
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
@@ -318,7 +318,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
-            ClusterSession.releaseClusterSession(me);
+             releaseClusterSession(me);
         } catch ( Exception e) {
             throw new RuntimeException(e);
         }
@@ -347,7 +347,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             if (files != null) {
                 String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
                         getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-                ClusterSession me = ClusterSession.getClusterSession();
+                ClusterSession me = getClusterSession();
 //                me.mkdir(directoryOnCluster);
 
 //                try {
@@ -372,7 +372,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                     files[i].delete();
                 }
                 outDirectory.delete();
-                ClusterSession.releaseClusterSession(me);
+                 releaseClusterSession(me);
 
             }
         } catch (Exception e) {
@@ -385,7 +385,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     protected void cleanUp() {
         String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
                 getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-        ClusterSession me = ClusterSession.getClusterSession();
+        ClusterSession me =  getClusterSession();
         ChannelSftp sftp = me.getSFTP();
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
         directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
@@ -395,7 +395,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                 getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
 
-        ClusterSession.releaseClusterSession(me);
+         releaseClusterSession(me);
     }
 
     /**
@@ -419,7 +419,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             guaranteeJarFile(0);
 
 
-            ClusterSession session = ClusterSession.getClusterSession();
+            ClusterSession session =  getClusterSession();
 
             ChannelSftp sftp = session.getSFTP();
             if (!session.cd(defaultDirectory))
@@ -428,7 +428,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             setState(JobState.JarGuaranteed);
 
 
-            ClusterSession.releaseClusterSession(session);
+            releaseClusterSession(session);
             File outDirectory = splitQuery(job.getQuery());
             writeScripts();
             logMessage("writeScripts");
@@ -443,8 +443,6 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             logMessage("clean split");
 
             // we are having session problems
-            ClusterSession.releaseClusterSession(session);
-            session = ClusterSession.getClusterSession();
 
             // what is the user running before we start
             Set<Integer> priors = getJobNumbers(session);
@@ -503,7 +501,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
             sendEmail(getLogger());
             setState(JobState.NotificationSent);
-            ClusterSession.releaseClusterSession(session);
+           releaseClusterSession(session);
 
             setState(JobState.JobFinished);
             logMessage(job.id + " is completed");

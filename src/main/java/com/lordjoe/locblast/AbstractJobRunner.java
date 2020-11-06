@@ -3,10 +3,7 @@ package com.lordjoe.locblast;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import com.lordjoe.ssh.ClusterSession;
-import com.lordjoe.ssh.IJobRunner;
-import com.lordjoe.ssh.JobState;
-import com.lordjoe.ssh.LaunchDTO;
+import com.lordjoe.ssh.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -33,8 +30,47 @@ public abstract class AbstractJobRunner implements IJobRunner {
     //   public final ClusterSession session = ClusterSession.getClusterSession();
     protected final AtomicReference<JobState> state = new AtomicReference<JobState>();
     protected JobState lastState;
+    private  ClusterSession gSession;
+    private  boolean inUse;
+    private final SSHUserData user;
 
-    public static Properties readClusterProperties() {
+
+    public AbstractJobRunner(String id, Map<String, ?  > paramX) {
+        Map<String,String> param = ( Map<String,String>)paramX;
+        this.id = id;
+        IJobRunner.registerRunner(this);
+        OpenLogFile();
+        String email = (String) param.get("email");
+        if (email == null)
+            throw new UnsupportedOperationException("Email is required");
+        param.put("email", email);
+        user = SSHUserData.getUser(email);
+        if (user == null)
+            throw new UnsupportedOperationException("user is required");
+        param.put("user",  user.userName);
+
+    }
+
+    public synchronized  ClusterSession getClusterSession() {
+        if (gSession == null) {
+            gSession = new ClusterSession(getUser());
+        }
+        if (inUse)
+            throw new UnsupportedOperationException("Session In Use");
+        inUse = true;
+        return gSession;
+
+    }
+
+    public     void releaseClusterSession(ClusterSession me) {
+        inUse = false;
+    }
+
+    public   SSHUserData getUser() {
+        return user;
+    }
+
+     public static Properties readClusterProperties() {
         try {
             Properties ret = new Properties();
             ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
@@ -48,12 +84,6 @@ public abstract class AbstractJobRunner implements IJobRunner {
         return readClusterProperties();
     }
 
-
-    public AbstractJobRunner(String id, Map<String, ? extends Object> param) {
-        this.id = id;
-        IJobRunner.registerRunner(this);
-        OpenLogFile();
-    }
 
     public final Properties getClusterProperties() {
         return clusterPropertiesX;
@@ -128,14 +158,14 @@ public abstract class AbstractJobRunner implements IJobRunner {
         logMessage("LocalFileFound");
         try {
             String remoteFile = getClusterProperties().getProperty("LocationOfDefaultDirectory") + "SLURM_Runner.jar";
-            ClusterSession me = ClusterSession.getClusterSession();
+            ClusterSession me = getClusterSession();
             ChannelSftp sftp = me.getSFTP();
             SftpATTRS fileStat = null;
             try {
                 fileStat = sftp.lstat(remoteFile);
                 long remotesize = fileStat.getSize();
                 if (remotesize == size) {
-                    ClusterSession.releaseClusterSession(me);
+                     releaseClusterSession(me);
                     logMessage("Remote Jar Same");
                     return;
                 }
@@ -146,7 +176,7 @@ public abstract class AbstractJobRunner implements IJobRunner {
                 if (call == 0)
                     guaranteeJarFile(call + 1);
             }
-            ClusterSession.releaseClusterSession(me);
+             releaseClusterSession(me);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

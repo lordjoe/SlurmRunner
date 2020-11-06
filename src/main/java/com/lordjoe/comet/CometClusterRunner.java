@@ -204,7 +204,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     }
 
     public Set<Integer> getJobNumbers(ClusterSession me) {
-        SSHUserData user1 = ClusterSession.getUser();
+        SSHUserData user1 = getUser();
         return getJobNumbers(me, user1.userName);
     }
 
@@ -254,7 +254,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     public void writeScripts() {
         try {
             String defaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
-            ClusterSession me = ClusterSession.getClusterSession();
+            ClusterSession me =  getClusterSession();
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
@@ -286,7 +286,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             if (!me.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
 
-            ClusterSession.releaseClusterSession(me);
+             releaseClusterSession(me);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -317,7 +317,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             if (files != null) {
                 String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
                         getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-                ClusterSession me = ClusterSession.getClusterSession();
+                ClusterSession me =  getClusterSession();
                 me.cd(directoryOnCluster);
                 //               me.mkdir(directoryOnCluster);
 
@@ -377,7 +377,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 System.out.println("Uploaded " + params.getAbsolutePath());
 
 
-                ClusterSession.releaseClusterSession(me);
+                releaseClusterSession(me);
 
             }
         } catch (Exception e) {
@@ -390,7 +390,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     protected void cleanUp() {
         String directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
                 getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id;
-        ClusterSession me = ClusterSession.getClusterSession();
+        ClusterSession me =  getClusterSession();
         ChannelSftp sftp = me.getSFTP();
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
         directoryOnCluster = getClusterProperties().getProperty("LocationOfDefaultDirectory") +
@@ -400,7 +400,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
         ClusterSession.recursiveFolderDelete(sftp, directoryOnCluster);
 
-        ClusterSession.releaseClusterSession(me);
+         releaseClusterSession(me);
     }
 
 
@@ -414,13 +414,13 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             guaranteeJarFile(0);
 
 
-            ClusterSession session = ClusterSession.getClusterSession();
+            ClusterSession session =  getClusterSession();
 
             if (!session.cd(defaultDirectory))
                 throw new IllegalStateException("cannot change to defaultDirectory");
             logMessage("Directory Guaranteed");
             setState(JobState.JarGuaranteed);
-            ClusterSession.releaseClusterSession(session);
+             releaseClusterSession(session);
 
             writeScripts();
             logMessage("writeScripts");
@@ -480,7 +480,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             ILogger logger = getLogger();
             sendEmail(logger);
             setState(JobState.NotificationSent);
-            ClusterSession.releaseClusterSession(session);
+             releaseClusterSession(session);
 
             setState(JobState.JobFinished);
             logMessage(job.id + " is completed");
@@ -511,6 +511,9 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         Map<String, ?> data = buildParameters(args);
         ClusterSession.fixLogging();
         CometLaunchDTO dto = handleLocBlastArgs(args);
+        String user = (String)data.get("user");
+        String email = (String)data.get("email");
+        SSHUserData user1 = SSHUserData.getUser(email);
         CometClusterRunner me = new CometClusterRunner(dto, data);
 
         me.run();

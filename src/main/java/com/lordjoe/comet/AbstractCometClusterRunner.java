@@ -4,13 +4,12 @@ package com.lordjoe.comet;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.locblast.AbstractJobRunner;
-import com.lordjoe.ssh.ClusterSession;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.SSHUserData;
+import com.lordjoe.utilities.FileUtilities;
 import com.lordjoe.utilities.ILogger;
 import com.lordjoe.utilities.SendMail;
-import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
 import java.util.HashMap;
@@ -234,10 +233,6 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
             String value = args[i];
             ret.put(arg.substring(1),value);
         }
-        String user = (String)ret.get("user");
-        String email = (String)ret.get("email");
-        SSHUserData user1 = SSHUserData.getUser(email);
-        ClusterSession.setUser(user1);
 
 
         return ret;
@@ -260,8 +255,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         if (email != null) {
             parameters.put("email", email);
             SSHUserData user1 = SSHUserData.getUser(email);
-            ClusterSession.setUser(user1);
-            parameters.put("user", user1.userName);
+               parameters.put("user", user1.userName);
            }
         else {
             String user = (String) in.get("user");
