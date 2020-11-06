@@ -51,6 +51,8 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         String out = "xxx";
         if (args[index].toLowerCase().endsWith("blastn"))
             program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
+        if (args[index].toLowerCase().endsWith("blastx"))
+            program = BLASTProgram.BLASTX;     // todo get smarter handle more cases
 
         BlastLaunchDTO returnedJobData = new BlastLaunchDTO(program);
         while (index < args.length) {

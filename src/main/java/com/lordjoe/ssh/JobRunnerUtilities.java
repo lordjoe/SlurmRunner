@@ -88,6 +88,10 @@ public class JobRunnerUtilities {
                 BLASTPParameters realP = (BLASTPParameters) params;
                 //           HandleBlastP.handleParams(jobs,realP,request, response);
                 break;
+            case "blastx":
+                BLASTXParameters realX = (BLASTXParameters) params;
+                //           HandleBlastP.handleParams(jobs,realP,request, response);
+                break;
             default:
                 throw new UnsupportedOperationException(program + " is not supported");
         }

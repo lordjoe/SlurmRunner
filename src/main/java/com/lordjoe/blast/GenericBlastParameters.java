@@ -13,6 +13,8 @@ public class GenericBlastParameters {
                 return new BLASTNParameters();
             case "blastp":
                 return new BLASTPParameters();
+            case "blastx":
+                return new BLASTXParameters();
             default:
                 throw new UnsupportedOperationException(program + " is not supported");
         }

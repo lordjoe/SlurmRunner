@@ -4,6 +4,9 @@ import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
 import java.util.List;
+
+import static com.lordjoe.utilities.FileZipper.zipFile;
+
 /**
  * com.lordjoe.blast.MergeXML
  * User: Steve
@@ -40,6 +43,11 @@ public class MergeCometXML {
                 out.println(FOOTER_N);
               } else {
                 out.println("<!-- No Data!! -->");
+            }
+            out.close();
+            File parent = outFile.getParentFile();
+            if (parent != null) {
+                 zipFile(outFile.getAbsolutePath());
             }
             out.close();
               FileUtilities.setReadWritePermissions(outFile);
