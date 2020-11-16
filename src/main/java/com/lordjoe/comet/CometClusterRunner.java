@@ -111,7 +111,8 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         String program = getClusterProperties().getProperty("LocationOfComet");
         sb.append(program);
         sb.append(" -P");
-        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + job.getParams().getName());
+        String name = job.getParams().getName().replace(" ","");
+        sb.append(baseDir + clusterProperties.getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + name);
         sb.append(" -D");
         sb.append(getDatabaseFile(clusterProperties));
         sb.append(" -N");

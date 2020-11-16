@@ -39,7 +39,7 @@ public abstract class AbstractJobRunner implements IJobRunner {
         Map<String,String> param = ( Map<String,String>)paramX;
         this.id = id;
         IJobRunner.registerRunner(this);
-        OpenLogFile();
+        OpenLogFile();                                          
         String email = (String) param.get("email");
         if (email == null)
             throw new UnsupportedOperationException("Email is required");

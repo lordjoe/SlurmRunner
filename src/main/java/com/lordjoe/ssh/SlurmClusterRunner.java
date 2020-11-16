@@ -363,6 +363,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                     FileInputStream is = new FileInputStream(file);
                     //              me.ftpFileCreate(directoryOnCluster + "/" + file.getName(),is);
                     String fileName = file.getName();
+                    fileName = fileName.replace(" ",""); // drop spaces
                     String path = directoryOnCluster + "/" + fileName;
                     //           me.prepareUpload(me.getSFTP(),path,true);
                     me.ftpFileCreate(path, is,0666);
