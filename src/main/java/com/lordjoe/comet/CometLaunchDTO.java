@@ -22,9 +22,15 @@ public class CometLaunchDTO extends LaunchDTO {
         super(id);
     }
 
+    @Override
+    public String getAnalysisName() {
+        return "Comet";
+    }
+
     public CometLaunchDTO() {
         this(UUID.randomUUID().toString());
     }
+
 
     
     public File getParams() {

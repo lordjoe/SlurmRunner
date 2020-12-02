@@ -327,7 +327,8 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
     protected final  void sendEmail(ILogger log) {
         String recipient = (String) parameters.get("email");
-        String subjectline = "Your BLAST Analysis is complete";
+        String anaylsisName = job.getAnalysisName();
+           String subjectline = "Your " + anaylsisName + " Analysis is complete";
         String messagebody = "The results are attached!";
 
         messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";

@@ -41,6 +41,14 @@ public class BlastLaunchDTO extends LaunchDTO  {
         this.format = format;
     }
 
+
+    @Override
+    public String getAnalysisName() {
+        return program.toString();
+    }
+
+
+
     public String getOutputZipFileName() {
         if (getFileExtension(output).endsWith("zip")){
             return output;

@@ -27,3 +27,4 @@ hs_err_pid*
 *.iws
 data
 /src/main/resources/com/lordjoe/blast/ClusterLaunchAsterix.properties
+/target/

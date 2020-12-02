@@ -5,10 +5,12 @@ package com.lordjoe.ssh;
  * User: Steve
  * Date: 10/24/20
  */
-public class LaunchDTO {
+public abstract class LaunchDTO {
     public final String id;
 
     public LaunchDTO(String id) {
         this.id = id;
     }
+
+    public abstract String getAnalysisName();
 }
