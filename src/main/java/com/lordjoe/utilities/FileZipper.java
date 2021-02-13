@@ -31,6 +31,7 @@ public class FileZipper {
             zos.write(bytes, 0, bytes.length);
             zos.closeEntry();
             zos.close();
+
             FileUtilities.setReadWritePermissions(outFile);
             System.out.println("Working Directory = " + System.getProperty("user.dir"));
 

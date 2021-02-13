@@ -104,7 +104,7 @@ public class MergeCometXML {
                 if(line.contains("<search_hit"))
                     NHits++;
 
-                if (line.startsWith("</msms_run_summary>")) {
+                if (line.contains("</msms_run_summary>")) {
                     rdr.close();
                     return;
                 }

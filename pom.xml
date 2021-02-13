@@ -152,6 +152,12 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
