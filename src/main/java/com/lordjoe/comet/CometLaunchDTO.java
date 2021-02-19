@@ -67,7 +67,7 @@ public class CometLaunchDTO extends LaunchDTO {
     }
  
     public String getOutputZipFileName() {
-        return spectra.getName().replace(".mgf",".zip");
+        return spectra.getName().replace(".mgf",".pep.zip");
     }
 
 

@@ -66,7 +66,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeOutputDirectory") + "/" + job.id);
         sb.append("/ ");
-        String output = getOutputName();
+        String output = getCometOutputName();
         //    String outputx = output.substring(Math.max(0, output.indexOf("/") + 1));
         sb.append(locationOfDefaultDirectory + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/");
         sb.append(output);
@@ -158,7 +158,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
      */
     public String getClusterMergeResultZipFileName(LaunchDTO job) {
         //     ChannelSftp sftp = session.getSFTP();
-        String outputx = getOutputName();
+        String outputx = getCometOutputZipFileName();
         return outputx;
     }
 

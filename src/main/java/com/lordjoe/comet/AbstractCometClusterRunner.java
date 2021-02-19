@@ -331,7 +331,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         String subjectline = "Your " + anaylsisName + " analysis is complete";
         String messagebody = "The results are ready.";
 
-        messagebody += " Output is at <a href=\"http://" + buildDownloadUrl() + "\">this link</a>";
+        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
 
         logMessage("readyToSendEmail");
         SendMail.sendMail(recipient, subjectline, messagebody,log);
@@ -345,7 +345,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         sb.append(tomcatURL);
         sb.append("/SlurmProject/download");
         sb.append("?filename=");
-        sb.append(getOutputName());
+        sb.append(job.getOutputZipFileName());
         sb.append("&directory=");
         sb.append(job.id);
 
@@ -353,12 +353,15 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         return s;
     }
 
-
-    public String getOutputName() {
+    public String getCometOutputName() {
         String name = job.getSpectra().getName();
-        return name.replace(".mgf",".zip");
+        return name.replace(".mgf",".pep.xml");
     }
 
+    public String getCometOutputZipFileName(){
+        String name = job.getOutputZipFileName();
+        return name;
+    }
 
     public static String getStaceTraceString(Exception e) {
         StringBuilder sb = new StringBuilder();
@@ -375,6 +378,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         logMessage(j.toString());
         state.set(j);
     }
+
 
   }
 
