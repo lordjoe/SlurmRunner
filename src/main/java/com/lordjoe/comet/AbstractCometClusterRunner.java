@@ -328,10 +328,10 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
     protected final  void sendEmail(ILogger log) {
         String recipient = (String) parameters.get("email");
         String anaylsisName = job.getAnalysisName();
-           String subjectline = "Your " + anaylsisName + " Analysis is complete";
-        String messagebody = "The results are attached!";
+        String subjectline = "Your " + anaylsisName + " analysis is complete";
+        String messagebody = "The results are ready.";
 
-        messagebody += " Output is <a href=\"http://" + buildDownloadUrl() + "\">here</a>";
+        messagebody += " Output is at <a href=\"http://" + buildDownloadUrl() + "\">this link</a>";
 
         logMessage("readyToSendEmail");
         SendMail.sendMail(recipient, subjectline, messagebody,log);
@@ -356,7 +356,7 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
 
     public String getOutputName() {
         String name = job.getSpectra().getName();
-        return name.replace(".mgf",".pep.xml");
+        return name.replace(".mgf",".zip");
     }
 
 

@@ -6,9 +6,6 @@ package com.lordjoe.utilities;
  * Date: 6/4/2020
  */
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -173,7 +170,7 @@ public class SendMail {
 
     }
 
-    public static void sendMailWithAttachment(String recipient, String subjectline, String messagebody, File attachment) {
+ /*   public static void sendMailWithAttachment(String recipient, String subjectline, String messagebody, File attachment) {
 
         String username = getUsername();
         Session session = getMailSession();
@@ -216,7 +213,7 @@ public class SendMail {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
 
     public static void main(String[] args) {
