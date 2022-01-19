@@ -59,13 +59,13 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
             System.out.println("Handling " + index + " value " + next);
             if (next.equalsIgnoreCase("-user")) {
                 index++;
-                index++;
-                continue;
+                returnedJobData.user = args[index++];
+                     continue;
             }
             if (next.equalsIgnoreCase("-email")) {
                 index++;
-                index++;    // skip
-                continue;
+                returnedJobData.email = args[index++];
+                 continue;
             }
             if (next.equalsIgnoreCase("-db")) {
                 index++;

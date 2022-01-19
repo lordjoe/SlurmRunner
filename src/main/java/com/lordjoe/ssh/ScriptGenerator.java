@@ -24,7 +24,7 @@ public static final String SEVEN_NODES =
                 "do\n" +
                 "  fileName=${file##*/}\n" +
                 "  echo \"setting partition to CPU for job $COUNTER\"\n" +
-                "  sbatch --exclude=node[001-027] --job-name=$COUNTER$fileName ./submitToOneNode.sh $file $COUNTER \n" +
+                "  sbatch --time=0-03:00:00 --exclude=node[001-027] --job-name=$COUNTER$fileName ./submitToOneNode.sh $file $COUNTER \n" +
                 "  let COUNTER=COUNTER+1 \n" +
                 "done\n" +
                 "wait";
@@ -37,6 +37,7 @@ public static final String SEVEN_NODES =
                        "### $2 is the counter from the calling script, used for output\n" +
                        "#\n" +
                        "#SBATCH --ntasks=1\n" +
+                       "#SBATCH --time=60:00\n" +
                        "#SBATCH --cpus-per-task=32\n" +
                        "#SBATCH --output=batchOutput$2.txt \n" +
                        " \n" +

@@ -52,7 +52,7 @@ public class JobRunnerUtilities {
 
         dto.setJobDatabaseName(params.datalib);
         File defaultJobDirectory = dto.getLocalJobDirectory();
-        dto.setQuery(new File(defaultJobDirectory, params.sequenceFile));
+         dto.setQuery(new File(defaultJobDirectory, params.sequenceFile));
         dto.setBLASTFormat(BLASTFormat.fromCode(Integer.parseInt(params.outputFormat)));
         if (dto.getBLASTFormat() == BLASTFormat.XML2 || dto.getBLASTFormat() == BLASTFormat.XML) {
             dto.setOutputFileName(makeXMLFileName(dto.getQuery()).getName());

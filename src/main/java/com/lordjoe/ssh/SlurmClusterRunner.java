@@ -24,6 +24,17 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     static Logger LOG = Logger.getLogger(SlurmClusterRunner.class.getName());
 
+     public static String getSlurmAdded() {
+         String ret = System.getProperty("slurm_added");
+         if(ret == null)
+             return "";
+         return ret;
+     }
+
+    public static void appendAccount(StringBuilder sb) {
+        sb.append("#SBATCH --qos=dev\n");
+        sb.append("#SBATCH --account=p200006\n");
+    }
 
     public SlurmClusterRunner(BlastLaunchDTO job, Map<String, ? extends Object> param) {
         super(job, param);
@@ -34,17 +45,20 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     public String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
+        String slurmAdded = SlurmClusterRunner.getSlurmAdded();
         sb.append("#! /bin/bash\n" +
                 "#\n" +
                 "### $1 is the input for blast file name with path\n" +
                 "### $2 is the counter from the calling script, used for output\n" +
                 "#\n" +
-                "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --ntasks=1\n");
+
+
+        sb.append("#SBATCH --cpus-per-task=32\n" +
                 "#SBATCH --output=batchOutput$2.txt\n" +
                 "\n" +
                 "fileName=${1##*/}\n");
-        sb.append("srun  -n1 --exclusive ");
+        sb.append("srun  -n1 --exclusive " + slurmAdded);
         sb.append(generateExecutionScript());
         sb.append("\n");
         sb.append("wait\n");
@@ -100,7 +114,11 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
                 "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --time=3:00:00\n" +
                 "#SBATCH --output=batchOutput$2.txt\n");
+
+        SlurmClusterRunner.appendAccount(sb);
+
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
         sb.append("base1=${base%.*}\n");
@@ -151,6 +169,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     }
 
 
+
+
     public String generateSlurmIterateScript() {
         StringBuilder sb = new StringBuilder();
         sb.append("export BLASTDB=" + getClusterProperties().getProperty("LocationOfDatabaseFiles") + "\n");
@@ -161,7 +181,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         sb.append("do\n");
         sb.append("filename=${file}\n");
         String jobScript = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/submitToCPUNode.sh";
-        sb.append(" sbatch --job-name=" + job.id + "$fileName " + jobScript + " $file   \n");
+        String slurmAdded = SlurmClusterRunner.getSlurmAdded();
+
+        sb.append(" sbatch --time=0-03:00:00 " + slurmAdded + "--job-name=" + job.id + "$fileName " + jobScript + " $file   \n");
         sb.append("done\n");
 
         return sb.toString();
@@ -469,7 +491,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             // what is the user running before we start
             priors = getJobNumbers(session);
 
-            command = "salloc " + defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
+            String slurmAdded = getSlurmAdded();
+
+            command = "salloc --time=1:00:00 "  + slurmAdded + defaultDirectory + getClusterProperties() .getProperty("RelativeScriptDirectory") + "/" + job.id + "/" + "mergeXMLFiles.sh";
             System.out.println(command);
             session.executeOneLineCommand(command);
 
@@ -551,6 +575,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         Map<String, String> data = new HashMap<>();
         ClusterSession.fixLogging();
         BlastLaunchDTO dto = handleLocBlastArgs(args);
+        data.put("email",dto.email) ;
+        data.put("user",dto.user) ;
         SlurmClusterRunner me = new SlurmClusterRunner(dto, data);
         me.setParameters(args);
 
@@ -567,6 +593,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
     public static void main(String[] args) {
+        System.setProperty("slurm_added"," --account=p200006 --qos=dev ");
         SlurmClusterRunner.run(args);
     }
 }

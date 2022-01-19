@@ -1,12 +1,9 @@
 package com.lordjoe.comet;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.lordjoe.ssh.ClusterSession;
-import com.lordjoe.ssh.JobState;
-import com.lordjoe.ssh.LaunchDTO;
-import com.lordjoe.ssh.SSHUserData;
-import com.lordjoe.utilities.ILogger;
+import com.lordjoe.ssh.*;
 import com.lordjoe.utilities.FileUtilities;
+import com.lordjoe.utilities.ILogger;
 
 import java.io.*;
 import java.util.HashSet;
@@ -142,8 +139,11 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
         sb.append("do\n");
         sb.append("filename=${file}\n");
+
+        String slurmAdded = SlurmClusterRunner.getSlurmAdded();
+
         String jobScript = getClusterProperties().getProperty("LocationOfDefaultDirectory") + getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id + "/submitToCPUNode.sh";
-        sb.append(" sbatch --job-name=" + job.id + "$fileName " + jobScript + " $file   \n");
+        sb.append(" sbatch --time=3:00:00 " + slurmAdded + "--job-name=" +  job.id + "$fileName " + jobScript + " $file   \n");
         sb.append("done\n");
 
         return sb.toString();
@@ -455,7 +455,9 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             priors = getJobNumbers(session);
 
             String relativeScriptDirectory = getClusterProperties().getProperty("RelativeScriptDirectory") + "/" + job.id;
-            command = "salloc " + defaultDirectory + relativeScriptDirectory + "/" + "mergeXMLFiles.sh";
+
+            String slurmAdded = SlurmClusterRunner.getSlurmAdded();
+            command = "salloc  --time=1:00:00 " + slurmAdded + defaultDirectory + relativeScriptDirectory + "/" + "mergeXMLFiles.sh";
             System.out.println(command);
             session.executeOneLineCommand(command);
 

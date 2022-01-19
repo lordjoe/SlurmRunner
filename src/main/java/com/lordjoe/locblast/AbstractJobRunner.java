@@ -3,6 +3,7 @@ package com.lordjoe.locblast;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
+import com.lordjoe.blast.OSValidator;
 import com.lordjoe.ssh.*;
 
 import java.io.*;
@@ -73,7 +74,10 @@ public abstract class AbstractJobRunner implements IJobRunner {
      public static Properties readClusterProperties() {
         try {
             Properties ret = new Properties();
-            ret.load(new FileInputStream("/opt/blastserver/ClusterLaunch.properties"));
+            String name = "/opt/blastserver/ClusterLaunch.properties";
+            if(OSValidator.isWindows())
+                name = "C:"  + name;
+            ret.load(new FileInputStream(name));
             return ret;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -117,8 +121,11 @@ public abstract class AbstractJobRunner implements IJobRunner {
 
     public void OpenLogFile() {
         try {
-            File base = new File("/opt/blastserver");
-            File jobdir = new File(base, getId());
+            String pathname = "/opt/blastserver";
+            if(OSValidator.isWindows() )
+                pathname = "C:" + pathname;
+            File base = new File(pathname);
+             File jobdir = new File(base, getId());
             jobdir.mkdirs();
             jobdir.setReadable(true, true);
             File logFile = new File(jobdir, "log.txt");
@@ -148,7 +155,10 @@ public abstract class AbstractJobRunner implements IJobRunner {
      }
 
     protected final void guaranteeJarFile(int call) {
-        File defaultDir = new File("/opt/blastserver");
+          String pathname = "/opt/blastserver";
+        if(OSValidator.isWindows() )
+            pathname = "C:" + pathname;
+        File defaultDir = new File(pathname);
         File local = new File(defaultDir, "SLURM_Runner.jar");
         if (!local.exists()) {
             String path = local.getAbsolutePath();

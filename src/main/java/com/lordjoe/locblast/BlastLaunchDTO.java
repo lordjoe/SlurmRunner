@@ -1,5 +1,6 @@
 package com.lordjoe.locblast;
 
+import com.lordjoe.blast.OSValidator;
 import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.File;
@@ -15,6 +16,8 @@ public class BlastLaunchDTO extends LaunchDTO  {
     private String database;
     private File query;   // original file
     private BLASTFormat format;
+    public String email;
+    public String user;
     private String output; //the output filename. Output file will always be a zip file
 
     public String getJobDatabaseName() {
@@ -119,7 +122,11 @@ public class BlastLaunchDTO extends LaunchDTO  {
     }
 
     public File getLocalJobDirectory() {
-        File f =  new File("/opt/blastserver") ;
+
+        String pathname = "/opt/blastserver";
+        if(OSValidator.isWindows() )
+               pathname = "C:" + pathname;
+        File f =  new File(pathname) ;
         File jobDir = new File(f,id);
         if(!jobDir.exists())   {
             jobDir.mkdirs();
