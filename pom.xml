@@ -3,21 +3,42 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.lordjoe</groupId>
     <artifactId>SlurmRunner</artifactId>    
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+
     <name>SLURM_Runner</name>
     <description>Remotely Runs SLURM Jobs</description>
+    <properties>
+        <skipITs>true</skipITs>
+        <junixsocket.version>2.4.0</junixsocket.version>
+        <jna.version>5.10.0</jna.version>
+    </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+        <!--
         <dependency>
             <groupId>com.lordjoe</groupId>
             <artifactId>SSHUser</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-ssh -->
         <dependency>
@@ -80,18 +101,15 @@
             <artifactId>cactoos</artifactId>
             <version>0.16</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.2-jre</version>
-            <scope>test</scope>
+            <version>30.0-jre</version>
         </dependency>
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
-        </dependency>
-        <dependency>
+
+
+           <dependency>
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-core</artifactId>
             <version>1.6.0</version>
@@ -152,13 +170,153 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
+         <!--
+            dependencies of JSCH so we can use
+            mweide fork
+            -->
+
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.70</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15to18 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15to18</artifactId>
+            <version>1.70</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-common</artifactId>
+            <version>${junixsocket.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-native-common</artifactId>
+            <version>${junixsocket.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.kohlschutter</groupId>
+            <artifactId>compiler-annotations</artifactId>
+            <version>1.4.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-jpms</artifactId>
+            <version>${jna.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform-jpms</artifactId>
+            <version>${jna.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.16.2</version>
+            <scope>test</scope>
+            <!-- Rely upon jna-jpms brought in above -->
+            <exclusions>
+                <exclusion>
+                    <groupId>net.java.dev.jna</groupId>
+                    <artifactId>jna</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.13.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.13</artifactId>
+            <version>3.2.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>co.helmethair</groupId>
+            <artifactId>scalatest-junit-runner</artifactId>
+            <version>0.1.10</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.hierynomus/sshj -->
+        <dependency>
+            <groupId>com.hierynomus</groupId>
+            <artifactId>sshj</artifactId>
+            <version>0.32.0</version>
+        </dependency>
+        <!--
+
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.54</version>
+            <version>0.1.55</version>
+        </dependency>
+
+        -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.2-jre</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.13.7</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>ws02</id>
+            <url>https://dist.wso2.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -166,8 +324,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
