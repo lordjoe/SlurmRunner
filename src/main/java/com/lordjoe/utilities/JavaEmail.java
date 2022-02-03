@@ -254,7 +254,8 @@ public class JavaEmail {
             String emailSubject = "Test email subject";
             String emailBody = "This is an email sent by <b>//howtodoinjava.com</b>.";
         //    String toEmails = "lordjoe2000@gmail.com";
-            String toEmails = "simone.zorzan@list.lu";
+            String toEmails = "lordjoe2000@gmail.com";
+       //    String toEmails = "simone.zorzan@list.lu";
             if (args.length > 0) {
                 javaEmail.sendEmail(emailSubject, emailBody, toEmails, new File(args[0]));
 
