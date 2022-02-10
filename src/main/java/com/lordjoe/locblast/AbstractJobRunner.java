@@ -74,8 +74,8 @@ public abstract class AbstractJobRunner implements IJobRunner {
      public static Properties readClusterProperties() {
         try {
             Properties ret = new Properties();
-            String name = "/opt/blastserver/ClusterLaunch.properties";
-            if(OSValidator.isWindows())
+            String name = "./ClusterLaunch.properties";
+            if(name.startsWith("/") && OSValidator.isWindows())
                 name = "C:"  + name;
             ret.load(new FileInputStream(name));
             return ret;

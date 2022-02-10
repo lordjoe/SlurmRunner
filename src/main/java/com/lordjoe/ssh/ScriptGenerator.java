@@ -30,20 +30,20 @@ public static final String SEVEN_NODES =
                 "wait";
 
 
- public static final String SUBMIT_ONE_NODE =
-               "#! /bin/bash\n" +
-                       "#\n" +
-                       "### $1 is the input for blast file name with path\n" +
-                       "### $2 is the counter from the calling script, used for output\n" +
-                       "#\n" +
-                       "#SBATCH --ntasks=1\n" +
-                       "#SBATCH --time=60:00\n" +
-                       "#SBATCH --cpus-per-task=32\n" +
-                       "#SBATCH --output=batchOutput$2.txt \n" +
-                       " \n" +
-                       "fileName=${1##*/}\n" +
-                       "srun -n1 --exclusive BLAST_PROGRAN -query $1 -db DATA_BASE -num_threads 32 -num_descriptions 10 -max_target_seqs 10 -evalue 1E-09 -out ~/output-blast/output$fileName$2 &\n" +
-                       "wait";
+// public static final String SUBMIT_ONE_NODE =
+//               "#! /bin/bash\n" +
+//                       "#\n" +
+//                       "### $1 is the input for blast file name with path\n" +
+//                       "### $2 is the counter from the calling script, used for output\n" +
+//                       "#\n" +
+//                       "#SBATCH --ntasks=1\n" +
+//                       "#SBATCH --time=60:00\n" +
+//                       "#SBATCH --cpus-per-task=32\n" +
+//                       "#SBATCH --output=batchOutput$2.txt \n" +
+//                       " \n" +
+//                       "fileName=${1##*/}\n" +
+//                       "srun -n1 --exclusive BLAST_PROGRAN -query $1 -db DATA_BASE -num_threads 32 -num_descriptions 10 -max_target_seqs 10 -evalue 1E-09 -out ~/output-blast/output$fileName$2 &\n" +
+//                       "wait";
 
 
 }

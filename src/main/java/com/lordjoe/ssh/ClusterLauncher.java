@@ -46,6 +46,10 @@ public class ClusterLauncher {
         numberSequences = FastaTools.countFastaEntities(f);
     }
 
+    public static int getNumberProcessors() {
+        throw new UnsupportedOperationException("Fix This"); // ToDo
+    }
+
     public boolean isLocalRun() {
         return numberSequences <= MAXLocalSequences;
     }

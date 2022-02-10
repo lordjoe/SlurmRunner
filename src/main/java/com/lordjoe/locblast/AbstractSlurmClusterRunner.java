@@ -48,6 +48,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         String database = "xxx";
         String query = "xxx";
         String out = "xxx";
+        int commandProcessors = 0;
         if (args[index].toLowerCase().endsWith("blastn"))
             program = BLASTProgram.BLASTN;     // todo get smarter handle more cases
         if (args[index].toLowerCase().endsWith("blastx"))
@@ -81,6 +82,11 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
                 query = args[index++];
                 continue;
             }
+            if (next.equalsIgnoreCase("-processors")) {
+                index++;
+                commandProcessors = Integer.parseInt(args[index++]);
+                continue;
+            }
             if (next.equalsIgnoreCase("-out")) {
                 index++;
                 out = args[index++];
@@ -108,6 +114,7 @@ public abstract class AbstractSlurmClusterRunner extends AbstractJobRunner {
         returnedJobData.setQuery(new File(query));
         returnedJobData.setBLASTFormat(BLASTFormat.XML2);
         returnedJobData.setJobDatabaseName(database);
+        returnedJobData.setCommandProcessors(commandProcessors);
         return returnedJobData;
 
     }

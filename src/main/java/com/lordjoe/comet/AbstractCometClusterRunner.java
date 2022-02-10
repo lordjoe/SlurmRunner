@@ -4,6 +4,7 @@ package com.lordjoe.comet;
 import com.jcraft.jsch.SftpException;
 import com.lordjoe.fasta.FastaTools;
 import com.lordjoe.locblast.AbstractJobRunner;
+import com.lordjoe.ssh.ClusterLauncher;
 import com.lordjoe.ssh.IJobRunner;
 import com.lordjoe.ssh.JobState;
 import com.lordjoe.ssh.SSHUserData;
@@ -116,9 +117,13 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
     public File splitSpectra(File in,File outDirectory) {
         int numberEntries = countMGFEntities(in);
 
+        int minimumSequences = Integer.parseInt(getClusterProperties().getProperty("MinSequencesPerMachine"));
+        int numberProcessors = ClusterLauncher.getNumberProcessors();
+
         int splitSize = numberEntries;
-        if (numberEntries > 70)
-            splitSize = (numberEntries / 7);
+        if (numberEntries > minimumSequences * numberProcessors)
+            splitSize = (numberEntries / numberProcessors);
+
 
         outDirectory.mkdirs();
         outDirectory.setReadable(true,true);
@@ -126,6 +131,10 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
         String baseName = "splitFile";
         splitMGFFile(in, outDirectory, baseName, splitSize, numberEntries);
         return outDirectory;
+    }
+
+    private int getNumberProcessors() {
+        throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
 

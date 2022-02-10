@@ -209,7 +209,8 @@ public class LocalJobRunner {
                 throw new UnsupportedOperationException("cannot make directory " + outSplitDirectory.getAbsolutePath());
 
             int numberEntries = FastaTools.countFastaEntities(query);
-            int splitsize =  (numberEntries / 7);
+            int numberProcessors = 7;
+            int splitsize =  (numberEntries / numberProcessors);
 
             FastaTools.splitFastaFile(query,splitDirectory,"split",splitsize,numberEntries);
 

@@ -1,5 +1,7 @@
 package com.lordjoe.comet;
 
+import com.lordjoe.ssh.ClusterLauncher;
+
 import java.io.*;
 
 /**
@@ -133,9 +135,10 @@ public class CometUtilities {
         int index = 0;
         File in = new File(args[index++]);
         File outDirectory = new File(args[index++]);
+        int numberProcessors = ClusterLauncher.getNumberProcessors();
 
         int numberEntries = countMGFEntities(in);
-        int splitSize =  (numberEntries / 7);
+        int splitSize =  (numberEntries / numberProcessors);
 
 
         String baseName = "splitFile";
@@ -143,10 +146,10 @@ public class CometUtilities {
     }
 
     public static void splitFile(File in,File outDirectory)  {
-        String name = in.getName().toLowerCase();
+        int numberProcessors = ClusterLauncher.getNumberProcessors();      String name = in.getName().toLowerCase();
         if(name.endsWith(".mgf"))  {
             int numberEntries = countMGFEntities(in);
-            int splitSize =  (numberEntries / 7);
+            int splitSize =  (numberEntries / numberProcessors);
 
 
             String baseName = "splitFile";

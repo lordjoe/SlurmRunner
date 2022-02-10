@@ -19,9 +19,32 @@ public class BlastLaunchDTO extends LaunchDTO  {
     public String email;
     public String user;
     private String output; //the output filename. Output file will always be a zip file
+    private int commandProcessors = 0;
 
     public String getJobDatabaseName() {
         return database;
+    }
+
+    public long getDatabaseSize() {
+        if("swissprot".equalsIgnoreCase(database))
+            return  176700347L;
+        if("nr".equalsIgnoreCase(database))
+            return  61228200318L;
+        if(database.startsWith("shortened"))
+            return  10000000L;
+        return queryDBSize(database);
+    }
+
+    public int getCommandProcessors() {
+       return commandProcessors;
+    }
+
+    public void setCommandProcessors(int commandProcessors) {
+        this.commandProcessors = commandProcessors;
+    }
+
+    private static long queryDBSize(String database) {
+        throw new UnsupportedOperationException("write code to call blastdbcmd -info -db blastDBs/<database>"); // ToDo
     }
 
     public void setJobDatabaseName(String database) {

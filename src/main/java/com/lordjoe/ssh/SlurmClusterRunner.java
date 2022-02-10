@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     static Logger LOG = Logger.getLogger(SlurmClusterRunner.class.getName());
+    private  static int commandNumberProcessors = 0;
 
      public static String getSlurmAdded() {
          String ret = System.getProperty("slurm_added");
@@ -46,6 +47,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     public String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
         String slurmAdded = SlurmClusterRunner.getSlurmAdded();
+        int numberThreads = Integer.parseInt(getClusterProperties().getProperty("ThreadsPerProcessor") );
+
         sb.append("#! /bin/bash\n" +
                 "#\n" +
                 "### $1 is the input for blast file name with path\n" +
@@ -54,7 +57,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                 "#SBATCH --ntasks=1\n");
 
 
-        sb.append("#SBATCH --cpus-per-task=32\n" +
+        sb.append("#SBATCH --cpus-per-task=" + numberThreads + "\n" +
                 "#SBATCH --output=batchOutput$2.txt\n" +
                 "\n" +
                 "fileName=${1##*/}\n");
@@ -106,6 +109,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         usedParameters.add("outfmt");
         usedParameters.add("num_threads");
 
+        int numberThreads = Integer.parseInt(getClusterProperties().getProperty("ThreadsPerProcessor") );
 
         StringBuilder sb = new StringBuilder();
         sb.append("#!/bin/bash\n" +
@@ -113,9 +117,10 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
                 "### $1 is the input for blast file name with path\n" +
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --cpus-per-task=" + Integer.toString(numberThreads) + "\n" +
                 "#SBATCH --time=3:00:00\n" +
                 "#SBATCH --output=batchOutput$2.txt\n");
+
 
         SlurmClusterRunner.appendAccount(sb);
 
@@ -141,7 +146,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         // it does not liek -remote
         sb.append(db);
 
-        sb.append("   -num_threads 32   ");
+        sb.append("   -num_threads " + numberThreads + " ");
 
         sb.append(" -outfmt ");
         sb.append(Integer.toString(job.getBLASTFormat().code));
@@ -349,9 +354,12 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     public File splitQuery(File in) {
         int numberEntries = FastaTools.countFastaEntities(in);
 
+        int minimumSequences = Integer.parseInt(getClusterProperties().getProperty("MinSequencesPerMachine"));
+        int numberProcessors = getNumberProcessors();
+
         int splitSize = numberEntries;
-        if (numberEntries > 70)
-            splitSize = (numberEntries / 7);
+        if (numberEntries > minimumSequences * numberProcessors)
+            splitSize = (numberEntries / numberProcessors);
 
         File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();
@@ -359,6 +367,12 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         String baseName = "splitFile";
         FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
         return outDirectory;
+    }
+
+    private int getNumberProcessors() {
+         if(commandNumberProcessors > 0)
+             return commandNumberProcessors;
+         throw new UnsupportedOperationException("Fix This"); // ToDo
     }
 
 
@@ -585,16 +599,30 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         me.logMessage(" query " + dto.getQuery().getAbsolutePath());
         me.logMessage(" db " + dto.getJobDatabaseName());
         me.logMessage(" out " + dto.getOutputFileName());
+        commandNumberProcessors =  dto.getCommandProcessors();
+        me.logMessage(" processors " + commandNumberProcessors);
 
-        new Thread(me).start();
 
+        Thread thread = new Thread(me);
+        thread.start();
+        try {
+            thread.join();
+        }
+        catch(InterruptedException e)  {
+            e.printStackTrace();
+        }
         return me;
     }
 
 
     public static void main(String[] args) {
+       long startTime = System.currentTimeMillis();
         System.setProperty("slurm_added"," --account=p200006 --qos=dev ");
-        SlurmClusterRunner.run(args);
+        SlurmClusterRunner me = SlurmClusterRunner.run(args);
+        int runTime =  (int)((System.currentTimeMillis() - startTime) / 1000);
+        System.out.println("Ran in "  + runTime + "Sec");
+        me.logMessage("Ran in "  + runTime + "Sec");
+        System.exit(0);
     }
 }
 

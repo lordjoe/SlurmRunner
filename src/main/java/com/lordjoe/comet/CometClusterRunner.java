@@ -297,9 +297,11 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     public File splitSpectra(File in) {
         int numberEntries = countMGFEntities(in);
 
+        int numberProcessors = ClusterLauncher.getNumberProcessors();
+
         int splitSize = numberEntries;
         if (numberEntries > 70)
-            splitSize = (numberEntries / 7);
+            splitSize = (numberEntries / numberProcessors);
 
         File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
         outDirectory.mkdirs();

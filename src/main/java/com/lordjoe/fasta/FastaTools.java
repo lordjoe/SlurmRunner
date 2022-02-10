@@ -201,7 +201,8 @@ public class FastaTools {
         File outDirectory = new File(args[index++]);
 
         int numberEntries = FastaTools.countFastaEntities(in);
-        int splitSize =  (numberEntries / 7);
+        int numberProcessors = 7;
+        int splitSize =  (numberEntries / numberProcessors);
 
 
           String baseName = "splitFile";
