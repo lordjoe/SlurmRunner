@@ -81,13 +81,7 @@
             <version>9.4.25.v20191220</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-ssh -->
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-ssh</artifactId>
-            <version>1.6</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -102,7 +96,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.0-jre</version>
+            <version>31.01-jre</version>
         </dependency>
 
 
@@ -111,12 +105,6 @@
             <artifactId>sshd-core</artifactId>
             <version>1.6.0</version>
             <optional>true</optional>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-log -->
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-log</artifactId>
-            <version>0.18.1</version>
         </dependency>
 
         <!--  these two needed to keel SL4j happy-->
@@ -317,6 +305,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.lordjoe.ssh.SlurmClusterRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
