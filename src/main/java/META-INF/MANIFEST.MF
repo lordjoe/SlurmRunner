@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: com.lordjoe.utilities.MainRunner
+Main-Class: com.lordjoe.ssh.SlurmClusterRunner
+Class-Path: /
 

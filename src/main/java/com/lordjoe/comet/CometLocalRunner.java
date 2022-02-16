@@ -41,6 +41,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
         usedParameters.add("outfmt");
         usedParameters.add("num_threads");
 
+        int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
 
         StringBuilder sb = new StringBuilder();
         sb.append("#!/bin/bash\n" +
@@ -48,7 +49,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
                 "### $1 is the input for blast file name with path\n" +
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --cpus-per-task=" + CPUsPerNode + "\n" +
                 "#SBATCH --output=batchOutput$2.txt\n");
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
@@ -69,7 +70,7 @@ public class CometLocalRunner extends AbstractCometClusterRunner {
         // it does not liek -remote
         sb.append(job.getJobDatabaseName().replace("-remote", ""));
 
-        sb.append("   -num_threads 32   ");
+        sb.append("   -num_threads " + CPUsPerNode + " ");
 
 
         sb.append(" -out ");

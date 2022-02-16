@@ -31,13 +31,15 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     public String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
+        int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
+
         sb.append("#! /bin/bash\n" +
                 "#\n" +
                 "### $1 is the input for blast file name with path\n" +
                 "### $2 is the counter from the calling script, used for output\n" +
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --cpus-per-task=" + CPUsPerNode + "\n" +
                 "#SBATCH --output=batchOutput$2.txt\n" +
                 "\n" +
                 "fileName=${1##*/}\n");
@@ -91,6 +93,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         Properties clusterProperties = getClusterProperties();
         String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
 
+        int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
 
         StringBuilder sb = new StringBuilder();
         sb.append("#!/bin/bash\n" +
@@ -98,7 +101,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 "### $1 is the input for blast file name with path\n" +
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=32\n" +
+                "#SBATCH --cpus-per-task=" + CPUsPerNode + "\n" +
                 "#SBATCH --output=batchOutput$2.txt\n");
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");

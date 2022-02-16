@@ -260,6 +260,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
     public static Set<Integer> getJobNumbers(ClusterSession me, String user) {
         try {
             Set<Integer> ret = new HashSet<>();
+            System.out.println("Testing Job Queue");
             String answer = me.executeOneLineCommand("squeue -u " + user);
             String[] items = answer.split("\n");
             for (String item : items) {
@@ -277,6 +278,8 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
+         int sleepTime = 3000;
+         int maxSleepTime = 240000;
         justSleep(10000); // make sure we have jobs
         SSHUserData user1 =  getUser();
         String user = user1.userName;
@@ -286,7 +289,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
             current.removeAll(priors);
             if (current.isEmpty())
                 return;
-            justSleep(3000);
+            justSleep(sleepTime);
+            sleepTime *= 2;
+            sleepTime = Math.min(sleepTime,maxSleepTime);
         }
 
     }
@@ -619,9 +624,9 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
        long startTime = System.currentTimeMillis();
         System.setProperty("slurm_added"," --account=p200006 --qos=dev ");
         SlurmClusterRunner me = SlurmClusterRunner.run(args);
-        int runTime =  (int)((System.currentTimeMillis() - startTime) / 1000);
-        System.out.println("Ran in "  + runTime + "Sec");
-        me.logMessage("Ran in "  + runTime + "Sec");
+        long runTime =  (int)((System.currentTimeMillis() - startTime) / 60000);
+        System.out.println("Ran in "  + runTime + "Min");
+        me.logMessage("Ran in "  + runTime + "Min");
         System.exit(0);
     }
 }
