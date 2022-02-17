@@ -33,7 +33,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
      }
 
     public static void appendAccount(StringBuilder sb) {
-        sb.append("#SBATCH --qos=dev\n");
+        sb.append("#SBATCH --qos=default\n");
         sb.append("#SBATCH --account=p200006\n");
     }
 
@@ -622,7 +622,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
 
     public static void main(String[] args) {
        long startTime = System.currentTimeMillis();
-        System.setProperty("slurm_added"," --account=p200006 --qos=dev ");
+        System.setProperty("slurm_added"," --account=p200006 --qos=default ");
         SlurmClusterRunner me = SlurmClusterRunner.run(args);
         long runTime =  (int)((System.currentTimeMillis() - startTime) / 60000);
         System.out.println("Ran in "  + runTime + "Min");
