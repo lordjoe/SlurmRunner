@@ -140,6 +140,7 @@ public class FastaTools {
 
     public static void splitFastaFile(File in, File outDirectory, String baseName, int splitSize,  int numberEntries,int maxsplits) {
         try {
+            long l = in.length();
             LineNumberReader rdr = getReader(in);
             if (!outDirectory.exists()) {
                 if (!outDirectory.mkdirs())

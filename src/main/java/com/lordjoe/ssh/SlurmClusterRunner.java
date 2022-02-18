@@ -8,10 +8,7 @@ import com.lordjoe.locblast.BlastLaunchDTO;
 import com.lordjoe.utilities.FileUtilities;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -356,7 +353,7 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         }
     }
 
-    public File splitQuery(File in) {
+    public File splitQueryByItems(File in) {
         int numberEntries = FastaTools.countFastaEntities(in);
 
         int minimumSequences = Integer.parseInt(getClusterProperties().getProperty("MinSequencesPerMachine"));
@@ -373,6 +370,64 @@ public class SlurmClusterRunner extends AbstractSlurmClusterRunner {
         FastaTools.splitFastaFile(in, outDirectory, baseName, splitSize, numberEntries);
         return outDirectory;
     }
+
+    public File splitQuery(File in) {
+        long chars = in.length();
+
+        int minimumSequences = Integer.parseInt(getClusterProperties().getProperty("MinSequencesPerMachine"));
+        int numberProcessors = getNumberProcessors();
+
+        long splitSize = chars;
+        if (chars > minimumSequences * numberProcessors)
+            splitSize = (int)(chars / numberProcessors);
+
+        File outDirectory = new File(getClusterProperties().getProperty("RelativeInputDirectory") + "/" + job.id);
+        outDirectory.mkdirs();
+
+        String baseName = "splitFile";
+        SplitByLength(in, outDirectory, baseName, splitSize );
+        return outDirectory;
+    }
+
+    private void SplitByLength(File in, File outDirectory, String baseName, long splitSize ) {
+        try {
+            long l = in.length();
+            if (!outDirectory.exists()) {
+                if (!outDirectory.mkdirs())
+                    throw new UnsupportedOperationException("Cannot make output directory " + outDirectory);
+            }
+
+            LineNumberReader rdr = FastaTools.getReader(in);
+            String line = rdr.readLine();
+            int i = 0;
+            PrintWriter out = MakeSplitWriter(outDirectory,baseName,i++);
+            long written = 0;
+            while(line != null)  {
+                  if(line.startsWith(">") && written >= splitSize)   {
+                      out.close();
+                      out = MakeSplitWriter(outDirectory,baseName,i++);
+                      written = 0;
+                  }
+                  out.println(line);
+                  written += line.length() + 1;
+                 line = rdr.readLine();
+              }
+             out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+    private PrintWriter MakeSplitWriter(File outDirectory, String baseName, int i) {
+        String index = String.format("%03d", i + 1);
+        File outFile = new File(outDirectory, baseName + index + ".faa");
+        System.out.println(outFile.getAbsolutePath());
+        PrintWriter out = FastaTools.getWriter(outFile);
+        return out;
+    }
+
 
     private int getNumberProcessors() {
          if(commandNumberProcessors > 0)
