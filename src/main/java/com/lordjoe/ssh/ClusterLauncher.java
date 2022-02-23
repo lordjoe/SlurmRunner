@@ -40,6 +40,7 @@ public class ClusterLauncher {
 
     public final File fastaFile;
     public int numberSequences;
+    public static int commandNumberProcessors = 0;
 
     public ClusterLauncher(File f) {
         fastaFile = f;
@@ -47,7 +48,13 @@ public class ClusterLauncher {
     }
 
     public static int getNumberProcessors() {
+        if(commandNumberProcessors > 0)
+            return commandNumberProcessors;
         throw new UnsupportedOperationException("Fix This"); // ToDo
+    }
+
+    public static void setCommandNumberProcessors(int commandNumberProcessorsX) {
+         commandNumberProcessors = commandNumberProcessorsX;
     }
 
     public boolean isLocalRun() {

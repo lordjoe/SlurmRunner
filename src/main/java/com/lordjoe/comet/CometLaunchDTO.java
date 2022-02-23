@@ -1,5 +1,6 @@
 package com.lordjoe.comet;
 
+import com.lordjoe.ssh.ClusterLauncher;
 import com.lordjoe.ssh.LaunchDTO;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class CometLaunchDTO extends LaunchDTO {
 
     private File params;   // original file
     private File spectra;   // original file
+    private int commandProcessors = 0;
 
     public CometLaunchDTO(String id) {
         super(id);
@@ -32,7 +34,15 @@ public class CometLaunchDTO extends LaunchDTO {
     }
 
 
-    
+    public int getCommandProcessors() {
+        return commandProcessors;
+    }
+
+    public void setCommandProcessors(int commandProcessors) {
+        this.commandProcessors = commandProcessors;
+        ClusterLauncher.setCommandNumberProcessors(commandProcessors);
+    }
+
     public File getParams() {
         return params;
     }
@@ -81,6 +91,9 @@ public class CometLaunchDTO extends LaunchDTO {
 
         sb.append("-out  ");
         sb.append(spectra.getAbsolutePath());
+
+        sb.append("-processors  ");
+        sb.append(getCommandProcessors());
 
         return sb.toString();
     }

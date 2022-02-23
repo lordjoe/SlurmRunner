@@ -28,7 +28,12 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     }
 
-
+    public static String getSlurmAdded() {
+        String ret = System.getProperty("slurm_added");
+        if(ret == null)
+            return "";
+        return ret;
+    }
     public String generateSlurmScript() {
         StringBuilder sb = new StringBuilder();
         int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
@@ -93,7 +98,8 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
         Properties clusterProperties = getClusterProperties();
         String baseDir = clusterProperties.getProperty("LocationOfDefaultDirectory");
 
-        int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
+    //    int CPUsPerNode = Integer.parseInt(getClusterProperties().getProperty("CPUsPerNode"));
+        int numberThreads = Integer.parseInt(getClusterProperties().getProperty("ThreadsPerProcessor") );
 
         StringBuilder sb = new StringBuilder();
         sb.append("#!/bin/bash\n" +
@@ -101,7 +107,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
                 "### $1 is the input for blast file name with path\n" +
                 "#\n" +
                 "#SBATCH --ntasks=1\n" +
-                "#SBATCH --cpus-per-task=" + CPUsPerNode + "\n" +
+   //             "#SBATCH --cpus-per-task=" + CPUsPerNode + "\n" +
                 "#SBATCH --output=batchOutput$2.txt\n");
         sb.append("filename=${1}\n");
         sb.append("base=`basename \"$filename\"`\n");
@@ -232,15 +238,22 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
 
     public void waitEmptyJobQueue(ClusterSession me, Set<Integer> priors) {
-        justSleep(2000); // make sure we have jobs
+        int sleepTime = 3000;
+        int maxSleepTime = 240000;
+        justSleep(10000); // make sure we have jobs
+        SSHUserData user1 =  getUser();
+        String user = user1.userName;
         Set<Integer> current;
         while (true) {
-            current = getJobNumbers(me);
+            current = getJobNumbers(me, user);
             current.removeAll(priors);
             if (current.isEmpty())
                 return;
-            justSleep(1000);
+            justSleep(sleepTime);
+            sleepTime *= 2;
+            sleepTime = Math.min(sleepTime,maxSleepTime);
         }
+
 
     }
 
@@ -365,7 +378,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
                 // copy fasta file
                 if (!job.isDatabaseIsRemote()) {
-                    File file = new File("/opt/blastserver/" + getId() + "/" + job.getJobDatabaseName());
+                    File file = new File("/opt/blastserver/" + /* getId() + "/" + */ job.getJobDatabaseName());
                     is = new FileInputStream(file);
                     fileName = file.getName();
                     path = directoryOnCluster + "/" + fileName;
@@ -412,6 +425,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
         try {
             String defaultDirectory = getClusterProperties().getProperty("LocationOfDefaultDirectory");
 
@@ -498,6 +512,10 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
             logMessage(getStaceTraceString(e));
             setState(JobState.Failed);
         }
+        long runTime =  (int)((System.currentTimeMillis() - startTime) / 60000);
+        System.out.println("Ran in "  + runTime + "Min");
+         logMessage("Ran in "  + runTime + "Min");
+        System.exit(0);
     }
 
     public static CometClusterRunner run(Map<String, String> data) {
@@ -531,6 +549,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     public static final boolean RUN_LOCAL = false;
 
     public static void main(String[] args) {
+        System.setProperty("slurm_added"," --account=p200006 --qos=default ");
         if (RUN_LOCAL)
             CometLocalRunner.run(args);
         else

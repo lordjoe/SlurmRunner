@@ -204,6 +204,11 @@ public abstract class AbstractCometClusterRunner extends AbstractJobRunner {
                 index++;    // skip
                 continue;
             }
+            if (next.equalsIgnoreCase("-processors")) {
+                index++;
+                ret.setCommandProcessors(Integer.parseInt(args[index++]));
+                continue;
+            }
             if (next.equalsIgnoreCase("-db")) {
                 index++;
                 database = args[index++];
