@@ -221,6 +221,7 @@ public class CometClusterRunner extends AbstractCometClusterRunner {
     public static Set<Integer> getJobNumbers(ClusterSession me, String user) {
         try {
             Set<Integer> ret = new HashSet<>();
+            System.out.println("Testing Job Queue");
             String answer = me.executeOneLineCommand("squeue -u " + user);
             String[] items = answer.split("\n");
             for (String item : items) {
